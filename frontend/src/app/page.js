@@ -12,7 +12,6 @@ export default function Home() {
     const video = videoRef.current;
     if (video) {
       video.muted = true;
-      // Force loading
       video.load();
       
       const playPromise = video.play();
@@ -67,6 +66,10 @@ export default function Home() {
             });
           }}
         >
+          {/* Local high-performance source (zero CORS or external CDN dependencies) */}
+          <source src="/tech-video.mp4" type="video/mp4" />
+          
+          {/* Fallback Mixkit CDN source */}
           <source
             src="https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-his-computer-38392-large.mp4"
             type="video/mp4"
