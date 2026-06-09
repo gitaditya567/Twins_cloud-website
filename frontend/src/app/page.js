@@ -1,9 +1,22 @@
-import React from "react";
+"use client";
+
+import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 
 export default function Home() {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.play().catch((err) => {
+        console.warn("Autoplay was prevented by the browser:", err);
+      });
+    }
+  }, []);
+
   const highlights = [
     {
       title: "Cloud Services",
@@ -27,6 +40,7 @@ export default function Home() {
       {/* Hero Section with Technology Video Background */}
       <section className={styles.hero}>
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
