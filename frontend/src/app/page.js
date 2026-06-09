@@ -9,11 +9,22 @@ export default function Home() {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.muted = true;
-      videoRef.current.play().catch((err) => {
-        console.warn("Autoplay was prevented by the browser:", err);
-      });
+    const video = videoRef.current;
+    if (video) {
+      video.muted = true;
+      // Force loading
+      video.load();
+      
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            console.log("TwinsCloud Video: Background video playing successfully.");
+          })
+          .catch((err) => {
+            console.warn("TwinsCloud Video: Autoplay prevented, waiting for user action.", err);
+          });
+      }
     }
   }, []);
 
@@ -46,6 +57,15 @@ export default function Home() {
           muted
           playsInline
           className={styles.videoBackground}
+          onPlay={() => console.log("TwinsCloud Video Event: play started")}
+          onLoadedData={() => console.log("TwinsCloud Video Event: data loaded successfully")}
+          onError={(e) => {
+            const mediaError = e.target.error;
+            console.error("TwinsCloud Video Event: Loading failed!", {
+              code: mediaError ? mediaError.code : "unknown",
+              message: mediaError ? mediaError.message : "No error message"
+            });
+          }}
         >
           <source
             src="https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-his-computer-38392-large.mp4"

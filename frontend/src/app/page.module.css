@@ -15,6 +15,9 @@
   width: 100%;
   min-height: 80vh;
   overflow: hidden;
+  background-color: #fafafa;
+  background-image: radial-gradient(rgba(249, 132, 26, 0.08) 1px, transparent 0);
+  background-size: 24px 24px;
 }
 
 .videoBackground {
