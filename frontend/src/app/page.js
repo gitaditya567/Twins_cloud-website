@@ -24,16 +24,31 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-      {/* Hero Section */}
+      {/* Hero Section with Technology Video Background */}
       <section className={styles.hero}>
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className={styles.videoBackground}
+        >
+          <source
+            src="https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-his-computer-38392-large.mp4"
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
+        <div className={styles.videoOverlay} />
+
         <div className={styles.heroContent}>
-          <span className={styles.badge}>Next.js + MERN Architecture</span>
+          <span className={styles.badge}>Welcome To TwinsCloud</span>
           <h1 className={styles.title}>
-            Powering Enterprise <br />
-            <span className={styles.highlight}>Cloud Solutions</span>
+            Best Software, Website,<br />
+            <span className={styles.highlight}>App Development Company</span>
           </h1>
           <p className={styles.subtitle}>
-            TwinsCloud builds high-performance web applications and cloud infrastructure to accelerate your digital transformation journey.
+            Your Cloud Lifecycle Consulting Partner
           </p>
           <div className={styles.ctaGroup}>
             <Link href="/consultation" className={styles.primaryBtn}>
@@ -42,19 +57,6 @@ export default function Home() {
             <Link href="/rfq" className={styles.secondaryBtn}>
               Request a Quote
             </Link>
-          </div>
-        </div>
-
-        <div className={styles.heroGraphic}>
-          <div className={styles.logoCircle}>
-            <Image
-              src="/logo.png"
-              alt="TwinsCloud Large Logo"
-              width={220}
-              height={88}
-              className={styles.heroLogo}
-              priority
-            />
           </div>
         </div>
       </section>
