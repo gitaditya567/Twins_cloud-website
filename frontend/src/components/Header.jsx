@@ -60,7 +60,7 @@ export default function Header() {
         </nav>
 
         {/* Right Logo */}
-        <div className={`${styles.logoWrapper} ${styles.logoRight}`}>
+        {/* <div className={`${styles.logoWrapper} ${styles.logoRight}`}>
           <Link href="/">
             <Image
               src="/logo.png"
@@ -71,7 +71,7 @@ export default function Header() {
               priority
             />
           </Link>
-        </div>
+        </div> */}
 
         {/* Hamburger Menu Toggle Button */}
         <button
