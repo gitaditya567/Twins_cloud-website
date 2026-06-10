@@ -1,91 +1,117 @@
+/* Premium Floating Capsule Header with Entrance Animations */
 .header {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  max-width: 1300px;
   z-index: 1000;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  opacity: 0;
+  animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+@keyframes slideDown {
+  from {
+    transform: translate(-50%, -80px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+/* Scrolled visual compression state */
 .scrolled {
-  background: rgba(255, 255, 255, 0.9) !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-  padding: 5px 0;
+  top: 8px;
+  width: 94%;
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: 2px 0;
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 12px 24px;
+  padding: 8px 24px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Keeps logo on left and nav on right */
   align-items: center;
-  gap: 20px;
+  gap: 30px;
 }
 
 .logoWrapper {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  transition: transform 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .logoWrapper:hover {
-  transform: scale(1.02);
+  transform: scale(1.03) translateY(-1px);
 }
 
 .logoImage {
   object-fit: contain;
   width: auto;
-  height: 42px; /* Responsive logo sizing */
+  height: 40px;
+  transition: height 0.3s ease;
 }
 
-/* Right logo could be hidden on smaller screens to maintain clean spacing */
-@media (max-width: 1200px) {
-  .logoRight {
-    display: none;
-  }
+.scrolled .logoImage {
+  height: 36px; /* Shrinks slightly on scroll */
+}
+
+/* Hide right logo container from layout */
+.logoRight {
+  display: none !important;
 }
 
 .navDesktop {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 8px; /* Slightly closer for capsule pill backgrounds */
 }
 
 .navLink {
   position: relative;
-  font-size: 15px;
-  font-weight: 500;
-  color: #333333;
-  padding: 8px 4px;
-  transition: color 0.25s ease;
-  display: flex;
-  flex-direction: column;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c2c2c;
+  padding: 8px 16px;
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
 }
 
 .navLink:hover {
   color: #f9841a;
+  background-color: rgba(249, 132, 26, 0.06); /* Premium pill hover background */
 }
 
 .navIndicator {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 16px;
   height: 2px;
   background-color: #f9841a;
-  transform: scaleX(0);
-  transform-origin: bottom right;
-  transition: transform 0.3s ease;
+  border-radius: 2px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .navLink:hover .navIndicator {
-  transform: scaleX(1);
-  transform-origin: bottom left;
+  transform: translateX(-50%) scaleX(1);
 }
 
 /* Hamburger menu button styles */
@@ -93,8 +119,8 @@
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  width: 26px;
-  height: 18px;
+  width: 24px;
+  height: 16px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -105,8 +131,9 @@
 .hamburgerLine {
   width: 100%;
   height: 2px;
-  background-color: #333333;
-  transition: all 0.3s ease;
+  background-color: #2c2c2c;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Responsive breakpoint for desktop nav */
@@ -121,7 +148,7 @@
 
 /* Mobile Hamburger Menu Active State transformation */
 .hamburgerActive .hamburgerLine:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
+  transform: translateY(7px) rotate(45deg);
 }
 
 .hamburgerActive .hamburgerLine:nth-child(2) {
@@ -129,19 +156,22 @@
 }
 
 .hamburgerActive .hamburgerLine:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* Mobile drawer container */
 .mobileDrawer {
   position: fixed;
-  top: 0;
+  top: 15px;
   right: -320px;
-  width: 300px;
-  height: 100%;
-  background: #ffffff;
+  width: 280px;
+  height: calc(100vh - 30px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
   z-index: 1005;
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 24px;
+  box-shadow: -10px 10px 40px rgba(0, 0, 0, 0.08);
   transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
@@ -149,21 +179,21 @@
 }
 
 .drawerOpen {
-  right: 0;
+  right: 15px; /* Floats inside viewport margin */
 }
 
 .drawerHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .drawerClose {
-  font-size: 32px;
+  font-size: 28px;
   background: none;
   border: none;
-  color: #333333;
+  color: #2c2c2c;
   cursor: pointer;
   line-height: 1;
 }
@@ -171,21 +201,22 @@
 .navMobile {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 }
 
 .mobileNavLink {
-  font-size: 18px;
-  font-weight: 500;
-  color: #333333;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c2c2c;
+  padding: 10px 16px;
+  border-radius: 12px;
+  transition: all 0.25s ease;
 }
 
 .mobileNavLink:hover {
   color: #f9841a;
-  padding-left: 8px;
+  background-color: rgba(249, 132, 26, 0.06);
+  padding-left: 20px;
 }
 
 /* Background Overlay for mobile menu active state */
@@ -195,7 +226,8 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
   z-index: 1004;
+  transition: opacity 0.3s ease;
 }
