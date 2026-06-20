@@ -1,0 +1,538 @@
+.trainingPage {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  color: #1a202c;
+  background-color: #fafbfc; /* Soft off-white */
+  background-image: 
+    radial-gradient(rgba(249, 132, 26, 0.12) 2.5px, transparent 0),
+    radial-gradient(rgba(0, 112, 243, 0.12) 2.5px, transparent 0);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
+  padding: 140px 24px 100px 24px;
+  z-index: 1;
+}
+
+/* Background floating glow elements */
+.glowSpot1,
+.glowSpot2 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.16;
+}
+
+.glowSpot1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #f9841a 0%, rgba(249, 132, 26, 0) 70%);
+  top: -100px;
+  right: -100px;
+  animation: floatSpot1 14s ease-in-out infinite alternate;
+}
+
+.glowSpot2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #0070f3 0%, rgba(0, 112, 243, 0) 70%);
+  bottom: -100px;
+  left: -100px;
+  animation: floatSpot2 16s ease-in-out infinite alternate;
+}
+
+@keyframes floatSpot1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-60px, 60px) scale(1.08); }
+}
+
+@keyframes floatSpot2 {
+  0% { transform: translate(0, 0) scale(1.08); }
+  100% { transform: translate(60px, -60px) scale(0.92); }
+}
+
+.trainingContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.trainingHeader {
+  text-align: center;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.trainingBadge {
+  background: rgba(249, 132, 26, 0.1);
+  color: #f9841a;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(249, 132, 26, 0.25);
+  text-transform: uppercase;
+}
+
+.trainingTitle {
+  font-size: 52px;
+  font-weight: 900;
+  line-height: 1.1;
+  color: #0b0f19;
+  letter-spacing: -2.5px;
+  margin-bottom: 16px;
+}
+
+.highlight {
+  background: linear-gradient(135deg, #f9841a 0%, #ffb03a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.trainingSubtitle {
+  font-size: 20px;
+  color: #4a5568;
+  max-width: 800px;
+  line-height: 1.6;
+}
+
+/* Stats Section */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 70px;
+}
+
+.statCard {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 20px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+  transition: all 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(249, 132, 26, 0.06);
+  border-color: rgba(249, 132, 26, 0.15);
+}
+
+.statNumber {
+  font-size: 36px;
+  font-weight: 800;
+  color: #0b0f19;
+  margin-bottom: 6px;
+}
+
+.statLabel {
+  font-size: 14px;
+  color: #718096;
+  font-weight: 600;
+}
+
+/* Split Program Layout */
+.splitSection {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 90px;
+}
+
+/* Animated SVG Panel */
+.svgPanel {
+  width: 100%;
+  height: auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.illSvg {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+}
+
+/* SVG Keyframe animations classes */
+.spinningGear {
+  transform-origin: center;
+  animation: spin 16s linear infinite;
+}
+
+.spinningGearAlt {
+  transform-origin: center;
+  animation: spinCounter 12s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spinCounter {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.floatingRobot {
+  animation: floatRobot 6s ease-in-out infinite;
+}
+
+@keyframes floatRobot {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+.glowingBulb {
+  animation: pulseGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% { filter: drop-shadow(0 0 2px rgba(249, 132, 26, 0.2)); opacity: 0.8; }
+  100% { filter: drop-shadow(0 0 18px rgba(249, 132, 26, 0.85)); opacity: 1; }
+}
+
+.rocketThrust {
+  animation: rocketFloat 4s ease-in-out infinite;
+}
+
+@keyframes rocketFloat {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(6px, -6px); }
+}
+
+.animatedCircuit {
+  stroke-dasharray: 8 4;
+  animation: dashCircuit 30s linear infinite;
+}
+
+@keyframes dashCircuit {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
+/* Accordion Column */
+.accordionColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.accordionCard {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.01);
+}
+
+.accordionCard:hover {
+  border-color: rgba(249, 132, 26, 0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.02);
+}
+
+.activeAccordionCard {
+  border-color: rgba(249, 132, 26, 0.35);
+  box-shadow: 0 15px 35px rgba(249, 132, 26, 0.05);
+}
+
+.accordionHeader {
+  width: 100%;
+  padding: 24px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  outline: none;
+}
+
+.accordionHeaderTitle {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.accordionHeaderTitle svg {
+  width: 24px;
+  height: 24px;
+  color: #f9841a;
+  flex-shrink: 0;
+}
+
+.accordionHeaderTitle h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0b0f19;
+  letter-spacing: -0.5px;
+}
+
+.accordionIcon {
+  font-size: 18px;
+  color: #a0aec0;
+  transition: transform 0.3s ease;
+  font-weight: bold;
+}
+
+.activeAccordionCard .accordionIcon {
+  transform: rotate(180deg);
+  color: #f9841a;
+}
+
+.accordionContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0 24px;
+}
+
+.activeAccordionCard .accordionContent {
+  max-height: 500px;
+  padding-bottom: 24px;
+}
+
+.programItemList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.programItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.programItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  background-color: #f9841a;
+  border-radius: 50%;
+}
+
+.programItem h4 {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: #0b0f19;
+}
+
+.programItem p {
+  font-size: 13.5px;
+  color: #555555;
+  line-height: 1.6;
+}
+
+/* Curriculum Section */
+.curriculumSection {
+  margin-top: 40px;
+  margin-bottom: 80px;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.sectionHeader h2 {
+  font-size: 32px;
+  font-weight: 800;
+  color: #0b0f19;
+  letter-spacing: -1px;
+}
+
+.sectionHeader p {
+  font-size: 16px;
+  color: #718096;
+  margin-top: 10px;
+}
+
+.curriculumGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.curriculumCard {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  padding: 30px 24px;
+  transition: all 0.35s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.curriculumCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+  border-color: rgba(249, 132, 26, 0.2);
+}
+
+.curriculumIcon {
+  width: 48px;
+  height: 48px;
+  background: rgba(249, 132, 26, 0.06);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f9841a;
+  margin-bottom: 20px;
+}
+
+.curriculumCard h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0b0f19;
+  margin-bottom: 12px;
+}
+
+.curriculumCard p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #666666;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.curriculumTopics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.topicBadge {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #4a5568;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 4px 10px;
+  border-radius: 50px;
+}
+
+/* Call To Action Box */
+.ctaContainer {
+  background-color: #0b0f19;
+  background-image: 
+    radial-gradient(rgba(249, 132, 26, 0.1) 2.5px, transparent 0),
+    radial-gradient(rgba(0, 112, 243, 0.1) 2.5px, transparent 0);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 28px;
+  padding: 60px;
+  text-align: center;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ctaContainer h3 {
+  font-size: 32px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 12px;
+  letter-spacing: -1px;
+}
+
+.ctaContainer p {
+  font-size: 16px;
+  color: #a0aec0;
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.ctaBtn {
+  background-color: #f9841a;
+  color: #ffffff;
+  padding: 14px 36px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(249, 132, 26, 0.35);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.ctaBtn:hover {
+  background-color: #e2700f;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(249, 132, 26, 0.45);
+}
+
+/* Responsiveness */
+@media (max-width: 1024px) {
+  .splitSection {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .svgPanel {
+    order: -1;
+  }
+  .curriculumGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .trainingPage {
+    padding: 100px 16px 60px 16px;
+  }
+  .trainingTitle {
+    font-size: 32px;
+    letter-spacing: -1.5px;
+  }
+  .trainingSubtitle {
+    font-size: 16px;
+  }
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .curriculumGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .ctaContainer {
+    padding: 40px 20px;
+  }
+  .ctaContainer h3 {
+    font-size: 24px;
+  }
+  .ctaContainer p {
+    font-size: 14px;
+  }
+}
