@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import styles from "./about.module.css";
 
 export default function AboutPage() {
@@ -37,22 +38,20 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* Animated SVG Technology Circuit Graphic */}
+          {/* Animated Tech Illustration Graphic */}
           <div className={styles.introGraphic}>
             <div className={styles.circuitGrid} />
             <div className={styles.orbRing} />
-            <div className={styles.cloudOrb}>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className={styles.cloudOrbSvg}
-              >
-                <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" />
-              </svg>
+            <div className={styles.illustrationWrapper}>
+              <Image
+                src="/about-illustration-v2.png"
+                alt="Corporate Cloud Illustration"
+                fill
+                sizes="(max-width: 768px) 100vw, 320px"
+                className={styles.illustrationImage}
+                style={{ objectFit: 'contain' }}
+                priority
+              />
             </div>
           </div>
         </section>

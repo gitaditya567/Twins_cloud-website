@@ -40,6 +40,78 @@ function AnimatedCounter({ target, suffix = "" }) {
 export default function TrainingPage() {
   const [activeAccordion, setActiveAccordion] = useState(0);
 
+  // Application Form States
+  const [showApplyModal, setShowApplyModal] = useState(false);
+  const [applyFormData, setApplyFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    college: "",
+    branch: "",
+    passingYear: "",
+    programType: "Summer Training",
+    courseOfInterest: "MERN Stack Engineering"
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      if (searchParams.get("apply") === "true") {
+        setShowApplyModal(true);
+      }
+    }
+  }, []);
+
+  const handleApplyInputChange = (e) => {
+    const { name, value } = e.target;
+    setApplyFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleApplySubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSuccessMsg("");
+    setErrorMsg("");
+
+    try {
+      const response = await fetch("http://localhost:5000/api/training/apply", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(applyFormData)
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setSuccessMsg("Your application has been submitted successfully!");
+        setApplyFormData({
+          name: "",
+          email: "",
+          phone: "",
+          college: "",
+          branch: "",
+          passingYear: "",
+          programType: "Summer Training",
+          courseOfInterest: "MERN Stack Engineering"
+        });
+        setTimeout(() => {
+          setShowApplyModal(false);
+          setSuccessMsg("");
+        }, 2500);
+      } else {
+        setErrorMsg(data.message || "Failed to submit application.");
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorMsg("Failed to connect to backend server.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const stats = [
     { target: 500, suffix: "+", label: "Engineers Trained" },
     { target: 3, suffix: "+", label: "Sectors Covered" },
@@ -314,11 +386,151 @@ export default function TrainingPage() {
           <p>
             Ready to apply for our Summer/Winter Vocational batches or need to integrate custom team-building cloud training for your corporate dev squads? Get in touch today.
           </p>
-          <Link href="/consultation" className={styles.ctaBtn}>
-            Schedule Consultation &amp; Register
-          </Link>
+          <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "12px", marginTop: "24px" }}>
+            <Link href="/consultation" className={styles.ctaBtn} style={{ marginTop: 0 }}>
+              Schedule Consultation &amp; Register
+            </Link>
+            <button onClick={() => setShowApplyModal(true)} className={styles.applyBtn}>
+              Apply for Training / Internship
+            </button>
+          </div>
         </section>
       </div>
+
+      {/* Application Modal Popup */}
+      {showApplyModal && (
+        <div className={styles.modalOverlay} onClick={() => setShowApplyModal(false)}>
+          <div className={styles.modalContainer} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.closeBtn} onClick={() => setShowApplyModal(false)} aria-label="Close modal">
+              &times;
+            </button>
+            <div className={styles.modalHeader}>
+              <h3>Apply for Training / Internship</h3>
+              <p>Fill out the form below. Our training team will review and connect with you shortly.</p>
+            </div>
+            
+            {successMsg && <div className={styles.successText}>{successMsg}</div>}
+            {errorMsg && <div className={styles.errorText}>{errorMsg}</div>}
+
+            <form onSubmit={handleApplySubmit}>
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label>Full Name *</label>
+                  <input
+                    type="text"
+                    name="name"
+                    className={styles.inputField}
+                    placeholder="Enter full name"
+                    value={applyFormData.name}
+                    onChange={handleApplyInputChange}
+                    required
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Email Address *</label>
+                  <input
+                    type="email"
+                    name="email"
+                    className={styles.inputField}
+                    placeholder="Enter email address"
+                    value={applyFormData.email}
+                    onChange={handleApplyInputChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label>Phone Number *</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    className={styles.inputField}
+                    placeholder="Enter phone number"
+                    value={applyFormData.phone}
+                    onChange={handleApplyInputChange}
+                    required
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label>College / University *</label>
+                  <input
+                    type="text"
+                    name="college"
+                    className={styles.inputField}
+                    placeholder="College/University Name"
+                    value={applyFormData.college}
+                    onChange={handleApplyInputChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label>Branch / Course *</label>
+                  <input
+                    type="text"
+                    name="branch"
+                    className={styles.inputField}
+                    placeholder="e.g. B.Tech CSE, MCA"
+                    value={applyFormData.branch}
+                    onChange={handleApplyInputChange}
+                    required
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Passing Year *</label>
+                  <input
+                    type="text"
+                    name="passingYear"
+                    className={styles.inputField}
+                    placeholder="e.g. 2026, 2027"
+                    value={applyFormData.passingYear}
+                    onChange={handleApplyInputChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label>Program Type *</label>
+                  <select
+                    name="programType"
+                    className={styles.selectField}
+                    value={applyFormData.programType}
+                    onChange={handleApplyInputChange}
+                  >
+                    <option value="Summer Training">Summer Training</option>
+                    <option value="Winter Training">Winter Training</option>
+                    <option value="Internship">Internship</option>
+                    <option value="Vocational Training">Vocational Training</option>
+                  </select>
+                </div>
+                <div className={styles.formGroup}>
+                  <label>Course of Interest *</label>
+                  <select
+                    name="courseOfInterest"
+                    className={styles.selectField}
+                    value={applyFormData.courseOfInterest}
+                    onChange={handleApplyInputChange}
+                  >
+                    <option value="MERN Stack Engineering">MERN Stack Engineering</option>
+                    <option value="Cloud & DevOps Architectures">Cloud & DevOps Architectures</option>
+                    <option value="Enterprise ERP & Databases">Enterprise ERP & Databases</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" className={styles.submitBtn} disabled={isSubmitting}>
+                {isSubmitting ? "Submitting Application..." : "Submit Application"}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

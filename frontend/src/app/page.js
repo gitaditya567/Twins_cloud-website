@@ -358,6 +358,9 @@ export default function Home() {
             <Link href="/consultation" className={styles.primaryBtn}>
               Schedule Consultation
             </Link>
+            <Link href="/training?apply=true" className={styles.trainingBtn}>
+              🎓 Training & Internship
+            </Link>
             <Link href="/rfq" className={styles.secondaryBtn}>
               Request a Quote
             </Link>
@@ -492,6 +495,7 @@ export default function Home() {
       </section>
 
       {/* Core Capabilities (Our Core Expertise) Section */}
+      {false && (
       <section className={styles.capabilitiesSection}>
         <div className={styles.capabilitiesContainer}>
           <div className={styles.capabilitiesHeader}>
@@ -585,6 +589,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Work Process Section */}
       <section className={styles.processSection}>
@@ -621,7 +626,7 @@ export default function Home() {
 
           {/* Step 2 */}
           <div className={styles.timelineStep}>
-            <div className={`${styles.stepNode} ${styles.stepBlue}`}>
+            <div className={`${styles.stepNode} ${styles.stepOrange}`}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.stepIcon}>
                 <path d="M9 20l-5.447-2.724A1 1 0 0 1 3 16.382V5.553a1 1 0 0 1 1.447-.894L9 7l6-3 5.447 2.724A1 1 0 0 1 21 7.618v10.829a1 1 0 0 1-1.447.894L15 17l-6 3z" />
                 <path d="M9 7v13" />
@@ -935,26 +940,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Specialist 2: Ravikant */}
-            <div className={`${styles.teamCard} ${styles.teamCardBlue}`}>
-              <div className={styles.teamImageWrapper}>
-                <Image
-                  src="/team-ravikant.png"
-                  alt="Ravikant"
-                  width={400}
-                  height={400}
-                  className={styles.teamImage}
-                />
-                <div className={styles.teamCardGlow} />
-              </div>
-              <div className={styles.teamInfo}>
-                <span className={`${styles.teamTag} ${styles.tagBlue}`}>Full Stack</span>
-                <h3>Ravikant</h3>
-                <p>Sr. Software Engineer</p>
-              </div>
-            </div>
-
-            {/* Specialist 3: Akash Dakave */}
+            {/* Specialist 2: Akash Dakave */}
             <div className={`${styles.teamCard} ${styles.teamCardPurple}`}>
               <div className={styles.teamImageWrapper}>
                 <Image
@@ -973,7 +959,46 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Specialist 4: Prince Pandey */}
+            {/* Specialist 3: Aditya Sharma */}
+            <div className={`${styles.teamCard} ${styles.teamCardBlue}`}>
+              <div className={styles.teamImageWrapper}>
+                <Image
+                  src="/team-aditya.jpg"
+                  alt="Aditya Sharma"
+                  width={400}
+                  height={400}
+                  className={styles.teamImage}
+                  style={{ objectPosition: "top" }}
+                />
+                <div className={styles.teamCardGlow} />
+              </div>
+              <div className={styles.teamInfo}>
+                <span className={`${styles.teamTag} ${styles.tagBlue}`}>MERN Developer</span>
+                <h3>Aditya Sharma</h3>
+                <p>Full stack developer</p>
+              </div>
+            </div>
+
+            {/* Specialist 4: Ravikant */}
+            <div className={`${styles.teamCard} ${styles.teamCardBlue}`}>
+              <div className={styles.teamImageWrapper}>
+                <Image
+                  src="/team-ravikant.png"
+                  alt="Ravikant"
+                  width={400}
+                  height={400}
+                  className={styles.teamImage}
+                />
+                <div className={styles.teamCardGlow} />
+              </div>
+              <div className={styles.teamInfo}>
+                <span className={`${styles.teamTag} ${styles.tagBlue}`}>Full Stack</span>
+                <h3>Ravikant</h3>
+                <p>Sr. Software Engineer</p>
+              </div>
+            </div>
+
+            {/* Specialist 5: Prince Pandey */}
             <div className={`${styles.teamCard} ${styles.teamCardTeal}`}>
               <div className={styles.teamImageWrapper}>
                 <Image
@@ -992,7 +1017,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Specialist 5: Mr. Ansh */}
+            {/* Specialist 6: Mr. Ansh */}
             <div className={`${styles.teamCard} ${styles.teamCardGray}`}>
               <div className={styles.teamImageWrapper}>
                 <Image
@@ -1011,7 +1036,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Specialist 6: Ram Ji */}
+            {/* Specialist 7: Ram Ji */}
             <div className={`${styles.teamCard} ${styles.teamCardOrange}`}>
               <div className={styles.teamImageWrapper}>
                 <Image
@@ -1027,6 +1052,26 @@ export default function Home() {
                 <span className={`${styles.teamTag} ${styles.tagOrange}`}>Web Developer</span>
                 <h3>Ram Ji</h3>
                 <p>Web Developer</p>
+              </div>
+            </div>
+
+            {/* Specialist 8: Aastha Tripathi */}
+            <div className={`${styles.teamCard} ${styles.teamCardPurple}`}>
+              <div className={styles.teamImageWrapper}>
+                <Image
+                  src="/team-aastha.jpg"
+                  alt="Aastha Tripathi"
+                  width={400}
+                  height={400}
+                  className={styles.teamImage}
+                  style={{ objectPosition: "top" }}
+                />
+                <div className={styles.teamCardGlow} />
+              </div>
+              <div className={styles.teamInfo}>
+                <span className={`${styles.teamTag} ${styles.tagPurple}`}>Software Trainee</span>
+                <h3>Aastha Tripathi</h3>
+                <p>Software Trainee</p>
               </div>
             </div>
           </div>

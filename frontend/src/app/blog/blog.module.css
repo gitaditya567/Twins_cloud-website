@@ -1,0 +1,341 @@
+.blogPage {
+  min-height: 100vh;
+  position: relative;
+  background-color: #fafbfc;
+  padding: 140px 24px 100px 24px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.badge {
+  background: rgba(0, 112, 243, 0.08);
+  color: #0070f3;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(0, 112, 243, 0.2);
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 52px;
+  font-weight: 900;
+  color: #0b0f19;
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+}
+
+.highlight {
+  background: linear-gradient(135deg, #0070f3 0%, #00a4ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #4a5568;
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+/* Search and Filter Controls */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.searchBar {
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  outline: none;
+  font-size: 15px;
+  width: 320px;
+  max-width: 100%;
+  transition: all 0.3s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.01);
+}
+
+.searchBar:focus {
+  border-color: #0070f3;
+  box-shadow: 0 5px 20px rgba(0, 112, 243, 0.08);
+}
+
+.filterGroup {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filterBtn {
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filterBtn:hover {
+  background: #f7fafc;
+  border-color: #cbd5e0;
+}
+
+.filterBtnActive {
+  background: #0070f3;
+  color: #fff;
+  border-color: #0070f3;
+  box-shadow: 0 5px 15px rgba(0, 112, 243, 0.25);
+}
+
+.filterBtnActive:hover {
+  background: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Post Cards Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 35px;
+}
+
+.postCard {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid rgba(0,0,0,0.04);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.015);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 100%;
+}
+
+.postCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 112, 243, 0.15);
+}
+
+.cardHeader {
+  background: linear-gradient(135deg, #0b0f19 0%, #1a202c 100%);
+  color: #fff;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  height: 140px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.cardHeaderGlow {
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(0, 112, 243, 0.35) 0%, transparent 70%);
+  filter: blur(20px);
+}
+
+.cardCategory {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(5px);
+  color: #00a4ff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 50px;
+  letter-spacing: 0.8px;
+}
+
+.cardBody {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.cardMeta {
+  font-size: 13px;
+  color: #718096;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 12px;
+}
+
+.cardTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0b0f19;
+  line-height: 1.4;
+  margin-bottom: 15px;
+  transition: color 0.2s;
+  letter-spacing: -0.5px;
+}
+
+.postCard:hover .cardTitle {
+  color: #0070f3;
+}
+
+.cardSummary {
+  font-size: 15px;
+  color: #4a5568;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  flex-grow: 1;
+}
+
+.readMoreBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #0070f3;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.readMoreBtn svg {
+  transition: transform 0.2s;
+}
+
+.postCard:hover .readMoreBtn svg {
+  transform: translateX(4px);
+}
+
+/* Single Post Layout */
+.postWrapper {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #4a5568;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  margin-bottom: 35px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.backBtn:hover {
+  color: #0070f3;
+}
+
+.postHeader {
+  margin-bottom: 40px;
+}
+
+.postCategory {
+  background: rgba(0, 112, 243, 0.08);
+  color: #0070f3;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 50px;
+  display: inline-block;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+
+.postTitle {
+  font-size: 46px;
+  font-weight: 900;
+  color: #0b0f19;
+  line-height: 1.15;
+  letter-spacing: -2px;
+  margin-bottom: 20px;
+}
+
+.postMeta {
+  display: flex;
+  gap: 20px;
+  color: #718096;
+  font-size: 14px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 24px;
+}
+
+.postContent {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #2d3748;
+}
+
+.postContent p {
+  margin-bottom: 25px;
+}
+
+.postContent h2 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0b0f19;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  letter-spacing: -0.8px;
+}
+
+.postContent code {
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.postContent pre {
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 20px;
+  border-radius: 12px;
+  overflow-x: auto;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+.postContent pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}

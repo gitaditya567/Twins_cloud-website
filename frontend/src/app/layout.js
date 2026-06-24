@@ -18,9 +18,9 @@ export const metadata = {
   title: "TwinsCloud - Premium Cloud Solutions & Training",
   description: "TwinsCloud delivers modern cloud engineering, enterprise project consultancy, comprehensive technology training, and customized RFQ solutions.",
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: "/logo-new.png",
+    shortcut: "/logo-new.png",
+    apple: "/logo-new.png",
   }
 };
 

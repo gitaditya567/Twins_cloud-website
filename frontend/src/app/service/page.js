@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./service.module.css";
+import TechVisualizer from "../../components/TechVisualizer";
 
 export default function ServicePage() {
   const [activeTab, setActiveTab] = useState("security");
@@ -267,6 +268,9 @@ export default function ServicePage() {
             </div>
           </div>
         </section>
+
+        {/* Tech Stack Visualizer */}
+        <TechVisualizer />
       </div>
 
       {/* Service Details Modal Popup */}

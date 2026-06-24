@@ -8,13 +8,35 @@ import styles from "./Footer.module.css";
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubscribe = (e) => {
+  const handleSubscribe = async (e) => {
     e.preventDefault();
-    if (email.trim()) {
-      setSubscribed(true);
-      setEmail("");
-      setTimeout(() => setSubscribed(false), 5000);
+    if (!email.trim() || submitting) return;
+
+    setSubmitting(true);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/newsletter/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+
+      if (response.ok) {
+        setSubscribed(true);
+        setEmail("");
+        setTimeout(() => setSubscribed(false), 5000);
+      } else {
+        const data = await response.json();
+        alert(data.message || "Failed to subscribe.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to connect to subscription server.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -33,6 +55,7 @@ export default function Footer() {
     { name: "Our Services", href: "/service" },
     { name: "Client Case Studies", href: "/case-study" },
     { name: "Our Projects", href: "/project" },
+    { name: "AWS Cost Calculator", href: "/calculator" },
     { name: "Request a Quote (RFQ)", href: "/rfq" },
     { name: "Schedule Consultation", href: "/consultation" }
   ];
@@ -44,6 +67,7 @@ export default function Footer() {
       <div className={styles.glowBlob2}></div>
 
       {/* Top Banner section */}
+      {false && (
       <div className={styles.topBanner}>
         <div className={styles.topBannerContent}>
           <span className={styles.bannerBadge}>Get Started</span>
@@ -63,6 +87,7 @@ export default function Footer() {
           </Link>
         </div>
       </div>
+      )}
 
       <div className={styles.container}>
         {/* Columns Grid */}
@@ -73,10 +98,10 @@ export default function Footer() {
             <div className={styles.logoWrapper}>
               <Link href="/">
                 <Image
-                  src="/logo.png"
+                  src="/logo-new.png"
                   alt="TwinsCloud Logo"
-                  width={180}
-                  height={36}
+                  width={150}
+                  height={122}
                   className={styles.logoImage}
                 />
               </Link>
@@ -182,14 +207,14 @@ export default function Footer() {
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={styles.contactIcon}>
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
-                <a href="tel:+919876543210" className={styles.interactiveContact}>+91 98765 43210</a>
+                <a href="tel:+919580880060" className={styles.interactiveContact}>+91 95808 80060</a>
               </p>
               <p className={styles.contactItem}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={styles.contactIcon}>
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                   <polyline points="22,6 12,13 2,6" />
                 </svg>
-                <a href="mailto:info@twinscloud.com" className={styles.interactiveContact}>info@twinscloud.com</a>
+                <a href="mailto:Support@twinscloud.com" className={styles.interactiveContact}>Support@twinscloud.com</a>
               </p>
             </div>
           </div>

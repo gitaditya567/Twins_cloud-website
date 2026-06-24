@@ -64,14 +64,12 @@
 .logoImage {
   object-fit: contain;
   width: auto;
-  height: 40px;
+  height: 75px;
   transition: all 0.3s ease;
-  filter: brightness(0) invert(1); /* White logo for dark background video */
 }
 
 .scrolled .logoImage {
-  height: 36px; /* Shrinks slightly on scroll */
-  filter: none; /* Return to colored logo on scroll */
+  height: 60px; /* Shrinks slightly on scroll */
 }
 
 .navDesktop {
@@ -156,10 +154,142 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
+/* Hamburger Toggle Button */
+.hamburger {
+  display: none; /* Hidden on desktop */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1002;
+  position: relative;
+  outline: none;
+}
+
+.hamburgerLine {
+  width: 100%;
+  height: 2.5px;
+  background-color: #ffffff; /* White initially for dark hero background */
+  border-radius: 4px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scrolled .hamburgerLine {
+  background-color: #2c2c2c; /* Dark when header is scrolled */
+}
+
+/* Force white lines when mobile menu is active */
+.hamburgerActive .hamburgerLine {
+  background-color: #ffffff !important;
+}
+
+.hamburgerActive .hamburgerLine:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.hamburgerActive .hamburgerLine:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.hamburgerActive .hamburgerLine:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Force header styling when active/open */
+.headerActive {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Force white logo when mobile menu is active */
+.logoActive {
+}
+
+/* Mobile Nav Overlay */
+.navMobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(10, 10, 14, 0.98); /* Deep premium dark glass */
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+
+.navMobileActive {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobileNavLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  width: 90%;
+  max-width: 320px;
+  padding: 40px 10px;
+}
+
+.mobileNavLink {
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 8px 0;
+  width: 100%;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mobileNavLink:hover,
+.activeMobileLink {
+  color: #f9841a;
+  transform: translateY(-1px);
+  border-bottom-color: rgba(249, 132, 26, 0.4);
+}
+
+.mobileCtaButton {
+  margin-top: 15px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #f9841a;
+  padding: 12px 30px;
+  border-radius: 25px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(249, 132, 26, 0.3);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobileCtaButton:hover {
+  background-color: #e2700f;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(249, 132, 26, 0.55);
+}
+
 /* Responsive breakpoint for navigation links */
 @media (max-width: 992px) {
   .container {
-    padding: 8px 16px;
+    padding: 8px 20px;
     gap: 16px;
   }
   
@@ -167,54 +297,31 @@
     flex: 0 0 auto;
   }
   
-  .navActions {
-    flex: 0 0 auto;
-  }
-  
   .navDesktop {
-    display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE 10+ */
-    flex: 1;
-    justify-content: flex-start;
-    padding: 4px 8px;
-    gap: 2px;
+    display: none !important;
   }
   
-  .navDesktop::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+  .navActions {
+    display: none !important;
   }
-
-  .navLink {
-    padding: 6px 12px;
-    font-size: 13px;
-  }
-
-  .ctaButton {
-    padding: 6px 14px;
-    font-size: 13px;
+  
+  .hamburger {
+    display: flex;
   }
 }
 
 @media (max-width: 576px) {
   .header {
-    width: 96%;
+    width: 94%;
     top: 10px;
   }
   .container {
-    padding: 6px 12px;
-    gap: 8px;
+    padding: 8px 16px;
   }
   .logoImage {
-    height: 32px;
+    height: 55px;
   }
   .scrolled .logoImage {
-    height: 28px;
-  }
-  .ctaButton {
-    padding: 6px 10px;
-    font-size: 12px;
+    height: 48px;
   }
 }
