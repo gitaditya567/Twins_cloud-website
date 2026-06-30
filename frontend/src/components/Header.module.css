@@ -14,6 +14,7 @@
   box-shadow: none;
   opacity: 0;
   animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  border-radius: 50px;
 }
 
 @keyframes slideDown {
@@ -36,6 +37,7 @@
   border: 1px solid rgba(255, 255, 255, 0.45) !important;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08) !important;
   padding: 2px 0;
+  border-radius: 50px !important;
 }
 
 .container {
@@ -152,6 +154,128 @@
 .scrolled .ctaButton:hover {
   background-color: #1a1a1a;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.trainingCta {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #f9841a 0%, #ff5e62 100%);
+  padding: 8px 18px;
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(249, 132, 26, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  animation: pulseGlow 2.5s infinite;
+  margin-right: 8px;
+  text-decoration: none;
+}
+
+.trainingCta:hover {
+  background: linear-gradient(135deg, #ff5e62 0%, #f9841a 100%);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 20px rgba(249, 132, 26, 0.55);
+}
+
+.scrolled .trainingCta {
+  background: linear-gradient(135deg, #ff5e62 0%, #ff9966 100%);
+  box-shadow: 0 4px 12px rgba(255, 94, 98, 0.35);
+  animation: pulseGlowRed 2.5s infinite;
+  border: none;
+}
+
+.scrolled .trainingCta:hover {
+  background: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%);
+  box-shadow: 0 6px 20px rgba(255, 94, 98, 0.5);
+}
+
+.highlightedTrainingTab {
+  color: #f9841a !important;
+  background: rgba(249, 132, 26, 0.08);
+  border: 1px dashed rgba(249, 132, 26, 0.4) !important;
+  box-shadow: 0 0 10px rgba(249, 132, 26, 0.1);
+  font-weight: 700 !important;
+}
+
+.scrolled .highlightedTrainingTab {
+  color: #f9841a !important;
+  background: rgba(249, 132, 26, 0.06);
+  border: 1px solid rgba(249, 132, 26, 0.25) !important;
+}
+
+.highlightedTrainingTabMobile {
+  color: #f9841a !important;
+  font-weight: 700 !important;
+  border-bottom-color: rgba(249, 132, 26, 0.4) !important;
+  background: rgba(249, 132, 26, 0.04);
+  border-radius: 8px;
+  padding: 8px 16px !important;
+}
+
+.mobileTrainingCta {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #f9841a 0%, #ff5e62 100%);
+  padding: 12px 30px;
+  border-radius: 25px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(249, 132, 26, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-block;
+  text-decoration: none;
+}
+
+.mobileTrainingCta:hover {
+  background: linear-gradient(135deg, #ff5e62 0%, #f9841a 100%);
+  transform: translateY(-2px);
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(249, 132, 26, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(249, 132, 26, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(249, 132, 26, 0);
+  }
+}
+
+@keyframes pulseGlowRed {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 94, 98, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(255, 94, 98, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 94, 98, 0);
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1250px) {
+  .navLink {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  .navDesktop {
+    gap: 4px;
+  }
+  .ctaButton {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  .trainingCta {
+    padding: 8px 12px;
+    font-size: 12px;
+    margin-right: 4px;
+  }
 }
 
 /* Hamburger Toggle Button */

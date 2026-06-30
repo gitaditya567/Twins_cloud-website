@@ -299,3 +299,124 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Tab Selection Switcher Styling */
+.tabsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 40px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.tabBtn {
+  background: #ffffff;
+  color: #4a5568;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tabBtnActive {
+  background: #f9841a;
+  color: #ffffff;
+  border-color: #f9841a;
+  box-shadow: 0 6px 16px rgba(249, 132, 26, 0.25);
+}
+
+.tabBtn:hover:not(.tabBtnActive) {
+  background: rgba(249, 132, 26, 0.04);
+  border-color: rgba(249, 132, 26, 0.2);
+  color: #f9841a;
+  transform: translateY(-1px);
+}
+
+/* Checkbox & Addon Selection Styles */
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #4a5568;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.checkboxLabel:hover {
+  color: #0b0f19;
+}
+
+.checkboxInput {
+  accent-color: #f9841a;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* Pricing Breakdown Section in Results Card */
+.breakdownContainer {
+  margin-top: 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+  width: 100%;
+  text-align: left;
+}
+
+.breakdownTitle {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #a0aec0;
+  margin-bottom: 14px;
+  font-weight: 800;
+}
+
+.breakdownList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.breakdownItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.breakdownItemVal {
+  font-weight: 700;
+  color: #f9841a;
+}
+
+@media (max-width: 576px) {
+  .tabBtn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}

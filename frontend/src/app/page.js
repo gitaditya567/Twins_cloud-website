@@ -10,6 +10,7 @@ export default function Home() {
   const statRef = useRef(null);
   const [experienceYears, setExperienceYears] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [activeHighlightModal, setActiveHighlightModal] = useState(null);
 
 
   const rotatingWords = [
@@ -296,17 +297,56 @@ export default function Home() {
     {
       title: "Cloud Services",
       desc: "Architecting reliable, scalable and highly secure cloud environments tailored to your needs.",
-      icon: "☁️"
+      icon: "☁️",
+      details: {
+        description: "We design, build, and optimize enterprise-grade cloud environments on AWS, Azure, and Google Cloud. Our certified engineers ensure 99.9% uptime, robust security, and cost efficiency.",
+        features: [
+          "AWS Infrastructure Reselling & Cost Audits",
+          "Terraform Infrastructure as Code (IaC)",
+          "CI/CD Pipeline Automation (GitHub Actions, Jenkins)",
+          "Docker & Kubernetes Container Orchestration",
+          "24/7 Live Monitoring & Alerting systems",
+          "Database Migration & Failover Architectures"
+        ],
+        buttonText: "Request Cloud Quote",
+        buttonLink: "/rfq"
+      }
     },
     {
       title: "MERN Stack Dev",
       desc: "Full-cycle production applications built on MongoDB, Express, React, and Node.js.",
-      icon: "⚡"
+      icon: "⚡",
+      details: {
+        description: "Scale your business with customized, high-performance web applications. We leverage React, Next.js, Node.js, Express, and MongoDB to deliver SEO-compliant, secure, and responsive digital products.",
+        features: [
+          "Next.js SEO-Optimized Web Applications",
+          "High-Performance RESTful & GraphQL APIs",
+          "Secure JWT Session Management & OAuth 2.0",
+          "MongoDB Performance Tuning & Transaction Auditing",
+          "Third-Party payment gateway integrations",
+          "Real-time communication using WebSockets"
+        ],
+        buttonText: "Discuss Your Project",
+        buttonLink: "/consultation"
+      }
     },
     {
       title: "Expert Training",
       desc: "Level up your engineering teams with hands-on labs and enterprise training courses.",
-      icon: "🎓"
+      icon: "🎓",
+      details: {
+        description: "Level up your engineering squads or launch your own technology career. We offer intensive, hands-on learning courses with live AWS sandboxes and real-world industrial projects.",
+        features: [
+          "Summer, Winter, and Vocational University Programs",
+          "3 to 6-Month Developer Internships under AWS mentors",
+          "Apprenticeships aligned with Industry Frameworks",
+          "Hands-on live deployment tasks & Cloud Security lessons",
+          "Direct career placement & resume review sessions",
+          "Corporate technology upskilling bootcamps"
+        ],
+        buttonText: "Apply for Training/Internship",
+        buttonLink: "/training?apply=true"
+      }
     }
   ];
 
@@ -706,11 +746,16 @@ export default function Home() {
         </div>
         <div className={styles.grid}>
           {highlights.map((item, index) => (
-            <div key={index} className={`${styles.card} ${
-              item.title === "Cloud Services" ? styles.cardBlue :
-              item.title === "MERN Stack Dev" ? styles.cardOrange :
-              styles.cardPurple
-            }`}>
+            <div
+              key={index}
+              onClick={() => setActiveHighlightModal(item)}
+              className={`${styles.card} ${
+                item.title === "Cloud Services" ? styles.cardBlue :
+                item.title === "MERN Stack Dev" ? styles.cardOrange :
+                styles.cardPurple
+              }`}
+              style={{ cursor: "pointer" }}
+            >
               <div className={`${styles.cardIcon} ${
                 item.title === "Cloud Services" ? styles.iconBlue :
                 item.title === "MERN Stack Dev" ? styles.iconOrange :
@@ -815,6 +860,50 @@ export default function Home() {
               <div className={styles.partnerInfo}>
                 <h4>Redington</h4>
                 <p>Scalable software licensing distribution and digital logistics services.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      {/* Technologies We Use Section */}
+      <section className={styles.techSection}>
+        <div className={styles.techContainer}>
+          <div className={styles.techHeader}>
+            <span className={styles.techBadge}>Our Arsenal</span>
+            <h2 className={styles.techTitle}>Technologies We Excel In</h2>
+            <p className={styles.techSubtitle}>
+              We employ the industry's most reliable, secure, and modern technologies to design, develop, and deploy your software platforms.
+            </p>
+          </div>
+
+          <div className={styles.techSliderWrapper}>
+            {/* Row 1: Left Scrolling */}
+            <div className={styles.techMarquee}>
+              <div className={styles.techTrackLeft}>
+                {techRow1.concat(techRow1).map((tech, idx) => (
+                  <div key={idx} className={styles.techCard}>
+                    <div className={styles.techCardIcon}>
+                      {tech.icon}
+                    </div>
+                    <span className={styles.techCardName}>{tech.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Row 2: Right Scrolling */}
+            <div className={styles.techMarquee}>
+              <div className={styles.techTrackRight}>
+                {techRow2.concat(techRow2).map((tech, idx) => (
+                  <div key={idx} className={styles.techCard}>
+                    <div className={styles.techCardIcon}>
+                      {tech.icon}
+                    </div>
+                    <span className={styles.techCardName}>{tech.name}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -1142,6 +1231,212 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Highlights Details Modal */}
+      {activeHighlightModal && (
+        <div className={styles.modalOverlay} onClick={() => setActiveHighlightModal(null)}>
+          <div className={styles.modalContentCard} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.modalCloseButton} onClick={() => setActiveHighlightModal(null)} aria-label="Close modal">
+              &times;
+            </button>
+            <div className={styles.modalInner}>
+              <div className={`${styles.modalIconHeader} ${
+                activeHighlightModal.title === "Cloud Services" ? styles.modalIconBlue :
+                activeHighlightModal.title === "MERN Stack Dev" ? styles.modalIconOrange :
+                styles.modalIconPurple
+              }`}>
+                {getHighlightIcon(activeHighlightModal.title)}
+              </div>
+              <span className={`${styles.modalBadge} ${
+                activeHighlightModal.title === "Cloud Services" ? styles.modalBadgeBlue :
+                activeHighlightModal.title === "MERN Stack Dev" ? styles.modalBadgeOrange :
+                styles.modalBadgePurple
+              }`}>
+                {activeHighlightModal.title === "Cloud Services" ? "Infrastructure" :
+                 activeHighlightModal.title === "MERN Stack Dev" ? "Development" :
+                 "Training"}
+              </span>
+              <h3 className={styles.modalTitleDetail}>{activeHighlightModal.title}</h3>
+              <p className={styles.modalDescDetail}>{activeHighlightModal.details.description}</p>
+              
+              <div className={styles.modalFeaturesList}>
+                <h4>Key Capabilities:</h4>
+                <ul>
+                  {activeHighlightModal.details.features.map((feature, idx) => (
+                    <li key={idx}>
+                      <span className={styles.checkmarkIcon}>✓</span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className={styles.modalFooterActions}>
+                <Link
+                  href={activeHighlightModal.details.buttonLink}
+                  className={styles.modalActionBtn}
+                  onClick={() => setActiveHighlightModal(null)}
+                >
+                  {activeHighlightModal.details.buttonText}
+                </Link>
+                <button
+                  className={styles.modalCloseTextBtn}
+                  onClick={() => setActiveHighlightModal(null)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
+
+// Static Technology Stack Arrays for Sliding Carousel
+const techRow1 = [
+  {
+    name: "React.js",
+    icon: (
+      <svg viewBox="-11.5 -10.23174 23 20.46348" fill="none" stroke="#00d8ff" strokeWidth="1">
+        <circle cx="0" cy="0" r="2.05" fill="#00d8ff"/>
+        <g stroke="#00d8ff" strokeWidth="1" fill="none">
+          <ellipse rx="11" ry="4.2"/>
+          <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
+          <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
+        </g>
+      </svg>
+    )
+  },
+  {
+    name: "Next.js",
+    icon: (
+      <svg viewBox="0 0 180 180" fill="none" stroke="currentColor">
+        <circle cx="90" cy="90" r="90" fill="#000000"/>
+        <path d="M149.508 157.52L69.142 54H54v72h13.5V67.87l72.368 93.15c3.27-3.5 6.46-7.3 9.64-11.5z" fill="#ffffff"/>
+        <rect x="115" y="54" width="14" height="72" fill="#ffffff"/>
+      </svg>
+    )
+  },
+  {
+    name: "Node.js",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#689f63" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2L4 7v10l8 5 8-5V7L12 2z" />
+        <path d="M12 2v20" />
+        <path d="M12 12l8-5" />
+        <path d="M12 12L4 7" />
+      </svg>
+    )
+  },
+  {
+    name: "MongoDB",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#13aa52" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2c0 0-4 4-4 8 0 3 2 5 4 7 2-2 4-4 4-7 0-4-4-8-4-8z" />
+        <path d="M12 17v5" />
+        <path d="M12 2v3" />
+      </svg>
+    )
+  },
+  {
+    name: "JavaScript",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="#f7df1e">
+        <rect width="24" height="24" rx="3"/>
+        <path d="M18.8 17.2c-.4.8-1.2 1.4-2.4 1.4-1.6 0-2.6-1-2.6-2.6h1.6c0 .8.4 1.2.9 1.2.6 0 .9-.4.9-1v-4.4h1.6v4.4c0 1.6-1 2.6-2.6 2.6zM22.8 15.6c-.4 1-1.2 1.6-2.4 1.6-1.6 0-2.6-1-2.6-2.6v-2.2c0-1.6 1-2.6 2.6-2.6 1.4 0 2.2.8 2.5 1.8h-1.6c-.2-.5-.5-.8-.9-.8-.6 0-.9.4-.9 1v2.2c0 .6.3 1 .9 1 .5 0 .8-.3.9-.8h1.6z" fill="#000000"/>
+      </svg>
+    )
+  },
+  {
+    name: "HTML5",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#e34f26" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 2l1.8 18 7.2 2 7.2-2L21 2H3z" />
+        <path d="M12 6H7v4h5v4l-3-.8V12" />
+      </svg>
+    )
+  },
+  {
+    name: "CSS3",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1572b6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 2l1.8 18 7.2 2 7.2-2L21 2H3z" />
+        <path d="M17 6H7v4h10v4l-5 1.5L7 14v-2" />
+      </svg>
+    )
+  }
+];
+
+const techRow2 = [
+  {
+    name: "PHP",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#777bb4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <ellipse cx="12" cy="12" rx="10" ry="6" />
+        <path d="M8 9v6M12 9v6M16 9v6M8 12h8" />
+      </svg>
+    )
+  },
+  {
+    name: "Laravel",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#ff2d20" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 4h6v6H4V4zM14 4h6v6h-6V4zM4 14h6v6H4v-6zM14 14h6v6h-6v-6z" />
+        <path d="M10 7h4M10 17h4M7 10v4M17 10v4" />
+      </svg>
+    )
+  },
+  {
+    name: "MySQL",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#00758f" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2C6.5 2 2 4.5 2 7.5S6.5 13 12 13s10-2.5 10-5.5S17.5 2 12 2z" />
+        <path d="M2 7.5v5c0 3 4.5 5.5 10 5.5s10-2.5 10-5.5v-5" />
+        <path d="M2 12.5v5c0 3 4.5 5.5 10 5.5s10-2.5 10-5.5v-5" />
+      </svg>
+    )
+  },
+  {
+    name: "AWS",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#ff9900" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M6 14c2-3 5-3 7 0M4 17h16M18 14l2 3-2 1" />
+      </svg>
+    )
+  },
+  {
+    name: "Python",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#3776ab" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2v8a2 2 0 0 1-2 2H2v2a4 4 0 0 0 4 4h6v-8a2 2 0 0 1 2-2h8v-2a4 4 0 0 0-4-4h-6z" />
+        <path d="M12 22v-8a2 2 0 0 1 2-2h8v-2a4 4 0 0 0-4-4h-6v8a2 2 0 0 1-2 2H2v2a4 4 0 0 0 4 4h6z" opacity="0.5" />
+      </svg>
+    )
+  },
+  {
+    name: "Docker",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#2496ed" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 11.5c-1 0-2.5.5-2.5 1.5 0 2.5-2 4.5-4.5 4.5H4C2 17.5 1 16 1 14.5c0-1 .5-2 1.5-2h19.5z" />
+        <rect x="4" y="8" width="3" height="3" rx="0.5" />
+        <rect x="8" y="8" width="3" height="3" rx="0.5" />
+        <rect x="12" y="8" width="3" height="3" rx="0.5" />
+        <rect x="8" y="4" width="3" height="3" rx="0.5" />
+      </svg>
+    )
+  },
+  {
+    name: "Git",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#f05032" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="5" r="2.5" />
+        <circle cx="12" cy="19" r="2.5" />
+        <circle cx="5" cy="12" r="2.5" />
+        <path d="M12 7.5v9M5 12h4.5" />
+      </svg>
+    )
+  }
+];
+

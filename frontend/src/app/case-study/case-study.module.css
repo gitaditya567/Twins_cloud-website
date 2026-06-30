@@ -187,6 +187,12 @@
   border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
+.metaPhp {
+  background: rgba(119, 123, 180, 0.15);
+  color: #6166a2;
+  border: 1px solid rgba(119, 123, 180, 0.25);
+}
+
 .metaEdu {
   background: rgba(0, 112, 243, 0.1);
   color: #0070f3;
@@ -369,6 +375,49 @@
   background: rgba(0, 0, 0, 0.04);
   padding: 4px 10px;
   border-radius: 50px;
+}
+
+/* Featured Tech Stack */
+.techStackContainer {
+  margin-top: 24px;
+  background: rgba(249, 132, 26, 0.03);
+  border: 1px solid rgba(249, 132, 26, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.techStackContainer h4 {
+  font-size: 13.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #0b0f19;
+  margin-bottom: 12px;
+}
+
+.techBadgeGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.techBadgeHighlight {
+  font-size: 12px;
+  font-weight: 700;
+  color: #f9841a;
+  background: rgba(249, 132, 26, 0.08);
+  border: 1px solid rgba(249, 132, 26, 0.2);
+  padding: 5px 12px;
+  border-radius: 50px;
+  transition: all 0.25s ease;
+  cursor: default;
+}
+
+.techBadgeHighlight:hover {
+  background: #f9841a;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(249, 132, 26, 0.2);
 }
 
 /* Responsiveness */

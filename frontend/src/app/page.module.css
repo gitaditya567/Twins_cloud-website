@@ -2773,3 +2773,456 @@
     height: 45px;
   }
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Highlights Details Modal Styling */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(10, 10, 14, 0.7);
+  backdrop-filter: blur(16px);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modalContentCard {
+  background: #ffffff;
+  border-radius: 24px;
+  max-width: 580px;
+  width: 100%;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modalCloseButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.04);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #4a5568;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.modalCloseButton:hover {
+  background: rgba(249, 132, 26, 0.1);
+  color: #f9841a;
+  transform: rotate(90deg);
+}
+
+.modalInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.modalIconHeader {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.2);
+}
+
+.modalIconBlue {
+  background: linear-gradient(135deg, rgba(0, 112, 243, 0.1) 0%, rgba(0, 112, 243, 0.15) 100%);
+  color: #0070f3;
+  border: 1px solid rgba(0, 112, 243, 0.2);
+}
+
+.modalIconOrange {
+  background: linear-gradient(135deg, rgba(249, 132, 26, 0.1) 0%, rgba(249, 132, 26, 0.15) 100%);
+  color: #f9841a;
+  border: 1px solid rgba(249, 132, 26, 0.2);
+}
+
+.modalIconPurple {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(124, 58, 237, 0.15) 100%);
+  color: #7c3aed;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.modalIconHeader svg {
+  width: 36px;
+  height: 36px;
+}
+
+.modalBadge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.modalBadgeBlue {
+  background: rgba(0, 112, 243, 0.08);
+  color: #0070f3;
+  border: 1px solid rgba(0, 112, 243, 0.15);
+}
+
+.modalBadgeOrange {
+  background: rgba(249, 132, 26, 0.08);
+  color: #f9841a;
+  border: 1px solid rgba(249, 132, 26, 0.15);
+}
+
+.modalBadgePurple {
+  background: rgba(124, 58, 237, 0.08);
+  color: #7c3aed;
+  border: 1px solid rgba(124, 58, 237, 0.15);
+}
+
+.modalTitleDetail {
+  font-size: 28px;
+  font-weight: 800;
+  color: #0b0f19;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+
+.modalDescDetail {
+  font-size: 15px;
+  color: #4a5568;
+  line-height: 1.6;
+  margin-bottom: 28px;
+  max-width: 480px;
+}
+
+.modalFeaturesList {
+  width: 100%;
+  text-align: left;
+  background: #f7fafc;
+  border: 1px solid #edf2f7;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.modalFeaturesList h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modalFeaturesList ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.modalFeaturesList li {
+  font-size: 14px;
+  color: #4a5568;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.4;
+}
+
+.checkmarkIcon {
+  color: #10b981;
+  font-weight: bold;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.modalFooterActions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.modalActionBtn {
+  background: #f9841a;
+  color: #ffffff;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(249, 132, 26, 0.25);
+  transition: all 0.3s ease;
+  min-width: 180px;
+}
+
+.modalActionBtn:hover {
+  background: #e2700f;
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 20px rgba(249, 132, 26, 0.35);
+}
+
+.modalCloseTextBtn {
+  background: transparent;
+  border: 1px solid #cbd5e0;
+  color: #4a5568;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.modalCloseTextBtn:hover {
+  background: rgba(0, 0, 0, 0.02);
+  color: #2d3748;
+  border-color: #a0aec0;
+}
+
+@media (max-width: 576px) {
+  .modalContentCard {
+    padding: 30px 20px;
+  }
+  .modalTitleDetail {
+    font-size: 22px;
+  }
+  .modalFeaturesList {
+    padding: 16px;
+  }
+  .modalFooterActions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .modalActionBtn, .modalCloseTextBtn {
+    width: 100%;
+  }
+}
+
+/* Technologies We Use Section */
+.techSection {
+  padding: 100px 0;
+  background: #ffffff;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.techContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.techHeader {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.techBadge {
+  background: rgba(0, 112, 243, 0.08);
+  color: #0070f3;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(0, 112, 243, 0.2);
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.techTitle {
+  font-size: 42px;
+  font-weight: 800;
+  color: #0b0f19;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.techSubtitle {
+  color: #4a5568;
+  font-size: 18px;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Slider Track Wrappers */
+.techSliderWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+  width: 100%;
+  position: relative;
+}
+
+/* Left & Right fading overlay masks for premium look */
+.techSliderWrapper::before,
+.techSliderWrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.techSliderWrapper::before {
+  left: 0;
+  background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.techSliderWrapper::after {
+  right: 0;
+  background: linear-gradient(270deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.techMarquee {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: 20px;
+  width: 100%;
+}
+
+.techTrackLeft {
+  display: flex;
+  gap: 20px;
+  animation: scrollLeft 35s linear infinite;
+  min-width: 100%;
+}
+
+.techTrackRight {
+  display: flex;
+  gap: 20px;
+  animation: scrollRight 35s linear infinite;
+  min-width: 100%;
+}
+
+.techMarquee:hover .techTrackLeft,
+.techMarquee:hover .techTrackRight {
+  animation-play-state: paused;
+}
+
+.techCard {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  padding: 16px 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.techCardIcon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.techCardIcon svg {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.techCardName {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0b0f19;
+}
+
+/* Card hover glow and scale */
+.techCard:hover {
+  transform: translateY(-4px) scale(1.03);
+  border-color: rgba(249, 132, 26, 0.3);
+  box-shadow: 0 10px 25px rgba(249, 132, 26, 0.1);
+}
+
+.techCard:hover .techCardIcon svg {
+  transform: rotate(8deg) scale(1.1);
+}
+
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scrollRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+@media (max-width: 768px) {
+  .techTitle {
+    font-size: 32px;
+  }
+  .techSubtitle {
+    font-size: 15px;
+  }
+  .techSliderWrapper::before,
+  .techSliderWrapper::after {
+    width: 60px;
+  }
+}

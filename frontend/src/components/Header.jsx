@@ -68,10 +68,10 @@ export default function Header() {
           <div className={styles.logoWrapper}>
             <Link href="/" onClick={() => setMenuOpen(false)}>
               <Image
-                src="/logo-new.png"
+                src={showSolidHeader && !menuOpen ? "/logo-new-dark.png" : "/logo-new-light.png"}
                 alt="TwinsCloud Logo"
-                width={248}
-                height={202}
+                width={716}
+                height={546}
                 className={`${styles.logoImage} ${menuOpen ? styles.logoActive : ""}`}
                 priority
               />

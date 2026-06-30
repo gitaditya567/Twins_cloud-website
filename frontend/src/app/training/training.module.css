@@ -67,6 +67,39 @@
   align-items: center;
 }
 
+.headerCtaContainer {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.headerApplyBtn {
+  background: linear-gradient(135deg, #f9841a 0%, #ff5e62 100%);
+  color: #ffffff;
+  padding: 14px 36px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(249, 132, 26, 0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerApplyBtn:hover {
+  background: linear-gradient(135deg, #ff5e62 0%, #f9841a 100%);
+  transform: translateY(-2.5px);
+  box-shadow: 0 12px 30px rgba(249, 132, 26, 0.55);
+}
+
+.headerApplyBtn:active {
+  transform: translateY(-0.5px);
+}
+
 .trainingBadge {
   background: rgba(249, 132, 26, 0.1);
   color: #f9841a;

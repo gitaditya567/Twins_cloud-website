@@ -119,6 +119,19 @@ export default function CaseStudyPage() {
                   <li>AWS-based deployment featuring automated backup guardrails and data encryption at rest.</li>
                 </ul>
               </div>
+
+              <div className={styles.techStackContainer}>
+                <h4>Technologies &amp; Architecture:</h4>
+                <div className={styles.techBadgeGrid}>
+                  <span className={styles.techBadgeHighlight}>React.js</span>
+                  <span className={styles.techBadgeHighlight}>Node.js</span>
+                  <span className={styles.techBadgeHighlight}>Express.js</span>
+                  <span className={styles.techBadgeHighlight}>MongoDB</span>
+                  <span className={styles.techBadgeHighlight}>AWS EC2 &amp; S3</span>
+                  <span className={styles.techBadgeHighlight}>JWT Security</span>
+                  <span className={styles.techBadgeHighlight}>Mongoose ORM</span>
+                </div>
+              </div>
             </div>
 
             {/* Right Images Column */}
@@ -185,6 +198,20 @@ export default function CaseStudyPage() {
                   <li>Continuous monthly cloud maintenance, caching rules, and asset optimization, resulting in 99.9% uptime.</li>
                 </ul>
               </div>
+
+              <div className={styles.techStackContainer}>
+                <h4>Technologies &amp; Architecture:</h4>
+                <div className={styles.techBadgeGrid}>
+                  <span className={styles.techBadgeHighlight}>React.js</span>
+                  <span className={styles.techBadgeHighlight}>Node.js</span>
+                  <span className={styles.techBadgeHighlight}>Express.js</span>
+                  <span className={styles.techBadgeHighlight}>MongoDB</span>
+                  <span className={styles.techBadgeHighlight}>Stripe API</span>
+                  <span className={styles.techBadgeHighlight}>Razorpay API</span>
+                  <span className={styles.techBadgeHighlight}>Nginx &amp; PM2</span>
+                  <span className={styles.techBadgeHighlight}>AWS Cloud</span>
+                </div>
+              </div>
             </div>
 
             {/* Right Images Column */}
@@ -239,6 +266,19 @@ export default function CaseStudyPage() {
                   <li>Deployed on auto-scaling AWS structures, successfully managing over 50,000 daily registrations.</li>
                 </ul>
               </div>
+
+              <div className={styles.techStackContainer}>
+                <h4>Technologies &amp; Architecture:</h4>
+                <div className={styles.techBadgeGrid}>
+                  <span className={styles.techBadgeHighlight}>React.js</span>
+                  <span className={styles.techBadgeHighlight}>Node.js</span>
+                  <span className={styles.techBadgeHighlight}>Express.js</span>
+                  <span className={styles.techBadgeHighlight}>MongoDB</span>
+                  <span className={styles.techBadgeHighlight}>AWS Auto Scaling</span>
+                  <span className={styles.techBadgeHighlight}>OTP Service Integration</span>
+                  <span className={styles.techBadgeHighlight}>CloudWatch Metrics</span>
+                </div>
+              </div>
             </div>
 
             {/* Right Images Column */}
@@ -260,7 +300,7 @@ export default function CaseStudyPage() {
         {/* Featured Case Study 4: Design & Vision (D&V '25) Awards */}
         <section className={styles.featuredSection}>
           <div className={styles.featuredMeta}>
-            <span className={`${styles.metaBadge} ${styles.metaMern}`}>MERN Stack</span>
+            <span className={`${styles.metaBadge} ${styles.metaPhp}`}>PHP Stack</span>
             <span className={`${styles.metaBadge} ${styles.metaGov}`}>E-Commerce</span>
             <span className={`${styles.metaBadge} ${styles.metaEdu}`}>Admin Panel</span>
           </div>
@@ -280,7 +320,7 @@ export default function CaseStudyPage() {
               <div className={styles.contentBlock}>
                 <h3>The Solution</h3>
                 <p>
-                  We designed and deployed a comprehensive MERN-stack event portal. We built an online e-commerce book store and ticket checkout flow, resolving critical checkout and loading bottlenecks. Multiple payment gateways (Razorpay, Stripe) were integrated with absolute currency scaling. A secure admin console was built to help managers track registrations, invoice summaries, and sales metrics, backed by continuous site maintenance audits.
+                  We designed and deployed a comprehensive PHP-based event portal. We built an online e-commerce book store and ticket checkout flow, resolving critical checkout and loading bottlenecks. Multiple payment gateways (Razorpay, Stripe) were integrated with absolute currency scaling. A secure admin console was built to help managers track registrations, invoice summaries, and sales metrics, backed by continuous site maintenance audits.
                 </p>
               </div>
 
@@ -292,6 +332,19 @@ export default function CaseStudyPage() {
                   <li>Custom administrative analytics panel tracking delegate registration metrics in real-time.</li>
                   <li>Overhauled UI/UX layout alignment for high readability and premium branding depth.</li>
                 </ul>
+              </div>
+
+              <div className={styles.techStackContainer}>
+                <h4>Technologies &amp; Architecture:</h4>
+                <div className={styles.techBadgeGrid}>
+                  <span className={styles.techBadgeHighlight}>PHP</span>
+                  <span className={styles.techBadgeHighlight}>MySQL Database</span>
+                  <span className={styles.techBadgeHighlight}>Laravel Framework</span>
+                  <span className={styles.techBadgeHighlight}>Apache / Nginx</span>
+                  <span className={styles.techBadgeHighlight}>Razorpay SDK</span>
+                  <span className={styles.techBadgeHighlight}>Stripe SDK</span>
+                  <span className={styles.techBadgeHighlight}>AWS Hosting</span>
+                </div>
               </div>
             </div>
 

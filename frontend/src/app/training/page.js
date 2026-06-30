@@ -195,6 +195,14 @@ export default function TrainingPage() {
           <p className={styles.trainingSubtitle}>
             Bridge the gap between computer science theory and real-world software engineering with our structured internships and cloud architectures modules.
           </p>
+          <div className={styles.headerCtaContainer}>
+            <button onClick={() => setShowApplyModal(true)} className={styles.headerApplyBtn}>
+              Apply for Training / Internship
+              <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" style={{ marginLeft: "6px" }}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </button>
+          </div>
         </header>
 
         {/* Stats metrics */}

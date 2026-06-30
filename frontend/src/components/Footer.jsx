@@ -98,9 +98,9 @@ export default function Footer() {
             <div className={styles.logoWrapper}>
               <Link href="/">
                 <Image
-                  src="/logo-new.png"
+                  src="/logo-new-light.png"
                   alt="TwinsCloud Logo"
-                  width={150}
+                  width={160}
                   height={122}
                   className={styles.logoImage}
                 />
