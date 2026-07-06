@@ -51,7 +51,7 @@ export default function AdminPage() {
     try {
       const endpoint = tabName || activeTab;
       // Note: posts route is public, but admin dashboard fetches it using auth just for simplicity
-      const urlPath = endpoint === "posts" ? "http://localhost:5000/api/posts" : `http://localhost:5000/api/admin/${endpoint}`;
+      const urlPath = endpoint === "posts" ? "http://localhost:5050/api/posts" : `http://localhost:5050/api/admin/${endpoint}`;
       
       const response = await fetch(urlPath, {
         headers: {
@@ -92,7 +92,7 @@ export default function AdminPage() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:5000/api/admin/login", {
+      const response = await fetch("http://localhost:5050/api/admin/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -129,7 +129,7 @@ export default function AdminPage() {
 
   const updateStatus = async (id, newStatus, type) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/${type}/${id}`, {
+      const response = await fetch(`http://localhost:5050/api/admin/${type}/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -184,8 +184,8 @@ export default function AdminPage() {
 
     const method = editingPostId ? "PUT" : "POST";
     const url = editingPostId 
-      ? `http://localhost:5000/api/admin/posts/${editingPostId}`
-      : "http://localhost:5000/api/admin/posts";
+      ? `http://localhost:5050/api/admin/posts/${editingPostId}`
+      : "http://localhost:5050/api/admin/posts";
 
     try {
       const response = await fetch(url, {
@@ -214,7 +214,7 @@ export default function AdminPage() {
     if (!window.confirm("Are you sure you want to delete this blog post?")) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/posts/${id}`, {
+      const response = await fetch(`http://localhost:5050/api/admin/posts/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

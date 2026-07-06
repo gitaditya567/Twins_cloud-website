@@ -507,7 +507,7 @@ export default function Home() {
               <strong>TwinsCloud Private Limited</strong> is a premier cloud engineering partner. Our vision is to become the world’s leading Cloud Consulting company, delivering unmatched business value to our customers with the highest level of satisfaction.
             </p>
             <p className={styles.visionText}>
-              The <strong>TwinsCloud AWS Channel Reseller Program</strong> enables qualified partners to resell AWS services to both commercial and public sector end customers. We systematically help our customers reduce operational expenses and scale effectively.
+              The <strong><Link href="/service" style={{ color: "inherit", textDecoration: "underline" }}>TwinsCloud AWS Channel Reseller Program</Link></strong> enables qualified partners to resell AWS services to both commercial and public sector end customers. We systematically help our customers reduce operational expenses and scale effectively.
             </p>
             <Link href="/about" className={styles.knowMoreBtn}>
               Know More <span className={styles.knowMoreArrow}>→</span>
@@ -523,7 +523,8 @@ export default function Home() {
               </div>
               <Image
                 src="/cloud-illustration.png"
-                alt="TwinsCloud Infrastructure Illustration"
+                alt="TwinsCloud AWS Cloud Infrastructure and Managed DevOps Solutions Illustration"
+                title="TwinsCloud AWS Cloud Infrastructure and Managed DevOps Solutions"
                 width={540}
                 height={540}
                 className={styles.illustrationImage}
@@ -797,15 +798,18 @@ export default function Home() {
           <div className={styles.partnersGrid}>
             {/* AWS Partner */}
             <div className={`${styles.partnerCard} ${styles.partnerAws}`}>
-              <div className={styles.partnerLogoWrapper}>
-                <Image
-                  src="/partner-aws.png"
-                  alt="AWS Partner Logo"
-                  width={150}
-                  height={60}
-                  className={styles.partnerLogoImage}
-                />
-              </div>
+              <a href="https://aws.amazon.com/" target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', textDecoration: 'none' }}>
+                <div className={styles.partnerLogoWrapper}>
+                  <Image
+                    src="/partner-aws.png"
+                    alt="AWS Consulting Partner Logo - TwinsCloud Collaboration"
+                    title="AWS Consulting Partner - TwinsCloud Collaboration"
+                    width={150}
+                    height={60}
+                    className={styles.partnerLogoImage}
+                  />
+                </div>
+              </a>
               <div className={styles.partnerInfo}>
                 <h4>AWS Consulting Partner</h4>
                 <p>Advanced cloud architecting, secure scaling, and lifecycle operations.</p>
@@ -814,15 +818,18 @@ export default function Home() {
 
             {/* CloudBerry Lab */}
             <div className={`${styles.partnerCard} ${styles.partnerCloudberry}`}>
-              <div className={styles.partnerLogoWrapper}>
-                <Image
-                  src="/partner-cloudberry.png"
-                  alt="CloudBerry Lab Logo"
-                  width={150}
-                  height={60}
-                  className={styles.partnerLogoImage}
-                />
-              </div>
+              <a href="https://www.msp360.com/" target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', textDecoration: 'none' }}>
+                <div className={styles.partnerLogoWrapper}>
+                  <Image
+                    src="/partner-cloudberry.png"
+                    alt="CloudBerry Lab Partner Logo - Secure Backup Solutions"
+                    title="CloudBerry Lab Partner - Secure Backup Solutions"
+                    width={150}
+                    height={60}
+                    className={styles.partnerLogoImage}
+                  />
+                </div>
+              </a>
               <div className={styles.partnerInfo}>
                 <h4>CloudBerry Lab</h4>
                 <p>Resilient cloud storage, server backup, and data lifecycle management.</p>
@@ -831,15 +838,18 @@ export default function Home() {
 
             {/* Trend Micro */}
             <div className={`${styles.partnerCard} ${styles.partnerTrend}`}>
-              <div className={styles.partnerLogoWrapper}>
-                <Image
-                  src="/partner-trend.png"
-                  alt="Trend Micro Logo"
-                  width={150}
-                  height={60}
-                  className={styles.partnerLogoImage}
-                />
-              </div>
+              <a href="https://www.trendmicro.com/" target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', textDecoration: 'none' }}>
+                <div className={styles.partnerLogoWrapper}>
+                  <Image
+                    src="/partner-trend.png"
+                    alt="Trend Micro Security Partner Logo - TwinsCloud Audit Protection"
+                    title="Trend Micro Security Partner - TwinsCloud Audit Protection"
+                    width={150}
+                    height={60}
+                    className={styles.partnerLogoImage}
+                  />
+                </div>
+              </a>
               <div className={styles.partnerInfo}>
                 <h4>Trend Micro</h4>
                 <p>Enterprise cloud security audits, proactive shielding, and threat management.</p>
@@ -848,15 +858,18 @@ export default function Home() {
 
             {/* Redington */}
             <div className={`${styles.partnerCard} ${styles.partnerRedington}`}>
-              <div className={styles.partnerLogoWrapper}>
-                <Image
-                  src="/partner-redington.png"
-                  alt="Redington Logo"
-                  width={150}
-                  height={60}
-                  className={styles.partnerLogoImage}
-                />
-              </div>
+              <a href="https://redingtongroup.com/" target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', textDecoration: 'none' }}>
+                <div className={styles.partnerLogoWrapper}>
+                  <Image
+                    src="/partner-redington.png"
+                    alt="Redington Partner Logo - TwinsCloud Supply and Deployment Reseller"
+                    title="Redington Partner - TwinsCloud Supply and Deployment Reseller"
+                    width={150}
+                    height={60}
+                    className={styles.partnerLogoImage}
+                  />
+                </div>
+              </a>
               <div className={styles.partnerInfo}>
                 <h4>Redington</h4>
                 <p>Scalable software licensing distribution and digital logistics services.</p>

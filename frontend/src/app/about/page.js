@@ -2,6 +2,14 @@ import React from "react";
 import Image from "next/image";
 import styles from "./about.module.css";
 
+export const metadata = {
+  title: "About Us",
+  description: "Learn about TwinsCloud Private Limited, our mission, our values, and the expert team delivering enterprise cloud solutions, DevOps, and custom MERN development.",
+  alternates: {
+    canonical: "/about"
+  }
+};
+
 export default function AboutPage() {
   return (
     <div className={styles.aboutPage}>
@@ -45,7 +53,8 @@ export default function AboutPage() {
             <div className={styles.illustrationWrapper}>
               <Image
                 src="/about-illustration-v2.png"
-                alt="Corporate Cloud Illustration"
+                alt="TwinsCloud Corporate Cloud Solutions and Infrastructure Engineering Illustration"
+                title="TwinsCloud Corporate Cloud Solutions and Infrastructure Engineering"
                 fill
                 sizes="(max-width: 768px) 100vw, 320px"
                 className={styles.illustrationImage}

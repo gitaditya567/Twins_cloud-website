@@ -69,7 +69,8 @@ export default function Header() {
             <Link href="/" onClick={() => setMenuOpen(false)}>
               <Image
                 src={showSolidHeader && !menuOpen ? "/logo-new-dark.png" : "/logo-new-light.png"}
-                alt="TwinsCloud Logo"
+                alt="TwinsCloud Private Limited - Premium Cloud Solutions & Training Logo"
+                title="TwinsCloud Private Limited - Premium Cloud Solutions & Training Logo"
                 width={716}
                 height={546}
                 className={`${styles.logoImage} ${menuOpen ? styles.logoActive : ""}`}

@@ -16,7 +16,7 @@ export default function Footer() {
 
     setSubmitting(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/newsletter/subscribe`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050'}/api/newsletter/subscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +99,8 @@ export default function Footer() {
               <Link href="/">
                 <Image
                   src="/logo-new-light.png"
-                  alt="TwinsCloud Logo"
+                  alt="TwinsCloud Private Limited - Premium Cloud Solutions & Training Logo"
+                  title="TwinsCloud Private Limited - Premium Cloud Solutions & Training Logo"
                   width={160}
                   height={122}
                   className={styles.logoImage}
