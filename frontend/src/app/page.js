@@ -401,7 +401,7 @@ export default function Home() {
             <Link href="/training?apply=true" className={styles.trainingBtn}>
               🎓 Training & Internship
             </Link>
-            <Link href="/rfq" className={styles.secondaryBtn}>
+            <Link href="/rfq" className={styles.primaryBtn}>
               Request a Quote
             </Link>
           </div>
