@@ -1883,13 +1883,34 @@
   max-width: 700px;
 }
 
-/* Grid: 3 columns for 6 items (3x2 layout) */
-.teamGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  max-width: 1200px;
-  margin: 0 auto;
+/* Team Marquee Continuous Scroll (Right to Left) */
+.teamMarqueeWrapper {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  padding: 20px 0;
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+
+.teamMarqueeTrack {
+  display: flex;
+  gap: 28px;
+  width: max-content;
+  animation: teamScrollLeft 32s linear infinite;
+}
+
+.teamMarqueeTrack:hover {
+  animation-play-state: paused;
+}
+
+@keyframes teamScrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .teamCard {
@@ -1900,8 +1921,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  flex: 0 0 280px;
+  width: 280px;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
 }
 
 .teamImageWrapper {
@@ -1958,8 +1981,17 @@
 }
 
 .teamCard p {
-  font-size: 14px;
-  color: #718096;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 5px 12px;
+  border-radius: 8px;
+  margin-top: 6px;
+  display: inline-block;
+  letter-spacing: 0.2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 /* Hover Zoom Actions */
@@ -1978,6 +2010,11 @@
   background: rgba(249, 132, 26, 0.1);
   color: #f9841a;
 }
+.teamCardOrange p {
+  color: #ea580c;
+  background: #fff7ed;
+  border: 1px solid #ffedd5;
+}
 .teamCardOrange:hover {
   border-color: rgba(249, 132, 26, 0.25);
   box-shadow: 0 20px 40px rgba(249, 132, 26, 0.12);
@@ -1994,6 +2031,11 @@
 .tagBlue {
   background: rgba(0, 112, 243, 0.1);
   color: #0070f3;
+}
+.teamCardBlue p {
+  color: #0284c7;
+  background: #f0f9ff;
+  border: 1px solid #e0f2fe;
 }
 .teamCardBlue:hover {
   border-color: rgba(0, 112, 243, 0.25);
@@ -2012,6 +2054,11 @@
   background: rgba(99, 102, 241, 0.1);
   color: #6366f1;
 }
+.teamCardPurple p {
+  color: #7c3aed;
+  background: #f5f3ff;
+  border: 1px solid #ddd6fe;
+}
 .teamCardPurple:hover {
   border-color: rgba(99, 102, 241, 0.25);
   box-shadow: 0 20px 40px rgba(99, 102, 241, 0.12);
@@ -2029,6 +2076,11 @@
   background: rgba(20, 184, 166, 0.1);
   color: #14b8a6;
 }
+.teamCardTeal p {
+  color: #0d9488;
+  background: #f0fdf4;
+  border: 1px solid #ccfbf1;
+}
 .teamCardTeal:hover {
   border-color: rgba(20, 184, 166, 0.25);
   box-shadow: 0 20px 40px rgba(20, 184, 166, 0.12);
@@ -2045,6 +2097,11 @@
 .tagGray {
   background: rgba(113, 128, 150, 0.1);
   color: #718096;
+}
+.teamCardGray p {
+  color: #475569;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
 }
 .teamCardGray:hover {
   border-color: rgba(113, 128, 150, 0.25);

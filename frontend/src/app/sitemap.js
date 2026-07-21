@@ -14,7 +14,8 @@ export default async function sitemap() {
     "/rfq",
     "/consultation",
     "/calculator",
-    "/blog",
+    "/terms-of-service",
+    "/privacy-policy",
   ];
 
   const staticUrls = staticRoutes.map((route) => ({

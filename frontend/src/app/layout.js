@@ -84,7 +84,10 @@ const jsonLd = {
     "contactType": "customer service"
   },
   "sameAs": [
-    "https://www.linkedin.com/company/twinscloud"
+    "https://www.linkedin.com/in/twinscloud-private-limited-66561a234/",
+    "https://www.instagram.com/officialtwinscloud/",
+    "https://www.facebook.com/Tiwnscloud/",
+    "https://github.com/Twinscloud18"
   ]
 };
 

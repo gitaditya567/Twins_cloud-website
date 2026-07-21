@@ -1021,160 +1021,174 @@ export default function Home() {
             </p>
           </div>
 
-          <div className={styles.teamGrid}>
-            {/* Specialist 1: Prem Srivastava */}
-            <div className={`${styles.teamCard} ${styles.teamCardOrange}`}>
-              <div className={styles.teamImageWrapper}>
-                <Image
-                  src="/team-prem.png"
-                  alt="Prem srivastava"
-                  width={400}
-                  height={400}
-                  className={styles.teamImage}
-                  priority
-                />
-                <div className={styles.teamCardGlow} />
-              </div>
-              <div className={styles.teamInfo}>
-                <span className={`${styles.teamTag} ${styles.tagOrange}`}>AWS Cloud</span>
-                <h3>Prem srivastava</h3>
-                <p>Aws Sr. solution architect</p>
-              </div>
-            </div>
-
-            {/* Specialist 2: Akash Dakave */}
-            <div className={`${styles.teamCard} ${styles.teamCardPurple}`}>
-              <div className={styles.teamImageWrapper}>
-                <Image
-                  src="/team-akash.png"
-                  alt="Akash Dakave"
-                  width={400}
-                  height={400}
-                  className={styles.teamImage}
-                />
-                <div className={styles.teamCardGlow} />
-              </div>
-              <div className={styles.teamInfo}>
-                <span className={`${styles.teamTag} ${styles.tagPurple}`}>DevOps / CI-CD</span>
-                <h3>Akash Dakave</h3>
-                <p>Aws DevOps Engineer</p>
-              </div>
-            </div>
-
-            {/* Specialist 3: Aditya Sharma */}
-            <div className={`${styles.teamCard} ${styles.teamCardBlue}`}>
-              <div className={styles.teamImageWrapper}>
-                <Image
-                  src="/team-aditya.jpg"
-                  alt="Aditya Sharma"
-                  width={400}
-                  height={400}
-                  className={styles.teamImage}
-                  style={{ objectPosition: "top" }}
-                />
-                <div className={styles.teamCardGlow} />
-              </div>
-              <div className={styles.teamInfo}>
-                <span className={`${styles.teamTag} ${styles.tagBlue}`}>MERN Developer</span>
-                <h3>Aditya Sharma</h3>
-                <p>Full stack developer</p>
-              </div>
-            </div>
-
-            {/* Specialist 4: Ravikant */}
-            <div className={`${styles.teamCard} ${styles.teamCardBlue}`}>
-              <div className={styles.teamImageWrapper}>
-                <Image
-                  src="/team-ravikant.png"
-                  alt="Ravikant"
-                  width={400}
-                  height={400}
-                  className={styles.teamImage}
-                />
-                <div className={styles.teamCardGlow} />
-              </div>
-              <div className={styles.teamInfo}>
-                <span className={`${styles.teamTag} ${styles.tagBlue}`}>Full Stack</span>
-                <h3>Ravikant</h3>
-                <p>Sr. Software Engineer</p>
-              </div>
-            </div>
-
-            {/* Specialist 5: Prince Pandey */}
-            <div className={`${styles.teamCard} ${styles.teamCardTeal}`}>
-              <div className={styles.teamImageWrapper}>
-                <Image
-                  src="/team-prince.png"
-                  alt="Prince Pandey"
-                  width={400}
-                  height={400}
-                  className={styles.teamImage}
-                />
-                <div className={styles.teamCardGlow} />
-              </div>
-              <div className={styles.teamInfo}>
-                <span className={`${styles.teamTag} ${styles.tagTeal}`}>Team Lead</span>
-                <h3>Prince Pandey</h3>
-                <p>Development team head</p>
-              </div>
-            </div>
-
-            {/* Specialist 6: Mr. Ansh */}
-            <div className={`${styles.teamCard} ${styles.teamCardGray}`}>
-              <div className={styles.teamImageWrapper}>
-                <Image
-                  src="/team-ansh.png"
-                  alt="Mr. Ansh"
-                  width={400}
-                  height={400}
-                  className={styles.teamImage}
-                />
-                <div className={styles.teamCardGlow} />
-              </div>
-              <div className={styles.teamInfo}>
-                <span className={`${styles.teamTag} ${styles.tagGray}`}>Cloud Trainee</span>
-                <h3>Mr. Ansh</h3>
-                <p>Server/Cloud trainee</p>
-              </div>
-            </div>
-
-            {/* Specialist 7: Ram Ji */}
-            <div className={`${styles.teamCard} ${styles.teamCardOrange}`}>
-              <div className={styles.teamImageWrapper}>
-                <Image
-                  src="/team-ram.png"
-                  alt="Ram Ji"
-                  width={400}
-                  height={400}
-                  className={styles.teamImage}
-                />
-                <div className={styles.teamCardGlow} />
-              </div>
-              <div className={styles.teamInfo}>
-                <span className={`${styles.teamTag} ${styles.tagOrange}`}>Web Developer</span>
-                <h3>Ram Ji</h3>
-                <p>Web Developer</p>
-              </div>
-            </div>
-
-            {/* Specialist 8: Aastha Tripathi */}
-            <div className={`${styles.teamCard} ${styles.teamCardPurple}`}>
-              <div className={styles.teamImageWrapper}>
-                <Image
-                  src="/team-aastha.jpg"
-                  alt="Aastha Tripathi"
-                  width={400}
-                  height={400}
-                  className={styles.teamImage}
-                  style={{ objectPosition: "top" }}
-                />
-                <div className={styles.teamCardGlow} />
-              </div>
-              <div className={styles.teamInfo}>
-                <span className={`${styles.teamTag} ${styles.tagPurple}`}>Software Trainee</span>
-                <h3>Aastha Tripathi</h3>
-                <p>Software Trainee</p>
-              </div>
+          <div className={styles.teamMarqueeWrapper}>
+            <div className={styles.teamMarqueeTrack}>
+              {[
+                {
+                  name: "Prem srivastava",
+                  role: "Aws Sr. solution architect",
+                  tag: "AWS Cloud",
+                  tagClass: styles.tagOrange,
+                  cardClass: styles.teamCardOrange,
+                  img: "/team-prem.png",
+                  objectPosition: "center"
+                },
+                {
+                  name: "Akash Dakave",
+                  role: "Aws DevOps Engineer",
+                  tag: "DevOps / CI-CD",
+                  tagClass: styles.tagPurple,
+                  cardClass: styles.teamCardPurple,
+                  img: "/team-akash.png",
+                  objectPosition: "center"
+                },
+                {
+                  name: "Aditya Sharma",
+                  role: "Full stack developer",
+                  tag: "MERN Developer",
+                  tagClass: styles.tagBlue,
+                  cardClass: styles.teamCardBlue,
+                  img: "/team-aditya.jpg",
+                  objectPosition: "top"
+                },
+                {
+                  name: "Ravikant",
+                  role: "Sr. Software Engineer",
+                  tag: "Full Stack",
+                  tagClass: styles.tagBlue,
+                  cardClass: styles.teamCardBlue,
+                  img: "/team-ravikant.png",
+                  objectPosition: "center"
+                },
+                {
+                  name: "Prince Pandey",
+                  role: "Development team head",
+                  tag: "Team Lead",
+                  tagClass: styles.tagTeal,
+                  cardClass: styles.teamCardTeal,
+                  img: "/team-prince.png",
+                  objectPosition: "center"
+                },
+                {
+                  name: "Mr. Ansh",
+                  role: "Server/Cloud trainee",
+                  tag: "Cloud Trainee",
+                  tagClass: styles.tagGray,
+                  cardClass: styles.teamCardGray,
+                  img: "/team-ansh.png",
+                  objectPosition: "center"
+                },
+                {
+                  name: "Ram Ji",
+                  role: "Web Developer",
+                  tag: "Web Developer",
+                  tagClass: styles.tagOrange,
+                  cardClass: styles.teamCardOrange,
+                  img: "/team-ram.png",
+                  objectPosition: "center"
+                },
+                {
+                  name: "Aastha Tripathi",
+                  role: "Software Trainee",
+                  tag: "Software Trainee",
+                  tagClass: styles.tagPurple,
+                  cardClass: styles.teamCardPurple,
+                  img: "/team-aastha.jpg",
+                  objectPosition: "top"
+                },
+                // Duplicated set for 100% seamless infinite looping
+                {
+                  name: "Prem srivastava",
+                  role: "Aws Sr. solution architect",
+                  tag: "AWS Cloud",
+                  tagClass: styles.tagOrange,
+                  cardClass: styles.teamCardOrange,
+                  img: "/team-prem.png",
+                  objectPosition: "center"
+                },
+                {
+                  name: "Akash Dakave",
+                  role: "Aws DevOps Engineer",
+                  tag: "DevOps / CI-CD",
+                  tagClass: styles.tagPurple,
+                  cardClass: styles.teamCardPurple,
+                  img: "/team-akash.png",
+                  objectPosition: "center"
+                },
+                {
+                  name: "Aditya Sharma",
+                  role: "Full stack developer",
+                  tag: "MERN Developer",
+                  tagClass: styles.tagBlue,
+                  cardClass: styles.teamCardBlue,
+                  img: "/team-aditya.jpg",
+                  objectPosition: "top"
+                },
+                {
+                  name: "Ravikant",
+                  role: "Sr. Software Engineer",
+                  tag: "Full Stack",
+                  tagClass: styles.tagBlue,
+                  cardClass: styles.teamCardBlue,
+                  img: "/team-ravikant.png",
+                  objectPosition: "center"
+                },
+                {
+                  name: "Prince Pandey",
+                  role: "Development team head",
+                  tag: "Team Lead",
+                  tagClass: styles.tagTeal,
+                  cardClass: styles.teamCardTeal,
+                  img: "/team-prince.png",
+                  objectPosition: "center"
+                },
+                {
+                  name: "Mr. Ansh",
+                  role: "Server/Cloud trainee",
+                  tag: "Cloud Trainee",
+                  tagClass: styles.tagGray,
+                  cardClass: styles.teamCardGray,
+                  img: "/team-ansh.png",
+                  objectPosition: "center"
+                },
+                {
+                  name: "Ram Ji",
+                  role: "Web Developer",
+                  tag: "Web Developer",
+                  tagClass: styles.tagOrange,
+                  cardClass: styles.teamCardOrange,
+                  img: "/team-ram.png",
+                  objectPosition: "center"
+                },
+                {
+                  name: "Aastha Tripathi",
+                  role: "Software Trainee",
+                  tag: "Software Trainee",
+                  tagClass: styles.tagPurple,
+                  cardClass: styles.teamCardPurple,
+                  img: "/team-aastha.jpg",
+                  objectPosition: "top"
+                }
+              ].map((member, idx) => (
+                <div key={idx} className={`${styles.teamCard} ${member.cardClass}`}>
+                  <div className={styles.teamImageWrapper}>
+                    <Image
+                      src={member.img}
+                      alt={member.name}
+                      width={400}
+                      height={400}
+                      className={styles.teamImage}
+                      style={{ objectPosition: member.objectPosition }}
+                    />
+                    <div className={styles.teamCardGlow} />
+                  </div>
+                  <div className={styles.teamInfo}>
+                    <span className={`${styles.teamTag} ${member.tagClass}`}>{member.tag}</span>
+                    <h3>{member.name}</h3>
+                    <p>{member.role}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
