@@ -41,6 +41,19 @@ export default function AdminPage() {
     }
   }, []);
 
+  const handleLogout = useCallback(() => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("admin_token");
+    }
+    setToken(null);
+    setRfqs([]);
+    setConsultations([]);
+    setNewsletters([]);
+    setPosts([]);
+    setTrainingApps([]);
+    setIsEditingPost(false);
+  }, []);
+
   // Fetch data from backend
   const fetchData = useCallback(async (tabName, jwtToken) => {
     const currentToken = jwtToken || token;
@@ -59,26 +72,30 @@ export default function AdminPage() {
         },
       });
 
-      const result = await response.json();
-      if (response.ok) {
-        if (endpoint === "rfqs") setRfqs(result.data);
-        else if (endpoint === "consultations") setConsultations(result.data);
-        else if (endpoint === "newsletters") setNewsletters(result.data);
-        else if (endpoint === "posts") setPosts(result.data);
-        else if (endpoint === "training-applications") setTrainingApps(result.data);
-      } else {
-        setError(result.message || "Failed to load data.");
+      if (!response.ok) {
         if (response.status === 401 || response.status === 403) {
           handleLogout();
+          setError("Session expired. Please log in again.");
+          return;
         }
+        const errData = await response.json().catch(() => ({}));
+        setError(errData.message || `Server returned error (${response.status})`);
+        return;
       }
+
+      const result = await response.json();
+      if (endpoint === "rfqs") setRfqs(result.data || []);
+      else if (endpoint === "consultations") setConsultations(result.data || []);
+      else if (endpoint === "newsletters") setNewsletters(result.data || []);
+      else if (endpoint === "posts") setPosts(result.data || []);
+      else if (endpoint === "training-applications") setTrainingApps(result.data || []);
     } catch (err) {
-      console.error(err);
+      console.error("fetchData error:", err);
       setError("Failed to connect to backend server.");
     } finally {
       setLoading(false);
     }
-  }, [token, activeTab]);
+  }, [token, activeTab, handleLogout]);
 
   // Fetch when active tab or token changes
   useEffect(() => {
@@ -108,6 +125,7 @@ export default function AdminPage() {
         setToken(data.token);
         setUsername("");
         setPassword("");
+        fetchData(activeTab, data.token);
       } else {
         setError(data.message || "Invalid credentials.");
       }
@@ -115,17 +133,6 @@ export default function AdminPage() {
       console.error(err);
       setError("Connection to login server failed.");
     }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("admin_token");
-    setToken(null);
-    setRfqs([]);
-    setConsultations([]);
-    setNewsletters([]);
-    setPosts([]);
-    setTrainingApps([]);
-    setIsEditingPost(false);
   };
 
   const updateStatus = async (id, newStatus, type) => {
