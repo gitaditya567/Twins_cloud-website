@@ -91,7 +91,7 @@ export default function AdminPage() {
       else if (endpoint === "training-applications") setTrainingApps(result.data || []);
     } catch (err) {
       console.error("fetchData error:", err);
-      setError("Failed to connect to backend server.");
+      setError(`Connection error: ${err.message || "Failed to connect to backend server."}`);
     } finally {
       setLoading(false);
     }
@@ -131,7 +131,7 @@ export default function AdminPage() {
       }
     } catch (err) {
       console.error(err);
-      setError("Connection to login server failed.");
+      setError(`Login connection error: ${err.message || "Connection to login server failed."}`);
     }
   };
 
