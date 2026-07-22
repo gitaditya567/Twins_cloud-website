@@ -49,6 +49,7 @@ export default function AdminPage() {
     setLoading(true);
     setError("");
     try {
+      const endpoint = tabName || activeTab;
       const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
       const urlPath = endpoint === "posts" ? `${API_BASE}/api/posts` : `${API_BASE}/api/admin/${endpoint}`;
       
