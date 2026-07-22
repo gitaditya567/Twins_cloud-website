@@ -142,7 +142,7 @@ export default function RFQPage() {
     setStatus({ loading: true, success: '', error: '' });
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050'}/api/rfq`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/rfq`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

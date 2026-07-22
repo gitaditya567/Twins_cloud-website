@@ -3,10 +3,10 @@ module.exports = {
     {
       name: 'twins-frontend',
       script: 'node_modules/next/dist/bin/next',
-      args: 'start',
+      args: 'start -p 3001',
       cwd: './frontend',
-      instances: 'max',
-      exec_mode: 'cluster',
+      instances: 1,
+      exec_mode: 'fork',
       env: {
         NODE_ENV: 'production',
         PORT: 3001

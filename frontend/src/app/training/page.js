@@ -77,7 +77,7 @@ export default function TrainingPage() {
     setErrorMsg("");
 
     try {
-      const response = await fetch("http://localhost:5050/api/training/apply", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/training/apply`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

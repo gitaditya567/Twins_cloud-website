@@ -137,7 +137,7 @@ export default function ConsultationPage() {
     setStatus({ loading: true, success: '', error: '' });
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050'}/api/consultation`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/consultation`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

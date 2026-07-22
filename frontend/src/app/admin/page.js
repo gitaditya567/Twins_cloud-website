@@ -49,9 +49,8 @@ export default function AdminPage() {
     setLoading(true);
     setError("");
     try {
-      const endpoint = tabName || activeTab;
-      // Note: posts route is public, but admin dashboard fetches it using auth just for simplicity
-      const urlPath = endpoint === "posts" ? "http://localhost:5050/api/posts" : `http://localhost:5050/api/admin/${endpoint}`;
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+      const urlPath = endpoint === "posts" ? `${API_BASE}/api/posts` : `${API_BASE}/api/admin/${endpoint}`;
       
       const response = await fetch(urlPath, {
         headers: {
@@ -92,7 +91,8 @@ export default function AdminPage() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:5050/api/admin/login", {
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+      const response = await fetch(`${API_BASE}/api/admin/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -129,7 +129,8 @@ export default function AdminPage() {
 
   const updateStatus = async (id, newStatus, type) => {
     try {
-      const response = await fetch(`http://localhost:5050/api/admin/${type}/${id}`, {
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+      const response = await fetch(`${API_BASE}/api/admin/${type}/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -182,10 +183,11 @@ export default function AdminPage() {
     e.preventDefault();
     setError("");
 
+    const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
     const method = editingPostId ? "PUT" : "POST";
     const url = editingPostId 
-      ? `http://localhost:5050/api/admin/posts/${editingPostId}`
-      : "http://localhost:5050/api/admin/posts";
+      ? `${API_BASE}/api/admin/posts/${editingPostId}`
+      : `${API_BASE}/api/admin/posts`;
 
     try {
       const response = await fetch(url, {
@@ -214,7 +216,8 @@ export default function AdminPage() {
     if (!window.confirm("Are you sure you want to delete this blog post?")) return;
 
     try {
-      const response = await fetch(`http://localhost:5050/api/admin/posts/${id}`, {
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+      const response = await fetch(`${API_BASE}/api/admin/posts/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
