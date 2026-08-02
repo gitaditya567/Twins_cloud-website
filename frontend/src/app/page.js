@@ -384,25 +384,31 @@ export default function Home() {
         <div className={styles.videoOverlay} />
 
         <div className={styles.heroContent}>
-          <span className={styles.badge}>Welcome To TwinsCloud</span>
+          <span className={styles.badge}>AWS Consulting Partner & Enterprise Software Engineering</span>
           <h1 className={styles.title}>
-            Best Software, Website,<br />
+            We Build Scalable Software & Cloud Infrastructure<br />
             <span className={`${styles.highlight} ${fadeWord ? styles.wordIn : styles.wordOut}`}>
-              {rotatingWords[wordIndex]}
+              That Grows Your Business
             </span>
           </h1>
           <p className={styles.subtitle}>
-            Your Cloud Lifecycle Consulting Partner
+            Custom Software Development • AWS Cloud Consulting • DevOps Solutions
           </p>
+          <div className={styles.heroTrustBadges}>
+            <span>✔ Free Consultation</span>
+            <span>✔ AWS Partner</span>
+            <span>✔ 10+ Years Experience</span>
+            <span>✔ 200+ Successful Projects</span>
+          </div>
           <div className={styles.ctaGroup}>
             <Link href="/consultation" className={styles.primaryBtn}>
-              Schedule Consultation
+              Schedule Free Consultation
+            </Link>
+            <Link href="/rfq" className={styles.secondaryBtn}>
+              Talk to an AWS Expert
             </Link>
             <Link href="/training?apply=true" className={styles.trainingBtn}>
               🎓 Training & Internship
-            </Link>
-            <Link href="/rfq" className={styles.primaryBtn}>
-              Request a Quote
             </Link>
           </div>
         </div>
@@ -530,6 +536,71 @@ export default function Home() {
                 className={styles.illustrationImage}
                 priority
               />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Real Measurable Numbers Section */}
+      <section className={styles.statsBarSection}>
+        <div className={styles.statsBarContainer}>
+          <div className={styles.statBox}>
+            <h3>10+</h3>
+            <p>Years Experience</p>
+          </div>
+          <div className={styles.statDivider} />
+          <div className={styles.statBox}>
+            <h3>200+</h3>
+            <p>Projects Delivered</p>
+          </div>
+          <div className={styles.statDivider} />
+          <div className={styles.statBox}>
+            <h3>100+</h3>
+            <p>Happy Clients</p>
+          </div>
+          <div className={styles.statDivider} />
+          <div className={styles.statBox}>
+            <h3>99.9%</h3>
+            <p>Uptime SLA</p>
+          </div>
+          <div className={styles.statDivider} />
+          <div className={styles.statBox}>
+            <h3>24/7</h3>
+            <p>Enterprise Support</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Why TwinsCloud Section */}
+      <section className={styles.whyUsSection}>
+        <div className={styles.whyUsContainer}>
+          <div className={styles.whyUsHeader}>
+            <span className={styles.whyUsBadge}>Why TwinsCloud?</span>
+            <h2 className={styles.whyUsTitle}>Architected for Enterprise Excellence</h2>
+            <p className={styles.whyUsSubtitle}>
+              We combine enterprise cloud engineering depth with agile custom software development.
+            </p>
+          </div>
+          <div className={styles.whyUsGrid}>
+            <div className={styles.whyUsCard}>
+              <div className={styles.whyUsIcon}>☁️</div>
+              <h3>Cloud Consulting</h3>
+              <p>Reduce cloud costs while improving security, high availability, and workload performance.</p>
+            </div>
+            <div className={styles.whyUsCard}>
+              <div className={styles.whyUsIcon}>💻</div>
+              <h3>Software Development</h3>
+              <p>Enterprise web and mobile applications built for high concurrency and scale.</p>
+            </div>
+            <div className={styles.whyUsCard}>
+              <div className={styles.whyUsIcon}>⚙️</div>
+              <h3>DevOps Automation</h3>
+              <p>CI/CD pipelines, containerization, and IaC that accelerate software releases.</p>
+            </div>
+            <div className={styles.whyUsCard}>
+              <div className={styles.whyUsIcon}>🚀</div>
+              <h3>AWS Migration</h3>
+              <p>Move legacy databases and enterprise applications to AWS with zero downtime.</p>
             </div>
           </div>
         </div>
@@ -1190,6 +1261,118 @@ export default function Home() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+
+
+      {/* Industries We Serve Section */}
+      <section className={styles.industriesSection}>
+        <div className={styles.industriesContainer}>
+          <div className={styles.industriesHeader}>
+            <span className={styles.industriesBadge}>Domain Expertise</span>
+            <h2 className={styles.industriesTitle}>Industries We Serve</h2>
+            <p className={styles.industriesSubtitle}>
+              Tailored software and cloud solutions built specifically for your sector.
+            </p>
+          </div>
+          <div className={styles.industriesGrid}>
+            <div className={styles.industryCard}>🏥 <span>Healthcare Software</span></div>
+            <div className={styles.industryCard}>🎓 <span>School & College ERP</span></div>
+            <div className={styles.industryCard}>🏛️ <span>Government Projects</span></div>
+            <div className={styles.industryCard}>🏭 <span>Manufacturing ERP</span></div>
+            <div className={styles.industryCard}>🛍️ <span>E-Commerce & Retail</span></div>
+            <div className={styles.industryCard}>💼 <span>CRM & Financial Tools</span></div>
+            <div className={styles.industryCard}>✈️ <span>Tourism & Travel Portals</span></div>
+            <div className={styles.industryCard}>📦 <span>Inventory & Logistics</span></div>
+            <div className={styles.industryCard}>🏢 <span>Real Estate Platforms</span></div>
+            <div className={styles.industryCard}>🚀 <span>SaaS Startups</span></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Guidance Section */}
+      <section className={styles.pricingSection}>
+        <div className={styles.pricingContainer}>
+          <div className={styles.pricingHeader}>
+            <span className={styles.pricingBadge}>Transparent Investment</span>
+            <h2 className={styles.pricingTitle}>Flexible Pricing Models</h2>
+            <p className={styles.pricingSubtitle}>
+              Clear budget guidance tailored to your project requirements.
+            </p>
+          </div>
+          <div className={styles.pricingGrid}>
+            <div className={styles.priceCard}>
+              <h3>Website Development</h3>
+              <div className={styles.priceTag}>Custom Quote</div>
+              <p>Next.js SEO web application with modern responsive design.</p>
+              <Link href="/rfq" className={styles.priceBtn}>Request Quote</Link>
+            </div>
+            <div className={styles.priceCardFeatured}>
+              <span className={styles.popularBadge}>Most Popular</span>
+              <h3>AWS Cloud Migration</h3>
+              <div className={styles.priceTag}>Enterprise Audit</div>
+              <p>Zero-downtime database & compute infrastructure migration.</p>
+              <Link href="/consultation" className={styles.priceBtnFeatured}>Talk to Expert</Link>
+            </div>
+            <div className={styles.priceCard}>
+              <h3>DevOps Setup</h3>
+              <div className={styles.priceTag}>Custom Scope</div>
+              <p>CI/CD automated pipelines, Docker containerization & IaC.</p>
+              <Link href="/rfq" className={styles.priceBtn}>Get Started</Link>
+            </div>
+            <div className={styles.priceCard}>
+              <h3>24/7 AWS Support</h3>
+              <div className={styles.priceTag}>Monthly AMC</div>
+              <p>Proactive monitoring, security patches & uptime SLA.</p>
+              <Link href="/consultation" className={styles.priceBtn}>Inquire AMC</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Frequently Asked Questions (FAQ) Section */}
+      <section className={styles.faqSection}>
+        <div className={styles.faqContainer}>
+          <div className={styles.faqHeader}>
+            <span className={styles.faqBadge}>Got Questions?</span>
+            <h2 className={styles.faqTitle}>Frequently Asked Questions</h2>
+            <p className={styles.faqSubtitle}>Everything you need to know about our services and engineering process.</p>
+          </div>
+          <div className={styles.faqGrid}>
+            <div className={styles.faqItem}>
+              <h4>How long does a cloud migration take?</h4>
+              <p>Depending on database size and system architecture, standard cloud migrations take anywhere from 1 to 3 weeks with zero application downtime during final cutover.</p>
+            </div>
+            <div className={styles.faqItem}>
+              <h4>Can you manage our existing AWS infrastructure?</h4>
+              <p>Yes, TwinsCloud offers full AWS cloud management, monthly cost auditing, security hardening, and 24/7 monitoring for existing cloud setups.</p>
+            </div>
+            <div className={styles.faqItem}>
+              <h4>Do you provide annual AMC support for software?</h4>
+              <p>Absolutely. We offer dedicated Annual Maintenance Contracts (AMC) that cover regular backups, server patches, bug fixes, and feature updates.</p>
+            </div>
+            <div className={styles.faqItem}>
+              <h4>Can you develop custom enterprise ERP solutions?</h4>
+              <p>Yes, we specialize in building custom ERP systems tailored for schools, manufacturing units, healthcare, and retail businesses.</p>
+            </div>
+            <div className={styles.faqItem}>
+              <h4>Do you offer 24×7 technical support?</h4>
+              <p>Yes! Our cloud operations center provides round-the-clock monitoring and emergency incident support for business-critical applications.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mid-Page Call to Action Ribbon */}
+      <section className={styles.ctaRibbonSection}>
+        <div className={styles.ctaRibbonContainer}>
+          <h2>Ready to Scale Your Infrastructure & Software?</h2>
+          <p>Book a free 30-minute discovery call with our Senior AWS Solution Architects today.</p>
+          <div className={styles.ctaRibbonGroup}>
+            <Link href="/consultation" className={styles.ctaRibbonPrimary}>Schedule Free Consultation</Link>
+            <Link href="/rfq" className={styles.ctaRibbonSecondary}>Request a Free Quote</Link>
           </div>
         </div>
       </section>

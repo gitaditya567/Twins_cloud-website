@@ -8,7 +8,8 @@ export default function ConsultationPage() {
     name: '',
     email: '',
     preferredDate: '',
-    preferredTime: ''
+    preferredTime: '',
+    hp_field: ''
   });
 
   const [captchaQuestion, setCaptchaQuestion] = useState({ num1: 0, num2: 0, answer: 0 });
@@ -370,6 +371,7 @@ export default function ConsultationPage() {
         )}
         
         <form style={{ display: 'flex', flexDirection: 'column', gap: '24px' }} onSubmit={handleSubmit}>
+          <input type="text" name="hp_field" value={formData.hp_field || ''} onChange={handleChange} style={{ display: 'none', position: 'absolute', left: '-9999px' }} tabIndex={-1} autoComplete="off" />
           <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
             <div style={{ flex: 1, minWidth: '250px' }}>
               <label style={{ display: 'block', marginBottom: '8px', fontWeight: '700', color: '#0b0f19', fontSize: '14px' }}>Name</label>
@@ -450,12 +452,16 @@ export default function ConsultationPage() {
           </div>
           <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
             <div style={{ flex: 1, minWidth: '250px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '700', color: '#0b0f19', fontSize: '14px' }}>Preferred Date</label>
+              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '700', color: '#0b0f19', fontSize: '14px' }}>
+                Preferred Date <span style={{ fontSize: '12px', color: '#64748b', fontWeight: '500' }}>(Max 15 days in advance)</span>
+              </label>
               <input 
                 type="date" 
                 name="preferredDate"
                 value={formData.preferredDate}
                 onChange={handleChange}
+                min={new Date().toISOString().split('T')[0]}
+                max={new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
                 required
                 style={{ width: '100%', padding: '14px 18px', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.08)', outline: 'none', background: '#fff', fontSize: '15px' }} 
               />

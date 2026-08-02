@@ -17,6 +17,12 @@ export default function AdminPage() {
   const [posts, setPosts] = useState([]);
   const [trainingApps, setTrainingApps] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]);
+
+  // Clear selected checkboxes when tab changes
+  useEffect(() => {
+    setSelectedIds([]);
+  }, [activeTab]);
 
   // Editor states
   const [isEditingPost, setIsEditingPost] = useState(false);
@@ -63,7 +69,7 @@ export default function AdminPage() {
     setError("");
     try {
       const endpoint = tabName || activeTab;
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050';
       const urlPath = endpoint === "posts" ? `${API_BASE}/api/posts` : `${API_BASE}/api/admin/${endpoint}`;
       
       const response = await fetch(urlPath, {
@@ -78,8 +84,18 @@ export default function AdminPage() {
           setError("Session expired. Please log in again.");
           return;
         }
-        const errData = await response.json().catch(() => ({}));
+        const contentType = response.headers.get("content-type");
+        let errData = {};
+        if (contentType && contentType.includes("application/json")) {
+          errData = await response.json().catch(() => ({}));
+        }
         setError(errData.message || `Server returned error (${response.status})`);
+        return;
+      }
+
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        setError(`Server returned non-JSON response (${response.status})`);
         return;
       }
 
@@ -109,7 +125,7 @@ export default function AdminPage() {
     setError("");
 
     try {
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050';
       const response = await fetch(`${API_BASE}/api/admin/login`, {
         method: "POST",
         headers: {
@@ -118,7 +134,16 @@ export default function AdminPage() {
         body: JSON.stringify({ username, password }),
       });
 
-      const data = await response.json();
+      const contentType = response.headers.get("content-type");
+      let data = {};
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        console.error("Non-JSON response received:", text);
+        setError(`Server error (${response.status}): Make sure backend server is running on port 5050.`);
+        return;
+      }
 
       if (response.ok) {
         localStorage.setItem("admin_token", data.token);
@@ -137,7 +162,7 @@ export default function AdminPage() {
 
   const updateStatus = async (id, newStatus, type) => {
     try {
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050';
       const response = await fetch(`${API_BASE}/api/admin/${type}/${id}`, {
         method: "PUT",
         headers: {
@@ -156,6 +181,107 @@ export default function AdminPage() {
       console.error(err);
       alert("Error updating status.");
     }
+  };
+
+  // Single Item Delete Function
+  const handleDeleteItem = async (id, endpointType) => {
+    if (!window.confirm("Are you sure you want to delete this record?")) return;
+
+    try {
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050';
+      const url = `${API_BASE}/api/admin/${endpointType}/${id}`;
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        setSelectedIds(prev => prev.filter(item => item !== id));
+        fetchData(activeTab);
+      } else {
+        const contentType = response.headers.get("content-type");
+        let errMessage = `Server error (${response.status})`;
+        if (contentType && contentType.includes("application/json")) {
+          const errJson = await response.json();
+          errMessage = errJson.message || errMessage;
+        } else if (response.status === 401 || response.status === 403) {
+          errMessage = "Session expired or unauthorized. Please re-login.";
+          handleLogout();
+        }
+        alert(`Failed to delete record: ${errMessage}`);
+      }
+    } catch (err) {
+      console.error("Delete error:", err);
+      alert(`Error deleting record: ${err.message || "Network error"}`);
+    }
+  };
+
+  // Bulk Delete Function
+  const handleBulkDelete = async (endpointType) => {
+    if (selectedIds.length === 0) return;
+    if (!window.confirm(`Are you sure you want to delete ${selectedIds.length} selected record(s)?`)) return;
+
+    try {
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050';
+      const url = `${API_BASE}/api/admin/${endpointType}/bulk-delete`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ ids: selectedIds }),
+      });
+
+      if (response.ok) {
+        setSelectedIds([]);
+        fetchData(activeTab);
+      } else {
+        const contentType = response.headers.get("content-type");
+        let errMessage = `Server error (${response.status})`;
+        if (contentType && contentType.includes("application/json")) {
+          const errJson = await response.json();
+          errMessage = errJson.message || errMessage;
+        } else if (response.status === 401 || response.status === 403) {
+          errMessage = "Session expired or unauthorized. Please re-login.";
+          handleLogout();
+        }
+        alert(`Failed to perform bulk delete: ${errMessage}`);
+      }
+    } catch (err) {
+      console.error("Bulk delete error:", err);
+      alert(`Error performing bulk delete: ${err.message || "Network error"}`);
+    }
+  };
+
+  // Select All Handler
+  const handleSelectAll = (dataList, isChecked) => {
+    if (isChecked) {
+      const allIds = dataList.map(item => item._id);
+      setSelectedIds(allIds);
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  // Individual Checkbox Handler
+  const handleSelectRow = (id, isChecked) => {
+    if (isChecked) {
+      setSelectedIds(prev => [...prev, id]);
+    } else {
+      setSelectedIds(prev => prev.filter(itemId => itemId !== id));
+    }
+  };
+
+  // Helper function to get active data list by tab
+  const getCurrentTabList = () => {
+    if (activeTab === "rfqs") return rfqs;
+    if (activeTab === "consultations") return consultations;
+    if (activeTab === "newsletters") return newsletters;
+    if (activeTab === "training-applications") return trainingApps;
+    return [];
   };
 
   // --- BLOG POST CRUD FUNCTIONS ---
@@ -224,7 +350,7 @@ export default function AdminPage() {
     if (!window.confirm("Are you sure you want to delete this blog post?")) return;
 
     try {
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050';
       const response = await fetch(`${API_BASE}/api/admin/posts/${id}`, {
         method: "DELETE",
         headers: {
@@ -474,10 +600,35 @@ export default function AdminPage() {
         {/* Data Tables display */}
         {!loading && !isEditingPost && (
           <div className={styles.tableWrapper}>
+            {/* Bulk Action Header Bar */}
+            {activeTab !== "posts" && getCurrentTabList().length > 0 && (
+              <div className={styles.bulkActionBar}>
+                <div className={styles.bulkInfo}>
+                  <span>Selected: {selectedIds.length} of {getCurrentTabList().length}</span>
+                </div>
+                {selectedIds.length > 0 && (
+                  <button
+                    onClick={() => handleBulkDelete(activeTab)}
+                    className={styles.bulkDeleteBtn}
+                  >
+                    🗑️ Delete Selected ({selectedIds.length})
+                  </button>
+                )}
+              </div>
+            )}
+
             {activeTab === "rfqs" && (
               <table className={styles.table}>
                 <thead>
                   <tr>
+                    <th style={{ width: "40px" }}>
+                      <input
+                        type="checkbox"
+                        className={styles.checkboxInput}
+                        checked={rfqs.length > 0 && selectedIds.length === rfqs.length}
+                        onChange={(e) => handleSelectAll(rfqs, e.target.checked)}
+                      />
+                    </th>
                     <th>Date</th>
                     <th>Name</th>
                     <th>Email</th>
@@ -489,11 +640,19 @@ export default function AdminPage() {
                 <tbody>
                   {rfqs.length === 0 ? (
                     <tr>
-                      <td colSpan="6" style={{ textAlign: "center", color: "#718096" }}>No RFQs found.</td>
+                      <td colSpan="7" style={{ textAlign: "center", color: "#718096" }}>No RFQs found.</td>
                     </tr>
                   ) : (
                     rfqs.map((rfq) => (
                       <tr key={rfq._id}>
+                        <td>
+                          <input
+                            type="checkbox"
+                            className={styles.checkboxInput}
+                            checked={selectedIds.includes(rfq._id)}
+                            onChange={(e) => handleSelectRow(rfq._id, e.target.checked)}
+                          />
+                        </td>
                         <td>{new Date(rfq.createdAt).toLocaleDateString()}</td>
                         <td style={{ fontWeight: "700" }}>{rfq.name}</td>
                         <td><a href={`mailto:${rfq.email}`} style={{ color: "#0070f3" }}>{rfq.email}</a></td>
@@ -504,15 +663,24 @@ export default function AdminPage() {
                           </span>
                         </td>
                         <td>
-                          <select
-                            value={rfq.status}
-                            onChange={(e) => updateStatus(rfq._id, e.target.value, "rfqs")}
-                            className={styles.selectStatus}
-                          >
-                            <option value="Pending">Pending</option>
-                            <option value="Contacted">Contacted</option>
-                            <option value="Resolved">Resolved</option>
-                          </select>
+                          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                            <select
+                              value={rfq.status}
+                              onChange={(e) => updateStatus(rfq._id, e.target.value, "rfqs")}
+                              className={styles.selectStatus}
+                            >
+                              <option value="Pending">Pending</option>
+                              <option value="Contacted">Contacted</option>
+                              <option value="Resolved">Resolved</option>
+                            </select>
+                            <button
+                              onClick={() => handleDeleteItem(rfq._id, "rfqs")}
+                              className={styles.deleteIconBtn}
+                              title="Delete RFQ"
+                            >
+                              🗑️ Delete
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))
@@ -525,6 +693,14 @@ export default function AdminPage() {
               <table className={styles.table}>
                 <thead>
                   <tr>
+                    <th style={{ width: "40px" }}>
+                      <input
+                        type="checkbox"
+                        className={styles.checkboxInput}
+                        checked={consultations.length > 0 && selectedIds.length === consultations.length}
+                        onChange={(e) => handleSelectAll(consultations, e.target.checked)}
+                      />
+                    </th>
                     <th>Date</th>
                     <th>Name</th>
                     <th>Email</th>
@@ -536,11 +712,19 @@ export default function AdminPage() {
                 <tbody>
                   {consultations.length === 0 ? (
                     <tr>
-                      <td colSpan="6" style={{ textAlign: "center", color: "#718096" }}>No consultations found.</td>
+                      <td colSpan="7" style={{ textAlign: "center", color: "#718096" }}>No consultations found.</td>
                     </tr>
                   ) : (
                     consultations.map((item) => (
                       <tr key={item._id}>
+                        <td>
+                          <input
+                            type="checkbox"
+                            className={styles.checkboxInput}
+                            checked={selectedIds.includes(item._id)}
+                            onChange={(e) => handleSelectRow(item._id, e.target.checked)}
+                          />
+                        </td>
                         <td>{new Date(item.createdAt).toLocaleDateString()}</td>
                         <td style={{ fontWeight: "700" }}>{item.name}</td>
                         <td><a href={`mailto:${item.email}`} style={{ color: "#0070f3" }}>{item.email}</a></td>
@@ -554,15 +738,24 @@ export default function AdminPage() {
                           </span>
                         </td>
                         <td>
-                          <select
-                            value={item.status}
-                            onChange={(e) => updateStatus(item._id, e.target.value, "consultations")}
-                            className={styles.selectStatus}
-                          >
-                            <option value="Pending">Pending</option>
-                            <option value="Contacted">Contacted</option>
-                            <option value="Resolved">Resolved</option>
-                          </select>
+                          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                            <select
+                              value={item.status}
+                              onChange={(e) => updateStatus(item._id, e.target.value, "consultations")}
+                              className={styles.selectStatus}
+                            >
+                              <option value="Pending">Pending</option>
+                              <option value="Contacted">Contacted</option>
+                              <option value="Resolved">Resolved</option>
+                            </select>
+                            <button
+                              onClick={() => handleDeleteItem(item._id, "consultations")}
+                              className={styles.deleteIconBtn}
+                              title="Delete Consultation"
+                            >
+                              🗑️ Delete
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))
@@ -575,21 +768,47 @@ export default function AdminPage() {
               <table className={styles.table}>
                 <thead>
                   <tr>
+                    <th style={{ width: "40px" }}>
+                      <input
+                        type="checkbox"
+                        className={styles.checkboxInput}
+                        checked={newsletters.length > 0 && selectedIds.length === newsletters.length}
+                        onChange={(e) => handleSelectAll(newsletters, e.target.checked)}
+                      />
+                    </th>
                     <th>Subscribed Date</th>
                     <th>Subscriber Email</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {newsletters.length === 0 ? (
                     <tr>
-                      <td colSpan="2" style={{ textAlign: "center", color: "#718096" }}>No subscribers found.</td>
+                      <td colSpan="4" style={{ textAlign: "center", color: "#718096" }}>No subscribers found.</td>
                     </tr>
                   ) : (
                     newsletters.map((sub) => (
                       <tr key={sub._id}>
+                        <td>
+                          <input
+                            type="checkbox"
+                            className={styles.checkboxInput}
+                            checked={selectedIds.includes(sub._id)}
+                            onChange={(e) => handleSelectRow(sub._id, e.target.checked)}
+                          />
+                        </td>
                         <td>{new Date(sub.subscribedAt).toLocaleString()}</td>
                         <td style={{ fontWeight: "600" }}>
                           <a href={`mailto:${sub.email}`} style={{ color: "#0070f3" }}>{sub.email}</a>
+                        </td>
+                        <td>
+                          <button
+                            onClick={() => handleDeleteItem(sub._id, "newsletters")}
+                            className={styles.deleteIconBtn}
+                            title="Delete Subscriber"
+                          >
+                            🗑️ Delete
+                          </button>
                         </td>
                       </tr>
                     ))
@@ -651,6 +870,14 @@ export default function AdminPage() {
               <table className={styles.table}>
                 <thead>
                   <tr>
+                    <th style={{ width: "40px" }}>
+                      <input
+                        type="checkbox"
+                        className={styles.checkboxInput}
+                        checked={trainingApps.length > 0 && selectedIds.length === trainingApps.length}
+                        onChange={(e) => handleSelectAll(trainingApps, e.target.checked)}
+                      />
+                    </th>
                     <th>Date</th>
                     <th>Name</th>
                     <th>Contact Info</th>
@@ -663,11 +890,19 @@ export default function AdminPage() {
                 <tbody>
                   {trainingApps.length === 0 ? (
                     <tr>
-                      <td colSpan="7" style={{ textAlign: "center", color: "#718096" }}>No training applications found.</td>
+                      <td colSpan="8" style={{ textAlign: "center", color: "#718096" }}>No training applications found.</td>
                     </tr>
                   ) : (
                     trainingApps.map((app) => (
                       <tr key={app._id}>
+                        <td>
+                          <input
+                            type="checkbox"
+                            className={styles.checkboxInput}
+                            checked={selectedIds.includes(app._id)}
+                            onChange={(e) => handleSelectRow(app._id, e.target.checked)}
+                          />
+                        </td>
                         <td>{new Date(app.createdAt).toLocaleDateString()}</td>
                         <td style={{ fontWeight: "700" }}>{app.name}</td>
                         <td>
@@ -689,15 +924,24 @@ export default function AdminPage() {
                           </span>
                         </td>
                         <td>
-                          <select
-                            value={app.status}
-                            onChange={(e) => updateStatus(app._id, e.target.value, "training-applications")}
-                            className={styles.selectStatus}
-                          >
-                            <option value="Pending">Pending</option>
-                            <option value="Contacted">Contacted</option>
-                            <option value="Resolved">Resolved</option>
-                          </select>
+                          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                            <select
+                              value={app.status}
+                              onChange={(e) => updateStatus(app._id, e.target.value, "training-applications")}
+                              className={styles.selectStatus}
+                            >
+                              <option value="Pending">Pending</option>
+                              <option value="Contacted">Contacted</option>
+                              <option value="Resolved">Resolved</option>
+                            </select>
+                            <button
+                              onClick={() => handleDeleteItem(app._id, "training-applications")}
+                              className={styles.deleteIconBtn}
+                              title="Delete Application"
+                            >
+                              🗑️ Delete
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))

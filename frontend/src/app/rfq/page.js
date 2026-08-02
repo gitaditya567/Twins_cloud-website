@@ -6,7 +6,8 @@ export default function RFQPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    projectDescription: ''
+    projectDescription: '',
+    hp_field: ''
   });
 
   const [captchaQuestion, setCaptchaQuestion] = useState({ num1: 0, num2: 0, answer: 0 });
@@ -318,6 +319,7 @@ export default function RFQPage() {
       )}
       
       <form style={{ display: 'flex', flexDirection: 'column', gap: '20px' }} onSubmit={handleSubmit}>
+        <input type="text" name="hp_field" value={formData.hp_field || ''} onChange={handleChange} style={{ display: 'none', position: 'absolute', left: '-9999px' }} tabIndex={-1} autoComplete="off" />
         <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: '250px' }}>
             <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>Name</label>

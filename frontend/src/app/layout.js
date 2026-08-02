@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import QuickActions from "../components/QuickActions";
+import DevToolsGuard from "../components/DevToolsGuard";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,14 +18,15 @@ const geistMono = Geist_Mono({
 export const metadata = {
   metadataBase: new URL("https://twinscloud.com"),
   title: {
-    default: "TwinsCloud - Premium Cloud Solutions & Training",
+    default: "TwinsCloud - AWS Cloud Consulting & Enterprise Software Engineering",
     template: "%s | TwinsCloud",
   },
-  description: "TwinsCloud delivers modern cloud engineering, enterprise project consultancy, comprehensive technology training, and customized RFQ solutions.",
+  description: "TwinsCloud is an AWS Consulting Partner and custom software development company in India specializing in cloud migrations, DevOps automation, and MERN stack applications.",
   keywords: [
+    "Software Development Company India", "AWS Consulting Partner", "DevOps Company", 
+    "MERN Stack Development Company", "Cloud Migration Services", "ERP Development Company",
     "cloud solutions", "AWS reseller", "DevOps pipeline", "MERN Stack", 
-    "software engineering", "IT training", "internship", "project consultancy",
-    "cloud lifecycle", "website development", "app development"
+    "software engineering", "IT training", "internship", "project consultancy"
   ],
   authors: [{ name: "TwinsCloud" }],
   creator: "TwinsCloud",
@@ -95,6 +97,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
+        <DevToolsGuard />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

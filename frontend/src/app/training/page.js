@@ -50,7 +50,8 @@ export default function TrainingPage() {
     branch: "",
     passingYear: "",
     programType: "Summer Training",
-    courseOfInterest: "MERN Stack Engineering"
+    courseOfInterest: "MERN Stack Engineering",
+    hp_field: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
@@ -421,6 +422,7 @@ export default function TrainingPage() {
             {errorMsg && <div className={styles.errorText}>{errorMsg}</div>}
 
             <form onSubmit={handleApplySubmit}>
+              <input type="text" name="hp_field" value={applyFormData.hp_field || ''} onChange={handleApplyInputChange} style={{ display: 'none', position: 'absolute', left: '-9999px' }} tabIndex={-1} autoComplete="off" />
               <div className={styles.formRow}>
                 <div className={styles.formGroup}>
                   <label>Full Name *</label>

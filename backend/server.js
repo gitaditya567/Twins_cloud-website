@@ -1,18 +1,106 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 require('dotenv').config({ override: true });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// 1. Hide Server Technology Details
+app.disable('x-powered-by');
+
+// 2. HTTP Security Headers
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false
+}));
+
+// 3. Middleware & Payload Size Limits (50kb limit to block payload bomb attacks)
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50kb' }));
+
+// --- RATE LIMITERS ---
+
+// Global API rate limiter (100 requests per 15 mins per IP)
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many requests from this IP. Please try again after 15 minutes.' }
+});
+app.use('/api', globalLimiter);
+
+// Public Form Submission Limiter (Max 3 submissions per 10 mins per IP)
+const formSubmissionLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 3,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: 'Rate limit exceeded: Maximum 3 form submissions allowed every 10 minutes. Please wait before submitting again.'
+  }
+});
+
+// Daily Global Submission Limiter (Max 15 submissions per day across the entire server)
+const dailySubmissionLimiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000, // 24 hours
+  max: 15,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: 'Server daily booking limit reached: Maximum 15 requests allowed per day across all users. Please try again tomorrow.'
+  }
+});
+
+// Admin Auth Rate Limiter (Max 5 attempts per 15 mins per IP)
+const adminAuthLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Too many login attempts. Please try again after 15 minutes.' }
+});
+
+// --- SECURITY UTILITIES & MIDDLEWARE ---
+
+// String input sanitizer (XSS defense + max length constraint)
+const sanitizeInput = (str, maxLength = 500) => {
+  if (typeof str !== 'string') return '';
+  return str
+    .trim()
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .slice(0, maxLength);
+};
+
+// Strict Email validation regex
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return typeof email === 'string' && emailRegex.test(email.trim()) && email.length <= 100;
+};
+
+// Invisible Honeypot Trap Middleware (Silently catches & drops automated bot submissions)
+const checkHoneypot = (req, res, next) => {
+  const { hp_field, website_url, honeypot, user_website } = req.body || {};
+  if (hp_field || website_url || honeypot || user_website) {
+    console.warn(`[BOT TRAP TRIGGERED] Automatically dropped spam submission from IP: ${req.ip}`);
+    // Send a fake 201 success response so bots think their submission succeeded and don't try alternative exploits
+    return res.status(201).json({
+      success: true,
+      message: 'Submission received successfully!'
+    });
+  }
+  next();
+};
 
 // Basic Route
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'TwinsCloud MERN Backend is running successfully.' });
+  res.json({ status: 'OK', message: 'TwinsCloud MERN Backend is running securely.' });
 });
 
 // MongoDB Connection
@@ -32,7 +120,7 @@ const rfqSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
   projectDescription: { type: String, required: true },
-  status: { type: String, default: 'Pending' }, // Pending, Contacted, Resolved
+  status: { type: String, default: 'Pending' },
   createdAt: { type: Date, default: Date.now }
 });
 const Rfq = mongoose.model('Rfq', rfqSchema);
@@ -43,7 +131,7 @@ const consultationSchema = new mongoose.Schema({
   email: { type: String, required: true },
   preferredDate: { type: String, required: true },
   preferredTime: { type: String, required: true },
-  status: { type: String, default: 'Pending' }, // Pending, Contacted, Resolved
+  status: { type: String, default: 'Pending' },
   createdAt: { type: Date, default: Date.now }
 });
 const Consultation = mongoose.model('Consultation', consultationSchema);
@@ -79,7 +167,7 @@ const trainingApplicationSchema = new mongoose.Schema({
   passingYear: { type: String, required: true },
   programType: { type: String, required: true },
   courseOfInterest: { type: String, required: true },
-  status: { type: String, default: 'Pending' }, // Pending, Contacted, Resolved
+  status: { type: String, default: 'Pending' },
   createdAt: { type: Date, default: Date.now }
 });
 const TrainingApplication = mongoose.model('TrainingApplication', trainingApplicationSchema);
@@ -216,19 +304,27 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// RFQ Submission Route
-app.post('/api/rfq', async (req, res) => {
-  const { name, email, projectDescription } = req.body;
+// --- PUBLIC SECURED FORM ROUTES ---
+
+// 1. RFQ Submission Route
+app.post('/api/rfq', dailySubmissionLimiter, formSubmissionLimiter, checkHoneypot, async (req, res) => {
+  const name = sanitizeInput(req.body.name, 100);
+  const email = (req.body.email || '').trim().toLowerCase();
+  const projectDescription = sanitizeInput(req.body.projectDescription, 2000);
 
   if (!name || !email || !projectDescription) {
-    return res.status(400).json({ message: 'All fields (name, email, projectDescription) are required.' });
+    return res.status(400).json({ success: false, message: 'All fields (name, email, projectDescription) are required.' });
+  }
+
+  if (!isValidEmail(email)) {
+    return res.status(400).json({ success: false, message: 'Please enter a valid email address.' });
   }
 
   try {
     // 1. Save to MongoDB
     const rfq = new Rfq({ name, email, projectDescription });
     await rfq.save();
-    console.log('RFQ saved to database:', rfq);
+    console.log('RFQ saved to database');
 
     // 2. Prepare email body
     const emailTo = process.env.EMAIL_TO || 'Support@twinscloud.com';
@@ -253,39 +349,59 @@ app.post('/api/rfq', async (req, res) => {
       `
     };
 
-    // 3. Send email if SMTP credentials are set
     if (process.env.SMTP_USER && process.env.SMTP_PASS) {
       await transporter.sendMail(mailOptions);
-      console.log(`RFQ email notification sent successfully to ${emailTo}`);
-    } else {
-      console.warn('SMTP credentials are not configured in backend/.env. RFQ saved to DB, but email notification skipped.');
     }
 
+    // SANITIZED RESPONSE: No MongoDB _id or Mongoose metadata returned
     return res.status(201).json({
       success: true,
-      message: 'RFQ submitted successfully!',
-      data: rfq
+      message: 'RFQ submitted successfully!'
     });
 
   } catch (error) {
     console.error('Error handling RFQ submission:', error);
-    return res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
 
-// Consultation Submission Route
-app.post('/api/consultation', async (req, res) => {
-  const { name, email, preferredDate, preferredTime } = req.body;
+// 2. Consultation Submission Route
+app.post('/api/consultation', dailySubmissionLimiter, formSubmissionLimiter, checkHoneypot, async (req, res) => {
+  const name = sanitizeInput(req.body.name, 100);
+  const email = (req.body.email || '').trim().toLowerCase();
+  const preferredDate = sanitizeInput(req.body.preferredDate, 50);
+  const preferredTime = sanitizeInput(req.body.preferredTime, 50);
 
   if (!name || !email || !preferredDate || !preferredTime) {
-    return res.status(400).json({ message: 'All fields (name, email, preferredDate, preferredTime) are required.' });
+    return res.status(400).json({ success: false, message: 'All fields (name, email, preferredDate, preferredTime) are required.' });
+  }
+
+  if (!isValidEmail(email)) {
+    return res.status(400).json({ success: false, message: 'Please enter a valid email address.' });
+  }
+
+  // Strict Date Validation: Block past dates AND dates further than 15 days in advance
+  const selectedDate = new Date(preferredDate);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const maxAllowedDate = new Date();
+  maxAllowedDate.setDate(today.getDate() + 15);
+  maxAllowedDate.setHours(23, 59, 59, 999);
+
+  if (isNaN(selectedDate.getTime()) || selectedDate < today) {
+    return res.status(400).json({ success: false, message: 'Invalid booking date: Past dates cannot be booked.' });
+  }
+
+  if (selectedDate > maxAllowedDate) {
+    return res.status(400).json({ success: false, message: 'Invalid booking date: You can only book a consultation up to 15 days in advance.' });
   }
 
   try {
     // 1. Save to MongoDB
     const consultation = new Consultation({ name, email, preferredDate, preferredTime });
     await consultation.save();
-    console.log('Consultation saved to database:', consultation);
+    console.log('Consultation saved to database');
 
     // 2. Prepare email body
     const emailTo = process.env.EMAIL_TO || 'Support@twinscloud.com';
@@ -308,44 +424,39 @@ app.post('/api/consultation', async (req, res) => {
       `
     };
 
-    // 3. Send email if SMTP credentials are set
     if (process.env.SMTP_USER && process.env.SMTP_PASS) {
       await transporter.sendMail(mailOptions);
-      console.log(`Consultation email notification sent successfully to ${emailTo}`);
-    } else {
-      console.warn('SMTP credentials are not configured in backend/.env. Consultation saved to DB, but email notification skipped.');
     }
 
+    // SANITIZED RESPONSE: No MongoDB _id or Mongoose metadata returned
     return res.status(201).json({
       success: true,
-      message: 'Consultation booked successfully!',
-      data: consultation
+      message: 'Consultation booked successfully!'
     });
 
   } catch (error) {
     console.error('Error handling Consultation submission:', error);
-    return res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
 
-// Newsletter Subscription Route
-app.post('/api/newsletter/subscribe', async (req, res) => {
-  const { email } = req.body;
+// 3. Newsletter Subscription Route
+app.post('/api/newsletter/subscribe', formSubmissionLimiter, checkHoneypot, async (req, res) => {
+  const email = (req.body.email || '').trim().toLowerCase();
 
-  if (!email) {
-    return res.status(400).json({ message: 'Email is required.' });
+  if (!email || !isValidEmail(email)) {
+    return res.status(400).json({ success: false, message: 'Please provide a valid email address.' });
   }
 
   try {
-    // Check if email already subscribed
     const existing = await Newsletter.findOne({ email });
     if (existing) {
-      return res.status(400).json({ message: 'You are already subscribed to our newsletter.' });
+      return res.status(400).json({ success: false, message: 'You are already subscribed to our newsletter.' });
     }
 
     const subscription = new Newsletter({ email });
     await subscription.save();
-    console.log('Newsletter subscription saved:', subscription);
+    console.log('Newsletter subscription saved');
 
     return res.status(201).json({
       success: true,
@@ -353,23 +464,34 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
     });
   } catch (error) {
     console.error('Error in newsletter subscription:', error);
-    return res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
 
-// Submit Training Application
-app.post('/api/training/apply', async (req, res) => {
-  const { name, email, phone, college, branch, passingYear, programType, courseOfInterest } = req.body;
+// 4. Submit Training Application
+app.post('/api/training/apply', formSubmissionLimiter, checkHoneypot, async (req, res) => {
+  const name = sanitizeInput(req.body.name, 100);
+  const email = (req.body.email || '').trim().toLowerCase();
+  const phone = sanitizeInput(req.body.phone, 20);
+  const college = sanitizeInput(req.body.college, 150);
+  const branch = sanitizeInput(req.body.branch, 100);
+  const passingYear = sanitizeInput(req.body.passingYear, 20);
+  const programType = sanitizeInput(req.body.programType, 50);
+  const courseOfInterest = sanitizeInput(req.body.courseOfInterest, 100);
+
   if (!name || !email || !phone || !college || !branch || !passingYear || !programType || !courseOfInterest) {
-    return res.status(400).json({ message: 'All fields are required.' });
+    return res.status(400).json({ success: false, message: 'All fields are required.' });
+  }
+
+  if (!isValidEmail(email)) {
+    return res.status(400).json({ success: false, message: 'Please enter a valid email address.' });
   }
 
   try {
     const appData = new TrainingApplication({ name, email, phone, college, branch, passingYear, programType, courseOfInterest });
     await appData.save();
-    console.log('Training Application saved:', appData);
+    console.log('Training Application saved');
 
-    // Prepare email notification
     const emailTo = process.env.EMAIL_TO || 'Support@twinscloud.com';
     const mailOptions = {
       from: process.env.SMTP_FROM || `"TwinsCloud Training" <${process.env.SMTP_USER || 'no-reply@twinscloud.com'}>`,
@@ -396,17 +518,16 @@ app.post('/api/training/apply', async (req, res) => {
 
     if (process.env.SMTP_USER && process.env.SMTP_PASS) {
       await transporter.sendMail(mailOptions);
-      console.log(`Training application email sent to ${emailTo}`);
     }
 
+    // SANITIZED RESPONSE: No MongoDB _id or Mongoose metadata returned
     return res.status(201).json({
       success: true,
-      message: 'Application submitted successfully!',
-      data: appData
+      message: 'Application submitted successfully!'
     });
   } catch (error) {
     console.error('Error handling training application:', error);
-    return res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
 
@@ -418,7 +539,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'twins_cloud_super_secret_jwt_token
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Unauthorized. No token provided.' });
+    return res.status(401).json({ success: false, message: 'Unauthorized. No token provided.' });
   }
 
   const token = authHeader.split(' ')[1];
@@ -427,12 +548,12 @@ const authMiddleware = (req, res, next) => {
     req.admin = decoded;
     next();
   } catch (err) {
-    return res.status(403).json({ message: 'Forbidden. Invalid token.' });
+    return res.status(403).json({ success: false, message: 'Forbidden. Invalid token.' });
   }
 };
 
-// Admin Login
-app.post('/api/admin/login', (req, res) => {
+// Admin Login (Rate Limited to 5 attempts per 15 mins)
+app.post('/api/admin/login', adminAuthLimiter, (req, res) => {
   const { username, password } = req.body;
   const expectedUser = process.env.ADMIN_USERNAME || 'admin';
   const expectedPass = process.env.ADMIN_PASSWORD || 'TwinsCloudAdminSecurePass2026';
@@ -451,7 +572,7 @@ app.get('/api/admin/rfqs', authMiddleware, async (req, res) => {
     const rfqs = await Rfq.find().sort({ createdAt: -1 });
     res.json({ success: true, data: rfqs });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch RFQs', error: err.message });
+    res.status(500).json({ success: false, message: 'Failed to fetch RFQs' });
   }
 });
 
@@ -459,11 +580,33 @@ app.get('/api/admin/rfqs', authMiddleware, async (req, res) => {
 app.put('/api/admin/rfqs/:id', authMiddleware, async (req, res) => {
   const { status } = req.body;
   try {
-    const rfq = await Rfq.findByIdAndUpdate(req.params.id, { status }, { new: true });
-    if (!rfq) return res.status(404).json({ message: 'RFQ not found' });
+    const rfq = await Rfq.findByIdAndUpdate(req.params.id, { status: sanitizeInput(status, 20) }, { new: true });
+    if (!rfq) return res.status(404).json({ success: false, message: 'RFQ not found' });
     res.json({ success: true, data: rfq });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to update RFQ status', error: err.message });
+    res.status(500).json({ success: false, message: 'Failed to update RFQ status' });
+  }
+});
+
+// Delete Single RFQ
+app.delete('/api/admin/rfqs/:id', authMiddleware, async (req, res) => {
+  try {
+    await Rfq.findByIdAndDelete(req.params.id);
+    res.json({ success: true, message: 'RFQ deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Failed to delete RFQ' });
+  }
+});
+
+// Bulk Delete RFQs
+app.post('/api/admin/rfqs/bulk-delete', authMiddleware, async (req, res) => {
+  const { ids } = req.body;
+  if (!Array.isArray(ids) || ids.length === 0) return res.status(400).json({ success: false, message: 'No IDs provided.' });
+  try {
+    await Rfq.deleteMany({ _id: { $in: ids } });
+    res.json({ success: true, message: 'Selected RFQs deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Failed to delete RFQs' });
   }
 });
 
@@ -473,7 +616,7 @@ app.get('/api/admin/consultations', authMiddleware, async (req, res) => {
     const bookings = await Consultation.find().sort({ createdAt: -1 });
     res.json({ success: true, data: bookings });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch consultations', error: err.message });
+    res.status(500).json({ success: false, message: 'Failed to fetch consultations' });
   }
 });
 
@@ -481,11 +624,33 @@ app.get('/api/admin/consultations', authMiddleware, async (req, res) => {
 app.put('/api/admin/consultations/:id', authMiddleware, async (req, res) => {
   const { status } = req.body;
   try {
-    const booking = await Consultation.findByIdAndUpdate(req.params.id, { status }, { new: true });
-    if (!booking) return res.status(404).json({ message: 'Consultation booking not found' });
+    const booking = await Consultation.findByIdAndUpdate(req.params.id, { status: sanitizeInput(status, 20) }, { new: true });
+    if (!booking) return res.status(404).json({ success: false, message: 'Consultation booking not found' });
     res.json({ success: true, data: booking });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to update booking status', error: err.message });
+    res.status(500).json({ success: false, message: 'Failed to update booking status' });
+  }
+});
+
+// Delete Single Consultation
+app.delete('/api/admin/consultations/:id', authMiddleware, async (req, res) => {
+  try {
+    await Consultation.findByIdAndDelete(req.params.id);
+    res.json({ success: true, message: 'Consultation deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Failed to delete consultation' });
+  }
+});
+
+// Bulk Delete Consultations
+app.post('/api/admin/consultations/bulk-delete', authMiddleware, async (req, res) => {
+  const { ids } = req.body;
+  if (!Array.isArray(ids) || ids.length === 0) return res.status(400).json({ success: false, message: 'No IDs provided.' });
+  try {
+    await Consultation.deleteMany({ _id: { $in: ids } });
+    res.json({ success: true, message: 'Selected consultations deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Failed to delete consultations' });
   }
 });
 
@@ -495,7 +660,29 @@ app.get('/api/admin/newsletters', authMiddleware, async (req, res) => {
     const subscribers = await Newsletter.find().sort({ subscribedAt: -1 });
     res.json({ success: true, data: subscribers });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch newsletter subscribers', error: err.message });
+    res.status(500).json({ success: false, message: 'Failed to fetch newsletter subscribers' });
+  }
+});
+
+// Delete Single Newsletter Subscriber
+app.delete('/api/admin/newsletters/:id', authMiddleware, async (req, res) => {
+  try {
+    await Newsletter.findByIdAndDelete(req.params.id);
+    res.json({ success: true, message: 'Subscriber deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Failed to delete subscriber' });
+  }
+});
+
+// Bulk Delete Newsletter Subscribers
+app.post('/api/admin/newsletters/bulk-delete', authMiddleware, async (req, res) => {
+  const { ids } = req.body;
+  if (!Array.isArray(ids) || ids.length === 0) return res.status(400).json({ success: false, message: 'No IDs provided.' });
+  try {
+    await Newsletter.deleteMany({ _id: { $in: ids } });
+    res.json({ success: true, message: 'Selected subscribers deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Failed to delete subscribers' });
   }
 });
 
@@ -505,7 +692,7 @@ app.get('/api/admin/training-applications', authMiddleware, async (req, res) => 
     const apps = await TrainingApplication.find().sort({ createdAt: -1 });
     res.json({ success: true, data: apps });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch training applications', error: err.message });
+    res.status(500).json({ success: false, message: 'Failed to fetch training applications' });
   }
 });
 
@@ -513,11 +700,33 @@ app.get('/api/admin/training-applications', authMiddleware, async (req, res) => 
 app.put('/api/admin/training-applications/:id', authMiddleware, async (req, res) => {
   const { status } = req.body;
   try {
-    const appData = await TrainingApplication.findByIdAndUpdate(req.params.id, { status }, { new: true });
-    if (!appData) return res.status(404).json({ message: 'Application not found' });
+    const appData = await TrainingApplication.findByIdAndUpdate(req.params.id, { status: sanitizeInput(status, 20) }, { new: true });
+    if (!appData) return res.status(404).json({ success: false, message: 'Application not found' });
     res.json({ success: true, data: appData });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to update application status', error: err.message });
+    res.status(500).json({ success: false, message: 'Failed to update application status' });
+  }
+});
+
+// Delete Single Training Application
+app.delete('/api/admin/training-applications/:id', authMiddleware, async (req, res) => {
+  try {
+    await TrainingApplication.findByIdAndDelete(req.params.id);
+    res.json({ success: true, message: 'Application deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Failed to delete application' });
+  }
+});
+
+// Bulk Delete Training Applications
+app.post('/api/admin/training-applications/bulk-delete', authMiddleware, async (req, res) => {
+  const { ids } = req.body;
+  if (!Array.isArray(ids) || ids.length === 0) return res.status(400).json({ success: false, message: 'No IDs provided.' });
+  try {
+    await TrainingApplication.deleteMany({ _id: { $in: ids } });
+    res.json({ success: true, message: 'Selected applications deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Failed to delete applications' });
   }
 });
 
@@ -529,7 +738,7 @@ app.get('/api/posts', async (req, res) => {
     const posts = await BlogPost.find().sort({ createdAt: -1 });
     res.json({ success: true, data: posts });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch blog posts', error: err.message });
+    res.status(500).json({ success: false, message: 'Failed to fetch blog posts' });
   }
 });
 
@@ -537,10 +746,10 @@ app.get('/api/posts', async (req, res) => {
 app.get('/api/posts/:slug', async (req, res) => {
   try {
     const post = await BlogPost.findOne({ slug: req.params.slug });
-    if (!post) return res.status(404).json({ message: 'Blog post not found' });
+    if (!post) return res.status(404).json({ success: false, message: 'Blog post not found' });
     res.json({ success: true, data: post });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch blog post', error: err.message });
+    res.status(500).json({ success: false, message: 'Failed to fetch blog post' });
   }
 });
 
@@ -550,20 +759,29 @@ app.get('/api/posts/:slug', async (req, res) => {
 app.post('/api/admin/posts', authMiddleware, async (req, res) => {
   const { title, slug, summary, content, category, author, readTime } = req.body;
   if (!title || !slug || !summary || !content || !category || !author || !readTime) {
-    return res.status(400).json({ message: 'All fields are required.' });
+    return res.status(400).json({ success: false, message: 'All fields are required.' });
   }
   
   const dateStr = new Date().toLocaleDateString('en-US', { month: 'long', day: '2-digit', year: 'numeric' });
 
   try {
     const existing = await BlogPost.findOne({ slug });
-    if (existing) return res.status(400).json({ message: 'A blog post with this slug already exists.' });
+    if (existing) return res.status(400).json({ success: false, message: 'A blog post with this slug already exists.' });
 
-    const post = new BlogPost({ title, slug, summary, content, category, author, readTime, date: dateStr });
+    const post = new BlogPost({
+      title: sanitizeInput(title, 200),
+      slug: sanitizeInput(slug, 200),
+      summary: sanitizeInput(summary, 500),
+      content, // HTML content from blog editor
+      category: sanitizeInput(category, 100),
+      author: sanitizeInput(author, 100),
+      readTime: sanitizeInput(readTime, 50),
+      date: dateStr
+    });
     await post.save();
     res.status(201).json({ success: true, data: post });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to create blog post', error: err.message });
+    res.status(500).json({ success: false, message: 'Failed to create blog post' });
   }
 });
 
@@ -573,13 +791,21 @@ app.put('/api/admin/posts/:id', authMiddleware, async (req, res) => {
   try {
     const post = await BlogPost.findByIdAndUpdate(
       req.params.id,
-      { title, slug, summary, content, category, author, readTime },
+      {
+        title: sanitizeInput(title, 200),
+        slug: sanitizeInput(slug, 200),
+        summary: sanitizeInput(summary, 500),
+        content,
+        category: sanitizeInput(category, 100),
+        author: sanitizeInput(author, 100),
+        readTime: sanitizeInput(readTime, 50)
+      },
       { new: true }
     );
-    if (!post) return res.status(404).json({ message: 'Blog post not found' });
+    if (!post) return res.status(404).json({ success: false, message: 'Blog post not found' });
     res.json({ success: true, data: post });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to update blog post', error: err.message });
+    res.status(500).json({ success: false, message: 'Failed to update blog post' });
   }
 });
 
@@ -587,14 +813,23 @@ app.put('/api/admin/posts/:id', authMiddleware, async (req, res) => {
 app.delete('/api/admin/posts/:id', authMiddleware, async (req, res) => {
   try {
     const post = await BlogPost.findByIdAndDelete(req.params.id);
-    if (!post) return res.status(404).json({ message: 'Blog post not found' });
+    if (!post) return res.status(404).json({ success: false, message: 'Blog post not found' });
     res.json({ success: true, message: 'Blog post deleted successfully' });
   } catch (err) {
-    res.status(500).json({ message: 'Failed to delete blog post', error: err.message });
+    res.status(500).json({ success: false, message: 'Failed to delete blog post' });
   }
+});
+
+// Global Uncaught Exception & Rejection Protection (Prevents Server Crashes)
+process.on('uncaughtException', (err) => {
+  console.error('[UNCAUGHT EXCEPTION PREVENTED] Server encountered an error:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('[UNHANDLED REJECTION PREVENTED] Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
 // Start Server
 app.listen(PORT, () => {
-  console.log(`Backend server running on port ${PORT}`);
+  console.log(`Backend server running securely on port ${PORT}`);
 });

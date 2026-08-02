@@ -7,6 +7,7 @@ import styles from "./Footer.module.css";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
+  const [hpField, setHpField] = useState("");
   const [subscribed, setSubscribed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -21,7 +22,7 @@ export default function Footer() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email: email.trim() }),
+        body: JSON.stringify({ email: email.trim(), hp_field: hpField }),
       });
 
       if (response.ok) {
@@ -178,6 +179,7 @@ export default function Footer() {
               Subscribe to our technology newsletter for insights, cloud-native updates, and training announcements.
             </p>
             <form onSubmit={handleSubscribe} className={styles.subscribeForm}>
+              <input type="text" name="hp_field" value={hpField} onChange={(e) => setHpField(e.target.value)} style={{ display: 'none', position: 'absolute', left: '-9999px' }} tabIndex={-1} autoComplete="off" />
               <div className={styles.inputWrapper}>
                 <input
                   type="email"
