@@ -1,26 +1,71 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 
+// Desktop + motion-ok check for the hero video, read as external browser state
+// (useSyncExternalStore keeps this SSR-safe without setState-in-effect).
+function subscribeToVideoEligibility(callback) {
+  const desktopQuery = window.matchMedia("(min-width: 768px)");
+  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  desktopQuery.addEventListener("change", callback);
+  motionQuery.addEventListener("change", callback);
+  return () => {
+    desktopQuery.removeEventListener("change", callback);
+    motionQuery.removeEventListener("change", callback);
+  };
+}
+
+function getVideoEligibilitySnapshot() {
+  return (
+    window.matchMedia("(min-width: 768px)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
+function getVideoEligibilityServerSnapshot() {
+  return false;
+}
+
 export default function Home() {
-  const videoRef = useRef(null);
   const statRef = useRef(null);
+  const videoRef = useRef(null);
   const [experienceYears, setExperienceYears] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [activeHighlightModal, setActiveHighlightModal] = useState(null);
+  const [videoReady, setVideoReady] = useState(false);
 
+  // Skip the background video on mobile and for reduced-motion users —
+  // the CSS gradient is the instant-paint fallback either way.
+  const shouldLoadVideo = useSyncExternalStore(
+    subscribeToVideoEligibility,
+    getVideoEligibilitySnapshot,
+    getVideoEligibilityServerSnapshot
+  );
 
-  const rotatingWords = [
-    "App Development Company",
-    "Cloud Consulting Partner",
-    "DevOps Automation Team",
-    "Enterprise Systems Integrator",
-    "MERN Stack Experts"
-  ];
-  const [wordIndex, setWordIndex] = useState(0);
+  // The video mounts after hydration (not present in the initial DOM), so the
+  // `autoPlay` attribute alone isn't reliable across browsers — drive playback
+  // imperatively once the element exists. A fallback timer also reveals it even
+  // if the browser never fires loadeddata/playing (rare, but keeps it from
+  // getting stuck invisible).
+  useEffect(() => {
+    if (!shouldLoadVideo) return;
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Autoplay blocked — the CSS gradient background remains visible, no action needed.
+      });
+    }
+
+    const fallback = setTimeout(() => setVideoReady(true), 1500);
+    return () => clearTimeout(fallback);
+  }, [shouldLoadVideo]);
 
   const clients = [
     {
@@ -114,8 +159,6 @@ export default function Home() {
       desc: "Business Consultancy"
     }
   ];
-  const [fadeWord, setFadeWord] = useState(true);
-
   const testimonials = [
     {
       id: 0,
@@ -165,36 +208,6 @@ export default function Home() {
     }, 6000);
     return () => clearInterval(timer);
   }, [activeTestimonial, testimonials.length]);
-
-  useEffect(() => {
-    const wordInterval = setInterval(() => {
-      setFadeWord(false);
-      setTimeout(() => {
-        setWordIndex((prev) => (prev + 1) % rotatingWords.length);
-        setFadeWord(true);
-      }, 350);
-    }, 3200);
-    return () => clearInterval(wordInterval);
-  }, [rotatingWords.length]);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      video.muted = true;
-      video.load();
-      
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            console.log("TwinsCloud Video: Background video playing successfully.");
-          })
-          .catch((err) => {
-            console.warn("TwinsCloud Video: Autoplay prevented, waiting for user action.", err);
-          });
-      }
-    }
-  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -352,63 +365,46 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-      {/* Hero Section with Technology Video Background */}
+      {/* Hero Section — CSS gradient paints instantly; video (desktop-only, fades in once loaded) layers on top */}
       <section className={styles.hero}>
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className={styles.videoBackground}
-          onPlay={() => console.log("TwinsCloud Video Event: play started")}
-          onLoadedData={() => console.log("TwinsCloud Video Event: data loaded successfully")}
-          onError={(e) => {
-            const mediaError = e.target.error;
-            console.error("TwinsCloud Video Event: Loading failed!", {
-              code: mediaError ? mediaError.code : "unknown",
-              message: mediaError ? mediaError.message : "No error message"
-            });
-          }}
-        >
-          {/* Local high-performance source (zero CORS or external CDN dependencies) */}
-          <source src="/tech-video.mp4" type="video/mp4" />
-          
-          {/* Fallback Mixkit CDN source */}
-          <source
-            src="https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-his-computer-38392-large.mp4"
-            type="video/mp4"
-          />
-          Your browser does not support the video tag.
-        </video>
-        <div className={styles.videoOverlay} />
+        <div className={styles.heroBackground} />
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            className={`${styles.heroVideo} ${videoReady ? styles.heroVideoReady : ""}`}
+            onLoadedData={() => setVideoReady(true)}
+            onPlaying={() => setVideoReady(true)}
+          >
+            <source src="/tech-video.mp4" type="video/mp4" />
+          </video>
+        <div className={styles.heroOverlay} />
+        <div className={styles.heroGlow1} />
+        <div className={styles.heroGlow2} />
 
         <div className={styles.heroContent}>
-          <span className={styles.badge}>AWS Consulting Partner & Enterprise Software Engineering</span>
+          <span className={styles.badge}>AWS Consulting Partner</span>
           <h1 className={styles.title}>
-            We Build Scalable Software & Cloud Infrastructure<br />
-            <span className={`${styles.highlight} ${fadeWord ? styles.wordIn : styles.wordOut}`}>
-              That Grows Your Business
-            </span>
+            Software &amp; Websites, Built in Lucknow<br />
+            <span className={styles.highlight}>That Scale Your Business</span>
           </h1>
           <p className={styles.subtitle}>
-            Custom Software Development • AWS Cloud Consulting • DevOps Solutions
+            Enterprise-grade custom software, high-performance websites, and cloud solutions.
           </p>
-          <div className={styles.heroTrustBadges}>
-            <span>✔ Free Consultation</span>
+          {/* <div className={styles.heroTrustBadges}>
             <span>✔ AWS Partner</span>
             <span>✔ 10+ Years Experience</span>
-            <span>✔ 200+ Successful Projects</span>
-          </div>
+            <span>✔ 200+ Projects Delivered</span>
+          </div> */}
           <div className={styles.ctaGroup}>
             <Link href="/consultation" className={styles.primaryBtn}>
               Schedule Free Consultation
             </Link>
             <Link href="/rfq" className={styles.secondaryBtn}>
-              Talk to an AWS Expert
-            </Link>
-            <Link href="/training?apply=true" className={styles.trainingBtn}>
-              🎓 Training & Internship
+              Request a Quote
             </Link>
           </div>
         </div>

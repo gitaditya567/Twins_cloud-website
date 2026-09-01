@@ -37,6 +37,23 @@ function AnimatedCounter({ target, suffix = "" }) {
   return <span>{displayCount}{suffix}</span>;
 }
 
+const trainingFaqs = [
+  { q: "Is this training program based in Lucknow?", a: "Yes, our training and internship programs run out of our Lucknow office, with hands-on projects mentored by our in-house engineering team." },
+  { q: "Do I need prior coding experience to apply?", a: "It depends on the track. Our Summer/Winter Vocational programs are aimed at students with foundational computer science knowledge, while internships expect working familiarity with the relevant stack." },
+  { q: "Are the internships paid?", a: "Internship terms vary by program and duration — details are shared during the application process." },
+  { q: "Do you offer placement support after training?", a: "Yes, direct career placement and resume review sessions are part of our internship and training tracks." }
+];
+
+const trainingFaqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": trainingFaqs.map((f) => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": { "@type": "Answer", "text": f.a }
+  }))
+};
+
 export default function TrainingPage() {
   const [activeAccordion, setActiveAccordion] = useState(0);
 
@@ -182,6 +199,8 @@ export default function TrainingPage() {
 
   return (
     <div className={styles.trainingPage}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(trainingFaqJsonLd) }} />
+
       {/* Background spotlights */}
       <div className={styles.glowSpot1} />
       <div className={styles.glowSpot2} />
@@ -194,7 +213,7 @@ export default function TrainingPage() {
             Professional <span className={styles.highlight}>Training Programs</span>
           </h1>
           <p className={styles.trainingSubtitle}>
-            Bridge the gap between computer science theory and real-world software engineering with our structured internships and cloud architectures modules.
+            Bridge the gap between computer science theory and real-world software engineering with our structured internships and cloud architecture modules — hands-on training delivered from our Lucknow office.
           </p>
           <div className={styles.headerCtaContainer}>
             <button onClick={() => setShowApplyModal(true)} className={styles.headerApplyBtn}>
@@ -387,6 +406,21 @@ export default function TrainingPage() {
               </div>
             ))}
           </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className={styles.sectionHeader} style={{ maxWidth: "800px", margin: "0 auto 30px auto" }}>
+          <h2>Frequently Asked Questions</h2>
+        </section>
+        <section style={{ maxWidth: "800px", margin: "0 auto 60px auto", display: "flex", flexDirection: "column", gap: "14px" }}>
+          {trainingFaqs.map((f, idx) => (
+            <details key={idx} style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(0,0,0,0.06)", borderRadius: "14px", padding: "18px 22px" }}>
+              <summary style={{ cursor: "pointer", fontWeight: 700, fontSize: "15.5px", color: "#0b0f19", listStyle: "none" }}>
+                {f.q}
+              </summary>
+              <p style={{ marginTop: "12px", fontSize: "14.5px", color: "#64748b", lineHeight: 1.7 }}>{f.a}</p>
+            </details>
+          ))}
         </section>
 
         {/* Call to Action banner */}

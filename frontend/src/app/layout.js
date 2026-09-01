@@ -18,14 +18,17 @@ const geistMono = Geist_Mono({
 export const metadata = {
   metadataBase: new URL("https://twinscloud.com"),
   title: {
-    default: "TwinsCloud - AWS Cloud Consulting & Enterprise Software Engineering",
+    default: "Software & Website Development Company in Lucknow | TwinsCloud",
     template: "%s | TwinsCloud",
   },
-  description: "TwinsCloud is an AWS Consulting Partner and custom software development company in India specializing in cloud migrations, DevOps automation, and MERN stack applications.",
+  description: "TwinsCloud is a Lucknow-based software & website development company and AWS Consulting Partner, specializing in school ERP systems, cloud migrations, DevOps automation, and MERN stack applications.",
   keywords: [
-    "Software Development Company India", "AWS Consulting Partner", "DevOps Company", 
+    "Software Development Company in Lucknow", "Website Development Company in Lucknow",
+    "School Management Software in Lucknow", "School ERP Software Lucknow",
+    "Mobile App Development Company in Lucknow",
+    "Software Development Company India", "AWS Consulting Partner", "DevOps Company",
     "MERN Stack Development Company", "Cloud Migration Services", "ERP Development Company",
-    "cloud solutions", "AWS reseller", "DevOps pipeline", "MERN Stack", 
+    "cloud solutions", "AWS reseller", "DevOps pipeline", "MERN Stack",
     "software engineering", "IT training", "internship", "project consultancy"
   ],
   authors: [{ name: "TwinsCloud" }],
@@ -40,8 +43,8 @@ export const metadata = {
     apple: "/logo-new.png",
   },
   openGraph: {
-    title: "TwinsCloud - Premium Cloud Solutions & Training",
-    description: "TwinsCloud delivers modern cloud engineering, enterprise project consultancy, comprehensive technology training, and customized RFQ solutions.",
+    title: "Software & Website Development Company in Lucknow | TwinsCloud",
+    description: "TwinsCloud delivers software & website development, school ERP systems, cloud engineering, and enterprise project consultancy from our Lucknow office.",
     url: "https://twinscloud.com",
     siteName: "TwinsCloud",
     images: [
@@ -57,8 +60,8 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "TwinsCloud - Premium Cloud Solutions & Training",
-    description: "TwinsCloud delivers modern cloud engineering, enterprise project consultancy, comprehensive technology training, and customized RFQ solutions.",
+    title: "Software & Website Development Company in Lucknow | TwinsCloud",
+    description: "TwinsCloud delivers software & website development, school ERP systems, cloud engineering, and enterprise project consultancy from our Lucknow office.",
     images: ["/logo-new.png"],
   },
   robots: {
@@ -76,12 +79,28 @@ export const metadata = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": "ProfessionalService",
   "name": "TwinsCloud Private Limited",
   "url": "https://twinscloud.com",
   "logo": "https://twinscloud.com/logo-new.png",
+  "image": "https://twinscloud.com/logo-new.png",
+  "telephone": "+91-9580880060",
+  "email": "support@twinscloud.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Mubarakpur, Kamalabad Barhauli",
+    "addressLocality": "Lucknow",
+    "addressRegion": "Uttar Pradesh",
+    "postalCode": "226201",
+    "addressCountry": "IN"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Lucknow" },
+    { "@type": "Country", "name": "India" }
+  ],
   "contactPoint": {
     "@type": "ContactPoint",
+    "telephone": "+91-9580880060",
     "email": "support@twinscloud.com",
     "contactType": "customer service"
   },

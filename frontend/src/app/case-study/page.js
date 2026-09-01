@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./case-study.module.css";
 
 function AnimatedCounter({ target, suffix = "" }) {
@@ -47,6 +48,7 @@ export default function CaseStudyPage() {
   const secondaryStudies = [
     {
       title: "Pincode Credits Financial Services",
+      slug: "pincode-credits-financial-platform",
       category: "Enterprise",
       desc: "Architected a highly secure, transaction-audited ledger backend for credit line distributions, hardening data transmission security and database backup compliance.",
       technologies: ["Node.js", "Express", "PostgreSQL", "Docker", "AWS ECS"]
@@ -132,6 +134,10 @@ export default function CaseStudyPage() {
                   <span className={styles.techBadgeHighlight}>Mongoose ORM</span>
                 </div>
               </div>
+
+              <Link href="/case-study/bimla-international-public-school-erp" className={styles.readFullCaseStudy}>
+                Read Full Case Study <span>→</span>
+              </Link>
             </div>
 
             {/* Right Images Column */}
@@ -212,6 +218,10 @@ export default function CaseStudyPage() {
                   <span className={styles.techBadgeHighlight}>AWS Cloud</span>
                 </div>
               </div>
+
+              <Link href="/case-study/architecture-herald" className={styles.readFullCaseStudy}>
+                Read Full Case Study <span>→</span>
+              </Link>
             </div>
 
             {/* Right Images Column */}
@@ -279,6 +289,10 @@ export default function CaseStudyPage() {
                   <span className={styles.techBadgeHighlight}>CloudWatch Metrics</span>
                 </div>
               </div>
+
+              <Link href="/case-study/machail-mata-yatra-portal" className={styles.readFullCaseStudy}>
+                Read Full Case Study <span>→</span>
+              </Link>
             </div>
 
             {/* Right Images Column */}
@@ -346,6 +360,10 @@ export default function CaseStudyPage() {
                   <span className={styles.techBadgeHighlight}>AWS Hosting</span>
                 </div>
               </div>
+
+              <Link href="/case-study/design-vision-awards-25" className={styles.readFullCaseStudy}>
+                Read Full Case Study <span>→</span>
+              </Link>
             </div>
 
             {/* Right Images Column */}
@@ -387,6 +405,9 @@ export default function CaseStudyPage() {
                     </span>
                   ))}
                 </div>
+                <Link href={`/case-study/${study.slug}`} className={styles.readFullCaseStudy}>
+                  Read Full Case Study <span>→</span>
+                </Link>
               </div>
             ))}
           </div>

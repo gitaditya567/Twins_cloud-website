@@ -1,11 +1,15 @@
 import { BLOG_POSTS } from "./blog/posts";
+import { SERVICES } from "./services/data";
+import { CASE_STUDIES } from "./case-study/data";
+import { LUCKNOW_MONEY_PAGES } from "./lucknow-pages-data";
 
 export default async function sitemap() {
   const baseUrl = "https://twinscloud.com";
-  
+
   // Static paths
   const staticRoutes = [
     "",
+    "/lucknow",
     "/about",
     "/service",
     "/project",
@@ -22,7 +26,28 @@ export default async function sitemap() {
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: route === "" ? "daily" : "weekly",
-    priority: route === "" ? 1.0 : route === "/blog" ? 0.7 : 0.8,
+    priority: route === "" ? 1.0 : route === "/lucknow" ? 0.9 : route === "/blog" ? 0.7 : 0.8,
+  }));
+
+  const serviceUrls = SERVICES.map((s) => ({
+    url: `${baseUrl}/services/${s.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  const caseStudyUrls = CASE_STUDIES.map((c) => ({
+    url: `${baseUrl}/case-study/${c.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  const lucknowMoneyPageUrls = LUCKNOW_MONEY_PAGES.map((p) => ({
+    url: `${baseUrl}/${p.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.95,
   }));
 
   // Fetch dynamic blog posts
@@ -53,5 +78,5 @@ export default async function sitemap() {
     }));
   }
 
-  return [...staticUrls, ...blogUrls];
+  return [...staticUrls, ...lucknowMoneyPageUrls, ...serviceUrls, ...caseStudyUrls, ...blogUrls];
 }

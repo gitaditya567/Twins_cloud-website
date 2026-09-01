@@ -6,12 +6,30 @@ import Link from "next/link";
 import styles from "./service.module.css";
 import TechVisualizer from "../../components/TechVisualizer";
 
+const faqs = [
+  { q: "Where is TwinsCloud based?", a: "We're headquartered in Lucknow, Uttar Pradesh, with an in-house engineering team delivering all the services on this page. See our Lucknow office for address and local contact details." },
+  { q: "Do you offer these services outside Lucknow too?", a: "Yes — we work with clients across India, including institutions like NIT Patna and Delhi Public School Sitapur. Lucknow is our home base, not our limit." },
+  { q: "Which service should I start with for a new website?", a: "Start with Web Development for the site itself. If you also need ongoing hosting, security, and cost management, pair it with Cloud Consulting Services." },
+  { q: "Can you take over an existing project from another vendor?", a: "Yes, we regularly audit and take over existing codebases and cloud infrastructure. Request a quote and tell us about your current setup." }
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map((f) => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": { "@type": "Answer", "text": f.a }
+  }))
+};
+
 export default function ServicePage() {
   const [activeTab, setActiveTab] = useState("security");
   const [selectedService, setSelectedService] = useState(null);
 
   const services = [
     {
+      slug: "report-card-software",
       title: "Report Card Services",
       desc: "Comprehensive academic results parsing, grade calculations, and secure online report distribution portals.",
       icon: (
@@ -31,6 +49,7 @@ export default function ServicePage() {
       ]
     },
     {
+      slug: "web-development",
       title: "Web Development",
       desc: "Fast, modern, and high-performance applications built on the MERN stack with pristine UI/UX standards.",
       icon: (
@@ -47,6 +66,7 @@ export default function ServicePage() {
       ]
     },
     {
+      slug: "apps-on-cloud",
       title: "Apps On Cloud",
       desc: "Serverless deployments, cloud-native hosting, multi-tenant architectures, and microservices integration.",
       icon: (
@@ -62,6 +82,7 @@ export default function ServicePage() {
       ]
     },
     {
+      slug: "cloud-consulting",
       title: "Cloud Consulting Services",
       desc: "Advanced cloud architectural audits, security compliance setups, and strategic resource cost optimization reviews.",
       icon: (
@@ -80,6 +101,7 @@ export default function ServicePage() {
       ]
     },
     {
+      slug: "devops-automation",
       title: "DevOps",
       desc: "Automated CI/CD workflows, container scaling (Kubernetes), and Infrastructure as Code setups.",
       icon: (
@@ -95,6 +117,7 @@ export default function ServicePage() {
       ]
     },
     {
+      slug: "aws-cloud-migration",
       title: "Migration & Consulting",
       desc: "Zero-downtime database and backend application migrations to AWS with robust security guards.",
       icon: (
@@ -110,6 +133,7 @@ export default function ServicePage() {
       ]
     },
     {
+      slug: "school-management-software",
       title: "School Management Software",
       desc: "ERP portals featuring automated class schedules, fee collections, student tracking, and messaging hubs.",
       icon: (
@@ -126,6 +150,7 @@ export default function ServicePage() {
       ]
     },
     {
+      slug: "medical-tally-software",
       title: "Medical Tally Software",
       desc: "Tailored clinic bookkeeping, automated invoice generators, inventory trackers, and regulatory audit boards.",
       icon: (
@@ -193,6 +218,8 @@ export default function ServicePage() {
 
   return (
     <div className={styles.servicePage}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
       {/* Floating animated spotlights */}
       <div className={styles.glowSpot1} />
       <div className={styles.glowSpot2} />
@@ -202,10 +229,15 @@ export default function ServicePage() {
         <header className={styles.serviceHeader}>
           <span className={styles.serviceBadge}>Services Suite</span>
           <h1 className={styles.serviceTitle}>
-            Our Core <span className={styles.highlight}>Services</span>
+            Our Core <span className={styles.highlight}>Services</span> in Lucknow
           </h1>
           <p className={styles.serviceSubtitle}>
-            Providing elite cloud architecture audits, bespoke web applications, systems integrations, and secure data backdrops.
+            Providing elite cloud architecture audits, bespoke web applications, systems integrations, and secure data backdrops — delivered by our in-house team based in Lucknow, Uttar Pradesh.
+          </p>
+          <p className={styles.serviceSubtitle}>
+            As an AWS Consulting Partner with 10+ years of engineering experience across 200+ delivered projects, we pair application development with the cloud infrastructure it runs on. Each card below links to a full breakdown of deliverables — or see our{" "}
+            <Link href="/lucknow" style={{ color: "#f9841a", fontWeight: 600 }}>Lucknow office</Link>{" "}
+            for local contact details.
           </p>
         </header>
 
@@ -220,10 +252,14 @@ export default function ServicePage() {
               <div className={styles.cardIconWrapper}>{service.icon}</div>
               <h4>{service.title}</h4>
               <p>{service.desc}</p>
-              <button className={styles.readMoreBtn} style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}>
+              <Link
+                href={`/services/${service.slug}`}
+                className={styles.readMoreBtn}
+                onClick={(e) => e.stopPropagation()}
+              >
                 <span>Read More</span>
                 <span>&gt;</span>
-              </button>
+              </Link>
             </div>
           ))}
         </section>
@@ -271,6 +307,23 @@ export default function ServicePage() {
 
         {/* Tech Stack Visualizer */}
         <TechVisualizer />
+
+        {/* FAQ Section */}
+        <section style={{ maxWidth: "800px", margin: "80px auto 0 auto" }}>
+          <h2 style={{ fontSize: "28px", fontWeight: 800, color: "#0b0f19", textAlign: "center", marginBottom: "28px" }}>
+            Frequently Asked Questions
+          </h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+            {faqs.map((f, idx) => (
+              <details key={idx} style={{ background: "#fff", border: "1px solid rgba(0,0,0,0.06)", borderRadius: "14px", padding: "18px 22px" }}>
+                <summary style={{ cursor: "pointer", fontWeight: 700, fontSize: "15.5px", color: "#0b0f19", listStyle: "none" }}>
+                  {f.q}
+                </summary>
+                <p style={{ marginTop: "12px", fontSize: "14.5px", color: "#64748b", lineHeight: 1.7 }}>{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
       </div>
 
       {/* Service Details Modal Popup */}
@@ -294,6 +347,9 @@ export default function ServicePage() {
               </ul>
             </div>
             <div className={styles.modalCta}>
+              <Link href={`/services/${selectedService.slug}`} className={`${styles.modalCtaBtn} ${styles.modalCtaBtnSecondary}`}>
+                View Full Service Page
+              </Link>
               <Link href="/consultation" className={styles.modalCtaBtn}>
                 Schedule Consultation
               </Link>

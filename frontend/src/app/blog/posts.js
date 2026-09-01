@@ -190,5 +190,134 @@ app.use('/api/rfq', rfqLimiter);
 <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;" />
 <p><em>Need expert guidance on your cloud migration? Reach out via our <a href="/rfq">Request a Quote (RFQ)</a> page today.</em></p>
     `
+  },
+  {
+    slug: "website-development-cost-in-lucknow",
+    title: "Website Development Cost in Lucknow: What Actually Drives the Price",
+    summary: "A breakdown of what determines website development pricing in Lucknow — page count, custom functionality, hosting, and ongoing maintenance — so you can budget realistically before requesting quotes.",
+    category: "Web Development",
+    date: "August 5, 2026",
+    author: "Prince Kumar",
+    readTime: "5 min read",
+    content: `
+<p>"How much does a website cost?" is one of the first questions we hear from businesses in Lucknow, and the honest answer is: it depends on scope. A five-page brochure site and a custom web application with a login system, payment processing, and an admin dashboard are not the same project, even though both are technically "a website." Here's what actually moves the number.</p>
+
+<h2>1. Page Count and Content Complexity</h2>
+<p>A static informational site (home, about, services, contact) is the cheapest tier. Costs rise once you add dynamic content — a blog, a searchable product catalog, or multi-language support — because each of those needs its own backend logic, not just a new page template.</p>
+
+<h2>2. Custom Functionality</h2>
+<p>Contact forms are inexpensive. Custom functionality — booking systems, payment gateway integration, user accounts, admin dashboards — is where cost scales up, because it requires backend development and testing, not just frontend design. This is the same distinction we cover on our <a href="/services/web-development">web development service page</a>.</p>
+
+<h2>3. Design: Template vs. Custom</h2>
+<p>A customized theme is faster and cheaper to ship. A fully custom design — built around your brand rather than adapted from a template — costs more upfront but avoids the "looks like every other local business site" problem that hurts credibility and, indirectly, conversion.</p>
+
+<h2>4. Hosting and Ongoing Maintenance</h2>
+<p>The build cost is a one-time number; hosting, security patches, and content updates are recurring. Factor in an AMC (Annual Maintenance Contract) rather than treating maintenance as an afterthought — a site that isn't patched or backed up is a liability, not an asset.</p>
+
+<h2>5. Who's Building It</h2>
+<p>Freelancers are typically cheapest but carry continuity risk if they stop responding. Agencies and in-house teams cost more but usually offer accountability and post-launch support. As a <a href="/website-development-company-in-lucknow">website development company in Lucknow</a>, we build on Next.js and the MERN stack with an in-house team — the same setup we used for this site.</p>
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;" />
+<p><em>Rather than guess at a number, tell us your actual requirements via our <a href="/rfq">RFQ form</a> and we'll come back with a scoped estimate — or <a href="/consultation">schedule a free consultation</a> to talk through your project.</em></p>
+    `
+  },
+  {
+    slug: "school-erp-software-price-india",
+    title: "School ERP Software Price in India: What Determines the Cost",
+    summary: "School ERP pricing in India varies by module count, student capacity, hosting model, and whether it's off-the-shelf or custom-built. Here's what schools should evaluate before comparing quotes.",
+    category: "School ERP",
+    date: "August 12, 2026",
+    author: "Ansh Singh",
+    readTime: "5 min read",
+    content: `
+<p>School management software pricing in India varies widely because "school ERP" covers everything from a basic attendance app to a full admissions-to-alumni platform. Before comparing quotes from different vendors, it helps to understand what's actually driving the price difference.</p>
+
+<h2>1. Module Count</h2>
+<p>Admissions, fee collection, attendance, timetables, report cards, and parent communication are each separate modules. A vendor quoting a low number may only be including two or three of them. Ask exactly which modules are included before comparing prices across vendors.</p>
+
+<h2>2. Off-the-Shelf vs. Custom Development</h2>
+<p>A ready-made ERP product is cheaper and faster to deploy, but forces your school's processes to match the software's fixed workflow. Custom ERP development costs more but is built around how your institution actually operates — including any unique approval flows or reporting formats your board requires. We cover this distinction in more detail on our <a href="/school-erp-software-development-company-in-lucknow">school ERP development page</a>.</p>
+
+<h2>3. Student and Staff Capacity</h2>
+<p>Some vendors price per student or per active user; others charge a flat rate regardless of school size. A flat-rate model is usually better value for larger institutions, while per-user pricing can work out cheaper for smaller schools.</p>
+
+<h2>4. Fee Collection and Payment Gateway Integration</h2>
+<p>Automated fee billing with an integrated payment gateway (as opposed to a system that just records fees manually entered by staff) typically costs more but eliminates a significant amount of administrative overhead — this was one of the core modules we built for Bimla International Public School's ERP, detailed in our <a href="/case-study/bimla-international-public-school-erp">BIPS case study</a>.</p>
+
+<h2>5. Legacy Data Migration</h2>
+<p>If you're moving off spreadsheets or an older system, migrating existing student and fee records is additional work that should be scoped and priced separately — don't assume it's included by default.</p>
+
+<h2>6. Hosting and Support</h2>
+<p>Cloud-hosted ERP systems usually include hosting in the price or as a small recurring fee; on-premise installs shift that cost (and the maintenance burden) onto the school's own IT staff.</p>
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;" />
+<p><em>Want an accurate quote for your school's specific requirements? See our <a href="/school-management-software-in-lucknow">school management software</a> page or submit your requirements via <a href="/rfq">RFQ</a> for a scoped estimate.</em></p>
+    `
+  },
+  {
+    slug: "cbse-icse-report-card-automation-up-schools",
+    title: "Automating CBSE/ICSE Report Cards for UP Schools",
+    summary: "How UP schools following CBSE or ICSE grading formats can automate grade calculation and report card generation instead of compiling results manually every term.",
+    category: "School ERP",
+    date: "August 20, 2026",
+    author: "Prem Kumar",
+    readTime: "5 min read",
+    content: `
+<p>Every term, schools across Uttar Pradesh go through the same manual process: teachers submit marks, someone compiles them into a spreadsheet, GPA or percentage is calculated by hand, and report cards are formatted and printed one by one. It's slow, and it's exactly the kind of repetitive process software should be handling instead.</p>
+
+<h2>1. Where Manual Report Cards Break Down</h2>
+<p>Manual compilation doesn't scale past a certain number of students without errors creeping in — a mistyped mark, a missed subject, an inconsistent grading scale between sections. The larger the school, the more this compounds every result cycle.</p>
+
+<h2>2. What Automated Grade Calculation Looks Like</h2>
+<p>Teachers enter marks directly into the system per subject. The software calculates GPA, percentage, or CBSE-style grade bands automatically, based on rules configured once for your board's format — CBSE, ICSE, or UP Board. No manual recalculation, and no format drift between sections or teachers.</p>
+
+<h2>3. Secure Distribution to Parents</h2>
+<p>Instead of printing and physically distributing every report card, results can be published to a secure parent/student portal, with bulk PDF generation for schools that still need physical copies for records.</p>
+
+<h2>4. Academic Analytics as a Byproduct</h2>
+<p>Once results live in a structured system rather than scattered spreadsheets, performance analytics — class averages, subject-wise trends, year-over-year comparisons — become a reporting feature instead of a separate manual exercise.</p>
+
+<h2>5. Fitting Into Your Existing ERP</h2>
+<p>Report card automation works best as a module inside a broader school ERP, alongside attendance and fee management, rather than as a standalone tool — see our <a href="/services/report-card-software">report card software</a> page for what's included, or our full <a href="/school-management-software-in-lucknow">school management software</a> offering for the complete picture.</p>
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;" />
+<p><em>Running a UP school still compiling results by hand? <a href="/consultation">Schedule a free consultation</a> to see how automated report cards fit into your existing process.</em></p>
+    `
+  },
+  {
+    slug: "how-to-choose-school-management-software",
+    title: "How to Choose School Management Software: A Buyer's Guide",
+    summary: "A practical checklist for school administrators evaluating school management software vendors — what to ask about modules, data migration, support, and total cost before signing a contract.",
+    category: "School ERP",
+    date: "August 28, 2026",
+    author: "Ansh Singh",
+    readTime: "6 min read",
+    content: `
+<p>Choosing school management software is a multi-year commitment, not a one-time purchase — switching systems later means re-migrating years of student data. Here's a practical checklist to work through before you sign with any vendor.</p>
+
+<h2>1. List Your Actual Workflows First</h2>
+<p>Before looking at any product, write down how admissions, fee collection, attendance, and reporting actually work at your institution today — including the exceptions and edge cases. Then evaluate vendors against that list, not the other way around. A vendor demo will always look impressive; what matters is whether it fits your specific process.</p>
+
+<h2>2. Ask Exactly Which Modules Are Included</h2>
+<p>"School ERP" is not a standardized feature set. Get an explicit list: admissions, fee billing, attendance, timetabling, report cards, parent communication. If a module you need isn't included, find out whether it can be added and at what cost.</p>
+
+<h2>3. Ask About Data Migration, Specifically</h2>
+<p>If you're moving off spreadsheets or a legacy system, ask exactly how your existing student and fee records will be migrated, who does the work, and what happens if something doesn't map cleanly. This is one of the most commonly underscoped parts of an ERP rollout.</p>
+
+<h2>4. Evaluate the Parent and Teacher Experience, Not Just the Admin Panel</h2>
+<p>Vendor demos usually focus on the admin dashboard. Ask to see the parent portal and teacher-facing screens too — those are the interfaces your actual user base will interact with daily, and a clunky parent experience generates support calls to your office.</p>
+
+<h2>5. Understand the Support Model</h2>
+<p>Is support a ticket queue with a national call center, or a team you can actually reach? For an ongoing system your school depends on daily, response time matters as much as the feature list.</p>
+
+<h2>6. Off-the-Shelf vs. Custom-Built</h2>
+<p>A ready product deploys faster and costs less upfront. Custom development costs more but is built around your institution's actual workflow instead of forcing you to adapt to someone else's template — see our <a href="/school-erp-software-development-company-in-lucknow">school ERP development</a> page for how we approach that distinction.</p>
+
+<h2>7. Get References, Not Just Case Studies</h2>
+<p>Marketing case studies are curated. Ask for a reference school you can actually talk to about their experience post-implementation, not just during the sales process.</p>
+
+<hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;" />
+<p><em>See our own school ERP work in the <a href="/case-study/bimla-international-public-school-erp">BIPS case study</a>, or explore our <a href="/school-management-software-in-lucknow">school management software</a> page and schedule a <a href="/consultation">free consultation</a> to walk through your requirements.</em></p>
+    `
   }
 ];

@@ -182,6 +182,7 @@
   font-size: 13px;
   font-weight: 700;
   color: #f9841a;
+  text-decoration: none;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -528,6 +529,8 @@
 .modalCta {
   display: flex;
   justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .modalCtaBtn {
@@ -549,6 +552,20 @@
   background-color: #e2700f;
   transform: translateY(-2px);
   box-shadow: 0 10px 22px rgba(249, 132, 26, 0.4);
+}
+
+.modalCtaBtnSecondary {
+  background-color: transparent;
+  color: #0b0f19;
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
+  box-shadow: none;
+}
+
+.modalCtaBtnSecondary:hover {
+  background-color: transparent;
+  border-color: #f9841a;
+  color: #f9841a;
+  box-shadow: none;
 }
 
 @keyframes fadeIn {

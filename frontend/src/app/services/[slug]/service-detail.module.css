@@ -1,0 +1,264 @@
+.page {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  color: #1a202c;
+  background-color: #fafbfc;
+  background-image:
+    radial-gradient(rgba(249, 132, 26, 0.12) 2.5px, transparent 0),
+    radial-gradient(rgba(0, 112, 243, 0.12) 2.5px, transparent 0);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
+  padding: 140px 24px 100px 24px;
+  z-index: 1;
+}
+
+.glowSpot1,
+.glowSpot2 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.18;
+}
+
+.glowSpot1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #f9841a 0%, rgba(249, 132, 26, 0) 70%);
+  top: -100px;
+  right: -100px;
+}
+
+.glowSpot2 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #0070f3 0%, rgba(0, 112, 243, 0) 70%);
+  bottom: -200px;
+  left: -200px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #94a3b8;
+  margin-bottom: 32px;
+}
+
+.breadcrumb a {
+  color: #64748b;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: #f9841a;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.badge {
+  display: inline-block;
+  background: rgba(249, 132, 26, 0.1);
+  color: #f9841a;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(249, 132, 26, 0.25);
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: #0b0f19;
+  letter-spacing: -1.5px;
+  margin-bottom: 16px;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #4a5568;
+  line-height: 1.7;
+}
+
+.overviewSection {
+  margin-bottom: 44px;
+}
+
+.overviewSection p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #334155;
+}
+
+.deliverablesSection {
+  margin-bottom: 56px;
+}
+
+.deliverablesSection h2,
+.relatedSection h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0b0f19;
+  margin-bottom: 20px;
+}
+
+.deliverablesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.deliverablesList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14.5px;
+  color: #334155;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  padding: 14px 16px;
+  line-height: 1.6;
+}
+
+.checkIcon {
+  color: #f9841a;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.ctaSection {
+  text-align: center;
+  background: linear-gradient(135deg, #0b0f19 0%, #1a2036 100%);
+  border-radius: 24px;
+  padding: 48px 32px;
+  margin-bottom: 56px;
+}
+
+.ctaSection h2 {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.ctaSection p {
+  color: #94a3b8;
+  font-size: 15px;
+  margin-bottom: 24px;
+}
+
+.ctaActions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primaryBtn {
+  background: linear-gradient(135deg, #f9841a 0%, #ffb03a 100%);
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.secondaryBtn {
+  background: transparent;
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.relatedSection {
+  margin-bottom: 40px;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.relatedCard {
+  display: block;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  padding: 20px;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.relatedCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
+}
+
+.relatedCard h3 {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0b0f19;
+  margin-bottom: 8px;
+}
+
+.relatedCard p {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.relatedArrow {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #f9841a;
+}
+
+.lucknowNote {
+  text-align: center;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.lucknowNote a {
+  color: #f9841a;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.lucknowNote a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 30px;
+  }
+}

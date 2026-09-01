@@ -1,6 +1,24 @@
 "use client";
 
 import React, { useState } from 'react';
+import Link from 'next/link';
+
+const rfqFaqs = [
+  { q: "How quickly will I get a response?", a: "We typically respond within 1-2 business days with clarifying questions or a scoped estimate, depending on project complexity." },
+  { q: "Is the quote free and non-obligatory?", a: "Yes. Submitting an RFQ costs nothing and doesn't commit you to anything — it's the first step toward an accurate estimate, not a sales contract." },
+  { q: "What information should I include in my project description?", a: "The more specific, the better: what you're building, who it's for, any must-have features, and your rough timeline. If you're not sure yet, that's fine too — we'll ask." },
+  { q: "Do you work with clients outside Lucknow?", a: "Yes, we deliver projects across India, but if you're in Lucknow or Uttar Pradesh, we can also meet in person from our local office." }
+];
+
+const rfqFaqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": rfqFaqs.map((f) => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": { "@type": "Answer", "text": f.a }
+  }))
+};
 
 export default function RFQPage() {
   const [formData, setFormData] = useState({
@@ -184,6 +202,7 @@ export default function RFQPage() {
 
   return (
     <div style={{ padding: '80px 24px', maxWidth: '800px', margin: '0 auto', minHeight: '60vh' }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(rfqFaqJsonLd) }} />
       <style jsx global>{`
         @keyframes fadeInOverlay {
           from { opacity: 0; }
@@ -308,9 +327,27 @@ export default function RFQPage() {
       <h1 style={{ fontSize: '42px', fontWeight: '800', marginBottom: '20px', color: '#1a1a1a' }}>
         Request <span style={{ color: '#f9841a' }}>a Quote</span> (RFQ)
       </h1>
-      <p style={{ color: '#666', fontSize: '18px', marginBottom: '30px' }}>
-        Tell us about your project requirements, and we will get back to you with a detailed quote proposal.
+      <p style={{ color: '#666', fontSize: '18px', marginBottom: '16px' }}>
+        Tell us about your project requirements, and our Lucknow-based engineering team will get back to you with a detailed quote proposal — for website development, school ERP software, AWS cloud consulting, or DevOps automation.
       </p>
+      <p style={{ color: '#666', fontSize: '15px', marginBottom: '30px' }}>
+        Not ready to fill out a form? <Link href="/consultation" style={{ color: '#f9841a', fontWeight: 600 }}>Schedule a free consultation call</Link> instead, or browse our{' '}
+        <Link href="/service" style={{ color: '#f9841a', fontWeight: 600 }}>services</Link>{' '}
+        first.
+      </p>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', marginBottom: '36px' }}>
+        {[
+          { title: '1. Submit Requirements', desc: 'Tell us what you’re building and your rough timeline.' },
+          { title: '2. We Review & Ask Questions', desc: 'Our team clarifies scope within 1-2 business days.' },
+          { title: '3. Get a Scoped Quote', desc: 'A proposal tailored to your actual requirements, not a rate card.' }
+        ].map((step, idx) => (
+          <div key={idx} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '18px' }}>
+            <h3 style={{ fontSize: '14.5px', fontWeight: 700, color: '#0b0f19', marginBottom: '6px' }}>{step.title}</h3>
+            <p style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.6, margin: 0 }}>{step.desc}</p>
+          </div>
+        ))}
+      </div>
 
       {status.error && (
         <div style={{ padding: '15px', backgroundColor: '#fce8e6', color: '#c5221f', borderRadius: '6px', marginBottom: '20px', fontWeight: '600' }}>
@@ -488,6 +525,22 @@ export default function RFQPage() {
           {status.loading ? 'Submitting...' : 'Submit RFQ'}
         </button>
       </form>
+
+      <section style={{ marginTop: '64px' }}>
+        <h2 style={{ fontSize: '26px', fontWeight: 800, color: '#0b0f19', textAlign: 'center', marginBottom: '24px' }}>
+          Frequently Asked Questions
+        </h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          {rfqFaqs.map((f, idx) => (
+            <details key={idx} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '16px 20px' }}>
+              <summary style={{ cursor: 'pointer', fontWeight: 700, fontSize: '15px', color: '#0b0f19', listStyle: 'none' }}>
+                {f.q}
+              </summary>
+              <p style={{ marginTop: '10px', fontSize: '14px', color: '#64748b', lineHeight: 1.7 }}>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

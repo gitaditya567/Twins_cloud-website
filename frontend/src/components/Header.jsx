@@ -54,6 +54,7 @@ export default function Header() {
     { name: "Training", href: "/training" },
     { name: "Case Study", href: "/case-study" },
     { name: "Calculator", href: "/calculator" },
+    { name: "Lucknow Office", href: "/lucknow" },
     { name: "About us", href: "/about" },
     { name: "RFQ", href: "/rfq" },
   ];

@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Technology Training & Internship Program",
-  description: "Join TwinsCloud's comprehensive IT training and internship program. Master DevOps, AWS, MERN Stack, and cloud architecture with hands-on projects.",
+  title: "Technology Training & Internship Program in Lucknow",
+  description: "Join TwinsCloud's IT training and internship program in Lucknow. Hands-on AWS, DevOps, and MERN Stack training with real project experience and career placement support.",
   alternates: {
     canonical: "/training"
   }

@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Request a Quote (RFQ)",
-  description: "Submit your project requirements and receive a customized quote for cloud architecture, DevOps automation, or full-stack software development.",
+  title: "Request a Quote | Software Development in Lucknow",
+  description: "Get a custom quote from TwinsCloud's Lucknow-based team for website development, school ERP software, cloud architecture, or DevOps automation. Free, no-obligation scoping.",
   alternates: {
     canonical: "/rfq"
   }

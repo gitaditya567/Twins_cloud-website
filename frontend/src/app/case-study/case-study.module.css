@@ -377,6 +377,22 @@
   border-radius: 50px;
 }
 
+.readFullCaseStudy {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 24px;
+  color: #f9841a;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  transition: gap 0.3s ease;
+}
+
+.readFullCaseStudy:hover {
+  gap: 10px;
+}
+
 /* Featured Tech Stack */
 .techStackContainer {
   margin-top: 24px;
