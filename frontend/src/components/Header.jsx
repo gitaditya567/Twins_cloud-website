@@ -53,6 +53,7 @@ export default function Header() {
     { name: "Project", href: "/project" },
     { name: "Training", href: "/training" },
     { name: "Case Study", href: "/case-study" },
+    { name: "Blog", href: "/blog" },
     { name: "Calculator", href: "/calculator" },
     { name: "Lucknow Office", href: "/lucknow" },
     { name: "About us", href: "/about" },

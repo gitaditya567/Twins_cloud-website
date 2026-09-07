@@ -42,12 +42,14 @@ export default function Footer() {
   };
 
   const services = [
-    { name: "Cloud Consulting & Reselling", href: "/services/cloud-consulting" },
-    { name: "MERN Stack Development", href: "/services/web-development" },
-    { name: "AWS DevOps Automation", href: "/services/devops-automation" },
+    { name: "Web & Full-Stack Development", href: "/services/web-development" },
     { name: "School Management Software", href: "/services/school-management-software" },
-    { name: "AWS Cloud Migration", href: "/services/aws-cloud-migration" },
-    { name: "Expert Technology Training", href: "/training" }
+    { name: "Report Card Automation", href: "/services/report-card-software" },
+    { name: "AWS Cloud Consulting", href: "/services/cloud-consulting" },
+    { name: "DevOps & CI/CD Pipelines", href: "/services/devops-automation" },
+    { name: "Zero-Downtime Cloud Migration", href: "/services/aws-cloud-migration" },
+    { name: "Apps On Cloud & Serverless", href: "/services/apps-on-cloud" },
+    { name: "Medical Tally & Clinic Software", href: "/services/medical-tally-software" },
   ];
 
   const quickLinks = [
@@ -57,6 +59,7 @@ export default function Footer() {
     { name: "Our Services", href: "/service" },
     { name: "Client Case Studies", href: "/case-study" },
     { name: "Our Projects", href: "/project" },
+    { name: "Tech Insights & Blog", href: "/blog" },
     { name: "AWS Cost Calculator", href: "/calculator" },
     { name: "Request a Quote (RFQ)", href: "/rfq" },
     { name: "Schedule Consultation", href: "/consultation" }

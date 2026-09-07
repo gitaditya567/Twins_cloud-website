@@ -134,6 +134,79 @@ export default async function BlogPostPage({ params }) {
             />
           </article>
 
+          {/* Related Articles Section for Internal Linking & SEO */}
+          {(() => {
+            const sameCategory = BLOG_POSTS.filter((p) => p.slug !== slug && p.category === post.category);
+            const otherCategory = BLOG_POSTS.filter((p) => p.slug !== slug && p.category !== post.category);
+            const relatedPosts = [...sameCategory, ...otherCategory].slice(0, 3);
+            if (relatedPosts.length === 0) return null;
+
+            // Map blog category to specialized service detail page
+            const serviceLinkMap = {
+              "Cloud": { title: "Cloud Consulting & Audits", href: "/services/cloud-consulting" },
+              "MERN Stack": { title: "Custom Web & MERN Development", href: "/services/web-development" },
+              "Web Development": { title: "Custom Web & Next.js Development", href: "/services/web-development" },
+              "DevOps": { title: "DevOps CI/CD Automation", href: "/services/devops-automation" },
+              "Security": { title: "Cloud Security & Compliance", href: "/services/cloud-consulting" },
+              "School ERP": { title: "School Management Software", href: "/services/school-management-software" },
+            };
+            const relevantService = serviceLinkMap[post.category] || { title: "Enterprise Software Services", href: "/service" };
+
+            return (
+              <div style={{ marginTop: "60px", paddingTop: "40px", borderTop: "1px solid #e2e8f0" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px", marginBottom: "24px" }}>
+                  <h3 style={{ fontSize: "24px", fontWeight: "800", color: "#0f172a", margin: 0 }}>
+                    Related Technical Guides
+                  </h3>
+                  <Link
+                    href={relevantService.href}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      color: "#f9841a",
+                      fontWeight: "600",
+                      fontSize: "14px",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <span>Need implementation? Explore {relevantService.title}</span>
+                    <span>→</span>
+                  </Link>
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
+                  {relatedPosts.map((related) => (
+                    <Link
+                      key={related.slug}
+                      href={`/blog/${related.slug}`}
+                      style={{
+                        display: "block",
+                        padding: "20px",
+                        borderRadius: "12px",
+                        backgroundColor: "#ffffff",
+                        border: "1px solid #e2e8f0",
+                        textDecoration: "none",
+                        transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.04)"
+                      }}
+                    >
+                      <span style={{ fontSize: "12px", fontWeight: "700", color: "#f9841a", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                        {related.category}
+                      </span>
+                      <h4 style={{ fontSize: "16px", fontWeight: "700", color: "#1e293b", margin: "8px 0 6px 0", lineHeight: "1.4" }}>
+                        {related.title}
+                      </h4>
+                      <span style={{ fontSize: "13px", color: "#64748b" }}>
+                        {related.readTime}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+
         </div>
       </div>
     </div>

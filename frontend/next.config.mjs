@@ -9,6 +9,39 @@ const nextConfig = {
       }
     ];
   },
+  async redirects() {
+    return [
+      // 1. Index variations
+      { source: '/index', destination: '/', permanent: true },
+      { source: '/index.html', destination: '/', permanent: true },
+      { source: '/index.php', destination: '/', permanent: true },
+      { source: '/&', destination: '/', permanent: true },
+
+      // 2. Singular vs Plural variants
+      { source: '/services', destination: '/service', permanent: true },
+      { source: '/projects', destination: '/project', permanent: true },
+      { source: '/case-studies', destination: '/case-study', permanent: true },
+      { source: '/blogs', destination: '/blog', permanent: true },
+
+      // 3. Contact & Form variants
+      { source: '/contact', destination: '/consultation', permanent: true },
+      { source: '/contact-us', destination: '/consultation', permanent: true },
+      { source: '/contacts', destination: '/consultation', permanent: true },
+      { source: '/form', destination: '/rfq', permanent: true },
+      { source: '/faq', destination: '/service', permanent: true },
+
+      // 4. Underscore vs Hyphen URLs
+      { source: '/terms_conditions', destination: '/terms-of-service', permanent: true },
+      { source: '/privacy_policy', destination: '/privacy-policy', permanent: true },
+      { source: '/case_study', destination: '/case-study', permanent: true },
+
+      // 5. Legacy Website / Book Publishing routes
+      { source: '/journals', destination: '/project', permanent: true },
+      { source: '/publish-book', destination: '/service', permanent: true },
+      { source: '/book-store', destination: '/project', permanent: true },
+      { source: '/e-book', destination: '/project', permanent: true },
+    ];
+  },
   async headers() {
     return [
       {
