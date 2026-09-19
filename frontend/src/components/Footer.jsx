@@ -103,7 +103,7 @@ export default function Footer() {
             <div className={styles.logoWrapper}>
               <Link href="/">
                 <Image
-                  src="/logo-new-light.png"
+                  src="/logo-new-light.webp"
                   alt="TwinsCloud Private Limited - Premium Cloud Solutions & Training Logo"
                   title="TwinsCloud Private Limited - Premium Cloud Solutions & Training Logo"
                   width={160}

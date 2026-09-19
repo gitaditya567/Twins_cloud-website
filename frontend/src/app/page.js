@@ -1,33 +1,9 @@
 "use client";
 
-import React, { useRef, useEffect, useState, useSyncExternalStore } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
-
-// Desktop + motion-ok check for the hero video, read as external browser state
-// (useSyncExternalStore keeps this SSR-safe without setState-in-effect).
-function subscribeToVideoEligibility(callback) {
-  const desktopQuery = window.matchMedia("(min-width: 768px)");
-  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-  desktopQuery.addEventListener("change", callback);
-  motionQuery.addEventListener("change", callback);
-  return () => {
-    desktopQuery.removeEventListener("change", callback);
-    motionQuery.removeEventListener("change", callback);
-  };
-}
-
-function getVideoEligibilitySnapshot() {
-  return (
-    window.matchMedia("(min-width: 768px)").matches &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-}
-
-function getVideoEligibilityServerSnapshot() {
-  return false;
-}
 
 export default function Home() {
   const statRef = useRef(null);
@@ -35,127 +11,110 @@ export default function Home() {
   const [experienceYears, setExperienceYears] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [activeHighlightModal, setActiveHighlightModal] = useState(null);
-  const [videoReady, setVideoReady] = useState(false);
 
-  // Skip the background video on mobile and for reduced-motion users —
-  // the CSS gradient is the instant-paint fallback either way.
-  const shouldLoadVideo = useSyncExternalStore(
-    subscribeToVideoEligibility,
-    getVideoEligibilitySnapshot,
-    getVideoEligibilityServerSnapshot
-  );
-
-  // The video mounts after hydration (not present in the initial DOM), so the
-  // `autoPlay` attribute alone isn't reliable across browsers — drive playback
-  // imperatively once the element exists. A fallback timer also reveals it even
-  // if the browser never fires loadeddata/playing (rare, but keeps it from
-  // getting stuck invisible).
   useEffect(() => {
-    if (!shouldLoadVideo) return;
     const video = videoRef.current;
     if (!video) return;
 
     video.muted = true;
+    video.defaultMuted = true;
     const playPromise = video.play();
     if (playPromise !== undefined) {
       playPromise.catch(() => {
-        // Autoplay blocked — the CSS gradient background remains visible, no action needed.
+        // Autoplay handled
       });
     }
-
-    const fallback = setTimeout(() => setVideoReady(true), 1500);
-    return () => clearTimeout(fallback);
-  }, [shouldLoadVideo]);
+  }, []);
 
   const clients = [
     {
       name: "Design & Vision Built Environment Awards",
-      logo: "/client-great-indian-entrepreneurship.png",
+      logo: "/client-great-indian-entrepreneurship.webp",
       desc: "Leadership Awards & Conference"
     },
     {
       name: "Architecture Herald",
-      logo: "/client-architecture-design.png",
+      logo: "/client-architecture-design.webp",
       desc: "Editorial Design Magazine"
     },
     {
       name: "Bimla International Public School",
-      logo: "/client-bips.png",
+      logo: "/client-bips.webp",
       desc: "Educational Institution & ERP"
     },
     {
       name: "Kishtwar Tourism",
-      logo: "/client-kishtwar-tourism.png",
+      logo: "/client-kishtwar-tourism.webp",
       desc: "Govt. Tourism Portal"
     },
     {
       name: "Shri Machail Mata Yatra",
-      logo: "/client-machail-mata.png",
+      logo: "/client-machail-mata.webp",
       desc: "Pilgrimage Management System"
     },
     {
       name: "India Elite School Awards",
-      logo: "/client-elite-school.png",
+      logo: "/client-elite-school.webp",
       desc: "Education Awards Platform"
     },
     {
       name: "The Great Indian Entrepreneurship Awards",
-      logo: "/client-great-indian-entrepreneurship.png",
+      logo: "/client-great-indian-entrepreneurship.webp",
       desc: "Startup Awards Platform"
     },
     {
       name: "Architecture & Interior Design Excellence Awards",
-      logo: "/client-architecture-design.png",
+      logo: "/client-architecture-design.webp",
       desc: "Architecture & Design Awards"
     },
     {
       name: "Pincode Credits",
-      logo: "/client-pincode-credits.png",
+      logo: "/client-pincode-credits.webp",
       desc: "Financial Services Platform"
     },
     {
       name: "NIT Patna",
-      logo: "/client-nit-patna.png",
+      logo: "/client-nit-patna.webp",
       desc: "National Institute of Technology"
     },
     {
       name: "Delhi Public School Sitapur",
-      logo: "/client-dps-sitapur.png",
+      logo: "/client-dps-sitapur.webp",
       desc: "Educational Institution"
     },
     {
       name: "Lucknow Public Schools & Colleges",
-      logo: "/client-lucknow-public-school.png",
+      logo: "/client-lucknow-public-school.webp",
       desc: "Educational Group"
     },
     {
       name: "SRMU",
-      logo: "/client-srmu.png",
+      logo: "/client-srmu.webp",
       desc: "Shri Ramswaroop Memorial University"
     },
     {
       name: "Aptitech Education",
-      logo: "/client-aptitech.png",
+      logo: "/client-aptitech.webp",
       desc: "Educational Institution"
     },
     {
       name: "Tobacco Monitoring App",
-      logo: "/client-tobacco-monitoring.png",
+      logo: "/client-tobacco-monitoring.webp",
       desc: "Government Health App"
     },
     {
       name: "BNCET Lucknow",
-      logo: "/client-bncet.png",
+      logo: "/client-bncet.webp",
       desc: "Engineering College"
     },
     {
       name: "edawai",
-      logo: "/client-edawai.png",
+      logo: "/client-edawai.webp",
       desc: "Healthcare E-Commerce"
     },
     {
       name: "Begin Up",
-      logo: "/client-beginup.png",
+      logo: "/client-beginup.webp",
       desc: "Business Consultancy"
     }
   ];
@@ -165,7 +124,7 @@ export default function Home() {
       company: "Griffin Publications",
       name: "Mousumi Sachdeva",
       role: "MD of GRIFFIN PUBLICATIONS",
-      image: "/testimonial-mousumi.png",
+      image: "/testimonial-mousumi.webp",
       quote: "TwinsCloud has been excelling in both development and cloud hosting services. Having a provider that excels in both aspects is crucial for a seamless & efficient online presence. The fact that the TC team is responsive and provides support through channels like WhatsApp to the best experience, making it easier communicate & get assistance when needed."
     },
     {
@@ -173,7 +132,7 @@ export default function Home() {
       company: "Digital Fine Fast",
       name: "Anshuman Garg",
       role: "Digital Fine Fast Brands Pvt. Ltd.",
-      image: "/testimonial-anshuman.png",
+      image: "/testimonial-anshuman.webp",
       quote: "TwinsCloud Has Been So Positive! Their Prompt Responses, Dependability, And Ability To Find Solutions Within The Expected Timeframe. Cost Optimization And Security Are Two Critical Aspects Of Cloud Management But Twinscloud Manage Very Well. Will Definitely Be Working With Them For The Long Term. Thanks TwinsCloud For Making Our Cloud Journey Is Too Easy."
     },
     {
@@ -181,7 +140,7 @@ export default function Home() {
       company: "Beginup Research",
       name: "Dr Anand Gopal Naik",
       role: "Managing Director, Beginup Research Intelligence Pvt. Ltd.",
-      image: "/testimonial-anand.png",
+      image: "/testimonial-anand.webp",
       quote: "TwinsCloud Develop Around 10 Websites For Our Group, Along With Providing SES Services For Bulk Marketing. It's Great That You Find Their Services To Be Both High-Quality And Affordable Price. A Reliable And Responsive Team, Coupled With Cost-Effective Solutions, Can Significantly Contribute To The Success Of Projects."
     },
     {
@@ -189,7 +148,7 @@ export default function Home() {
       company: "Mayapuri/Bollyy",
       name: "Ghanshyam Namdev",
       role: "IT HEAD OF MAYAPURI/BOLLYY",
-      image: "/testimonial-ghanshyam.jpg",
+      image: "/testimonial-ghanshyam.webp",
       quote: "TwinsCloud Has Contributed Significantly To Our AWS Cloud Platform, Helping Build A Robust Infrastructure That Allows For Effective Cost Management And Security. It Seems Like TwinsCloud Has Played A Key Role In Ensuring The Success Of Your AWS Environment. Building A Long-Term Working Relationship Is Valuable, Especially When It Comes To Navigating The Complexities Of The Cloud."
     },
     {
@@ -197,7 +156,7 @@ export default function Home() {
       company: "LPS Lucknow",
       name: "Luvkush Singh",
       role: "IT Head Of LPS Lucknow",
-      image: "/testimonial-luvkush.png",
+      image: "/testimonial-luvkush.webp",
       quote: "Exceptional Service From This Tech Company! Their Innovative Solutions Have Transformed Our Business Operations, Boosting Efficiency And Productivity. The Team's Expertise And Prompt Support Have Been Invaluable. Seamless Integration And User-Friendly Interfaces Make Them Stand Out. Highly Recommend Their Cutting-Edge Tech Solutions!"
     }
   ];
@@ -368,19 +327,18 @@ export default function Home() {
       {/* Hero Section — CSS gradient paints instantly; video (desktop-only, fades in once loaded) layers on top */}
       <section className={styles.hero}>
         <div className={styles.heroBackground} />
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            className={`${styles.heroVideo} ${videoReady ? styles.heroVideoReady : ""}`}
-            onLoadedData={() => setVideoReady(true)}
-            onPlaying={() => setVideoReady(true)}
-          >
-            <source src="/tech-video.mp4" type="video/mp4" />
-          </video>
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          poster="/tech-video-poster.webp"
+          className={styles.heroVideo}
+        >
+          <source src="/tech-video.mp4" type="video/mp4" />
+        </video>
         <div className={styles.heroOverlay} />
         <div className={styles.heroGlow1} />
         <div className={styles.heroGlow2} />
@@ -524,13 +482,12 @@ export default function Home() {
                 <span className={styles.imageStatLabel}>Years of Cloud Expertise</span>
               </div>
               <Image
-                src="/cloud-illustration.png"
+                src="/cloud-illustration.webp"
                 alt="TwinsCloud AWS Cloud Infrastructure and Managed DevOps Solutions Illustration"
                 title="TwinsCloud AWS Cloud Infrastructure and Managed DevOps Solutions"
                 width={540}
                 height={540}
                 className={styles.illustrationImage}
-                priority
               />
             </div>
           </div>
@@ -905,7 +862,7 @@ export default function Home() {
               <a href="https://aws.amazon.com/" target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', textDecoration: 'none' }}>
                 <div className={styles.partnerLogoWrapper}>
                   <Image
-                    src="/partner-aws.png"
+                    src="/partner-aws.webp"
                     alt="AWS Consulting Partner Logo - TwinsCloud Collaboration"
                     title="AWS Consulting Partner - TwinsCloud Collaboration"
                     width={150}
@@ -925,7 +882,7 @@ export default function Home() {
               <a href="https://www.msp360.com/" target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', textDecoration: 'none' }}>
                 <div className={styles.partnerLogoWrapper}>
                   <Image
-                    src="/partner-cloudberry.png"
+                    src="/partner-cloudberry.webp"
                     alt="CloudBerry Lab Partner Logo - Secure Backup Solutions"
                     title="CloudBerry Lab Partner - Secure Backup Solutions"
                     width={150}
@@ -945,7 +902,7 @@ export default function Home() {
               <a href="https://www.trendmicro.com/" target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', textDecoration: 'none' }}>
                 <div className={styles.partnerLogoWrapper}>
                   <Image
-                    src="/partner-trend.png"
+                    src="/partner-trend.webp"
                     alt="Trend Micro Security Partner Logo - TwinsCloud Audit Protection"
                     title="Trend Micro Security Partner - TwinsCloud Audit Protection"
                     width={150}
@@ -965,7 +922,7 @@ export default function Home() {
               <a href="https://redingtongroup.com/" target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', textDecoration: 'none' }}>
                 <div className={styles.partnerLogoWrapper}>
                   <Image
-                    src="/partner-redington.png"
+                    src="/partner-redington.webp"
                     alt="Redington Partner Logo - TwinsCloud Supply and Deployment Reseller"
                     title="Redington Partner - TwinsCloud Supply and Deployment Reseller"
                     width={150}
@@ -1134,7 +1091,7 @@ export default function Home() {
                   tag: "AWS Cloud",
                   tagClass: styles.tagOrange,
                   cardClass: styles.teamCardOrange,
-                  img: "/team-prem.png",
+                  img: "/team-prem.webp",
                   objectPosition: "center"
                 },
                 {
@@ -1143,7 +1100,7 @@ export default function Home() {
                   tag: "DevOps / CI-CD",
                   tagClass: styles.tagPurple,
                   cardClass: styles.teamCardPurple,
-                  img: "/team-akash.png",
+                  img: "/team-akash.webp",
                   objectPosition: "center"
                 },
                 {
@@ -1152,7 +1109,7 @@ export default function Home() {
                   tag: "MERN Developer",
                   tagClass: styles.tagBlue,
                   cardClass: styles.teamCardBlue,
-                  img: "/team-aditya.jpg",
+                  img: "/team-aditya.webp",
                   objectPosition: "top"
                 },
                 {
@@ -1161,7 +1118,7 @@ export default function Home() {
                   tag: "Full Stack",
                   tagClass: styles.tagBlue,
                   cardClass: styles.teamCardBlue,
-                  img: "/team-ravikant.png",
+                  img: "/team-ravikant.webp",
                   objectPosition: "center"
                 },
                 {
@@ -1170,7 +1127,7 @@ export default function Home() {
                   tag: "Team Lead",
                   tagClass: styles.tagTeal,
                   cardClass: styles.teamCardTeal,
-                  img: "/team-prince.png",
+                  img: "/team-prince.webp",
                   objectPosition: "center"
                 },
                 {
@@ -1179,7 +1136,7 @@ export default function Home() {
                   tag: "Cloud Trainee",
                   tagClass: styles.tagGray,
                   cardClass: styles.teamCardGray,
-                  img: "/team-ansh.png",
+                  img: "/team-ansh.webp",
                   objectPosition: "center"
                 },
                 {
@@ -1188,7 +1145,7 @@ export default function Home() {
                   tag: "Web Developer",
                   tagClass: styles.tagOrange,
                   cardClass: styles.teamCardOrange,
-                  img: "/team-ram.png",
+                  img: "/team-ram.webp",
                   objectPosition: "center"
                 },
                 {
@@ -1197,7 +1154,7 @@ export default function Home() {
                   tag: "Software Trainee",
                   tagClass: styles.tagPurple,
                   cardClass: styles.teamCardPurple,
-                  img: "/team-aastha.jpg",
+                  img: "/team-aastha.webp",
                   objectPosition: "top"
                 },
                 // Duplicated set for 100% seamless infinite looping
@@ -1207,7 +1164,7 @@ export default function Home() {
                   tag: "AWS Cloud",
                   tagClass: styles.tagOrange,
                   cardClass: styles.teamCardOrange,
-                  img: "/team-prem.png",
+                  img: "/team-prem.webp",
                   objectPosition: "center"
                 },
                 {
@@ -1216,7 +1173,7 @@ export default function Home() {
                   tag: "DevOps / CI-CD",
                   tagClass: styles.tagPurple,
                   cardClass: styles.teamCardPurple,
-                  img: "/team-akash.png",
+                  img: "/team-akash.webp",
                   objectPosition: "center"
                 },
                 {
@@ -1225,7 +1182,7 @@ export default function Home() {
                   tag: "MERN Developer",
                   tagClass: styles.tagBlue,
                   cardClass: styles.teamCardBlue,
-                  img: "/team-aditya.jpg",
+                  img: "/team-aditya.webp",
                   objectPosition: "top"
                 },
                 {
@@ -1234,7 +1191,7 @@ export default function Home() {
                   tag: "Full Stack",
                   tagClass: styles.tagBlue,
                   cardClass: styles.teamCardBlue,
-                  img: "/team-ravikant.png",
+                  img: "/team-ravikant.webp",
                   objectPosition: "center"
                 },
                 {
@@ -1243,7 +1200,7 @@ export default function Home() {
                   tag: "Team Lead",
                   tagClass: styles.tagTeal,
                   cardClass: styles.teamCardTeal,
-                  img: "/team-prince.png",
+                  img: "/team-prince.webp",
                   objectPosition: "center"
                 },
                 {
@@ -1252,7 +1209,7 @@ export default function Home() {
                   tag: "Cloud Trainee",
                   tagClass: styles.tagGray,
                   cardClass: styles.teamCardGray,
-                  img: "/team-ansh.png",
+                  img: "/team-ansh.webp",
                   objectPosition: "center"
                 },
                 {
@@ -1261,7 +1218,7 @@ export default function Home() {
                   tag: "Web Developer",
                   tagClass: styles.tagOrange,
                   cardClass: styles.teamCardOrange,
-                  img: "/team-ram.png",
+                  img: "/team-ram.webp",
                   objectPosition: "center"
                 },
                 {
@@ -1270,7 +1227,7 @@ export default function Home() {
                   tag: "Software Trainee",
                   tagClass: styles.tagPurple,
                   cardClass: styles.teamCardPurple,
-                  img: "/team-aastha.jpg",
+                  img: "/team-aastha.webp",
                   objectPosition: "top"
                 }
               ].map((member, idx) => (
@@ -1447,7 +1404,6 @@ export default function Home() {
                       width={180}
                       height={180}
                       className={styles.testimonialImage}
-                      priority
                     />
                   ) : (
                     <div className={styles.testimonialAvatar}>

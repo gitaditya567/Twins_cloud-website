@@ -223,10 +223,10 @@ export default function LucknowPage() {
           </p>
           <div className={styles.teamGrid}>
             {[
-              { name: "Prem Srivastava", role: "AWS Sr. Solution Architect", img: "/team-prem.png" },
-              { name: "Prince Pandey", role: "Development Team Head", img: "/team-prince.png" },
-              { name: "Aditya Sharma", role: "Full Stack Developer", img: "/team-aditya.jpg" },
-              { name: "Ravikant", role: "Sr. Software Engineer", img: "/team-ravikant.png" }
+              { name: "Prem Srivastava", role: "AWS Sr. Solution Architect", img: "/team-prem.webp" },
+              { name: "Prince Pandey", role: "Development Team Head", img: "/team-prince.webp" },
+              { name: "Aditya Sharma", role: "Full Stack Developer", img: "/team-aditya.webp" },
+              { name: "Ravikant", role: "Sr. Software Engineer", img: "/team-ravikant.webp" }
             ].map((m, idx) => (
               <div className={styles.teamCard} key={idx}>
                 <Image src={m.img} alt={m.name} width={100} height={100} className={styles.teamImage} />

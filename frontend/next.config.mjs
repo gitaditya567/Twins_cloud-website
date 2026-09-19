@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  compress: true,
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+  },
   allowedDevOrigins: ['172.18.128.1', '172.24.48.1', '172.17.160.1', 'localhost:3000', '127.0.0.1:3000', 'localhost:3005'],
   async rewrites() {
     return [
@@ -68,6 +73,15 @@ const nextConfig = {
           {
             key: 'X-Robots-Tag',
             value: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+          }
+        ]
+      },
+      {
+        source: '/:file*.(mp4|webp|png|jpg|jpeg|svg|ico|woff2)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
           }
         ]
       }

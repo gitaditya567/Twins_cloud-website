@@ -115,6 +115,26 @@ const jsonLd = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.addEventListener('error', function(e) {
+                var msg = e && (e.message || (e.error && e.error.message) || '');
+                if (msg && (msg.indexOf('ChunkLoadError') !== -1 || msg.indexOf('Loading chunk') !== -1)) {
+                  var key = 'tc_chunk_reload';
+                  var last = sessionStorage.getItem(key);
+                  var now = Date.now();
+                  if (!last || now - parseInt(last, 10) > 10000) {
+                    sessionStorage.setItem(key, now.toString());
+                    window.location.reload();
+                  }
+                }
+              });
+            `
+          }}
+        />
+      </head>
       <body>
         <DevToolsGuard />
         <script

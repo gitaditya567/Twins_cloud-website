@@ -70,7 +70,7 @@ export default function Header() {
           <div className={styles.logoWrapper}>
             <Link href="/" onClick={() => setMenuOpen(false)}>
               <Image
-                src={showSolidHeader && !menuOpen ? "/logo-new-dark.png" : "/logo-new-light.png"}
+                src={showSolidHeader && !menuOpen ? "/logo-new-dark.webp" : "/logo-new-light.webp"}
                 alt="TwinsCloud Private Limited - Premium Cloud Solutions & Training Logo"
                 title="TwinsCloud Private Limited - Premium Cloud Solutions & Training Logo"
                 width={716}
