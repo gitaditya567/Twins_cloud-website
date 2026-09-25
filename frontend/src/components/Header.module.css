@@ -343,17 +343,23 @@
   left: 0;
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   background: rgba(10, 10, 14, 0.98); /* Deep premium dark glass */
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   z-index: 999;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
+  padding-top: 85px;
+  padding-bottom: 30px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   transform: translateY(-100%);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
 }
 
 .navMobileActive {
@@ -366,37 +372,39 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 22px;
+  gap: 8px;
   width: 90%;
   max-width: 320px;
-  padding: 40px 10px;
+  padding: 10px 10px 40px 10px;
+  margin: 0 auto;
 }
 
 .mobileNavLink {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.85);
   padding: 8px 0;
   width: 100%;
   text-align: center;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .mobileNavLink:hover,
 .activeMobileLink {
   color: #f9841a;
   transform: translateY(-1px);
-  border-bottom-color: rgba(249, 132, 26, 0.4);
+  border-bottom-color: rgba(249, 132, 26, 0.5);
+  font-weight: 700;
 }
 
 .mobileCtaButton {
-  margin-top: 15px;
-  font-size: 15px;
+  margin-top: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: #ffffff;
   background-color: #f9841a;
-  padding: 12px 30px;
+  padding: 10px 24px;
   border-radius: 25px;
   width: 100%;
   text-align: center;

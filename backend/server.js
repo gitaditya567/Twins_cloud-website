@@ -304,6 +304,19 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Verify SMTP Connection on Startup
+if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+  transporter.verify((error) => {
+    if (error) {
+      console.error('⚠️ Gmail SMTP Connection Notice:', error.message);
+    } else {
+      console.log('✅ Gmail SMTP Email Alert Transporter Ready');
+    }
+  });
+} else {
+  console.log('ℹ️ Gmail SMTP is waiting for SMTP_USER and SMTP_PASS in backend/.env');
+}
+
 // --- PUBLIC SECURED FORM ROUTES ---
 
 // 1. RFQ Submission Route
@@ -458,12 +471,91 @@ app.post('/api/newsletter/subscribe', formSubmissionLimiter, checkHoneypot, asyn
     await subscription.save();
     console.log('Newsletter subscription saved');
 
+    // Send email alert to admin
+    const emailTo = process.env.EMAIL_TO || 'Support@twinscloud.com';
+    const mailOptions = {
+      from: process.env.SMTP_FROM || `"TwinsCloud Newsletter" <${process.env.SMTP_USER || 'no-reply@twinscloud.com'}>`,
+      to: emailTo,
+      subject: `New Newsletter Subscription: ${email}`,
+      text: `You have received a new newsletter subscription:\n\nEmail: ${email}\n\nSubmitted at: ${new Date().toLocaleString()}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
+          <h2 style="color: #22c55e; border-bottom: 2px solid #22c55e; padding-bottom: 10px; margin-top: 0;">New Newsletter Subscription</h2>
+          <p><strong>Subscriber Email:</strong> <a href="mailto:${email}">${email}</a></p>
+          <p style="font-size: 12px; color: #888; margin-top: 20px; border-top: 1px solid #eee; padding-top: 10px;">
+            Submitted via TwinsCloud Website on ${new Date().toLocaleString()}
+          </p>
+        </div>
+      `
+    };
+
+    if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+      await transporter.sendMail(mailOptions);
+    }
+
     return res.status(201).json({
       success: true,
       message: 'Subscribed successfully!'
     });
   } catch (error) {
     console.error('Error in newsletter subscription:', error);
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+});
+
+// 4. Contact / Inquiry Submission Route
+app.post('/api/contact', dailySubmissionLimiter, formSubmissionLimiter, checkHoneypot, async (req, res) => {
+  const name = sanitizeInput(req.body.name, 100);
+  const email = (req.body.email || '').trim().toLowerCase();
+  const phone = sanitizeInput(req.body.phone, 20);
+  const subject = sanitizeInput(req.body.subject, 150) || 'General Contact Inquiry';
+  const message = sanitizeInput(req.body.message, 2000);
+
+  if (!name || !email || !message) {
+    return res.status(400).json({ success: false, message: 'Name, email, and message are required.' });
+  }
+
+  if (!isValidEmail(email)) {
+    return res.status(400).json({ success: false, message: 'Please enter a valid email address.' });
+  }
+
+  try {
+    console.log('Contact form inquiry received:', { name, email, phone, subject, message });
+
+    const emailTo = process.env.EMAIL_TO || 'Support@twinscloud.com';
+    const mailOptions = {
+      from: process.env.SMTP_FROM || `"TwinsCloud Contact" <${process.env.SMTP_USER || 'no-reply@twinscloud.com'}>`,
+      to: emailTo,
+      subject: `New Contact Inquiry from ${name}: ${subject}`,
+      text: `You have received a new contact inquiry:\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone || 'N/A'}\nSubject: ${subject}\n\nMessage:\n${message}\n\nSubmitted at: ${new Date().toLocaleString()}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
+          <h2 style="color: #f9841a; border-bottom: 2px solid #f9841a; padding-bottom: 10px; margin-top: 0;">New Contact Inquiry</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+          <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
+          <p><strong>Subject:</strong> ${subject}</p>
+          <p><strong>Message:</strong></p>
+          <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; white-space: pre-wrap; border-left: 4px solid #f9841a; line-height: 1.6; color: #333;">
+            ${message.replace(/\n/g, '<br/>')}
+          </div>
+          <p style="font-size: 12px; color: #888; margin-top: 20px; border-top: 1px solid #eee; padding-top: 10px;">
+            Submitted via TwinsCloud Website on ${new Date().toLocaleString()}
+          </p>
+        </div>
+      `
+    };
+
+    if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+      await transporter.sendMail(mailOptions);
+    }
+
+    return res.status(201).json({
+      success: true,
+      message: 'Message sent successfully!'
+    });
+  } catch (error) {
+    console.error('Error handling contact form submission:', error);
     return res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });

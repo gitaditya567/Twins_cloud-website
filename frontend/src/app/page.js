@@ -810,39 +810,6 @@ export default function Home() {
             </div>
           ))}
         </div>
-
-        {/* All Service Detail Links for Internal Link Equity */}
-        <div style={{ marginTop: '48px', paddingTop: '32px', borderTop: '1px solid rgba(255,255,255,0.1)', textAlign: 'center' }}>
-          <p style={{ fontSize: '15px', color: '#94a3b8', marginBottom: '16px', fontWeight: '500' }}>
-            Explore our specialized software &amp; cloud engineering practices:
-          </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
-            <Link href="/services/web-development" style={{ padding: '8px 16px', borderRadius: '30px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#f8fafc', fontSize: '13px', fontWeight: '500', textDecoration: 'none' }}>
-              Web &amp; MERN Development
-            </Link>
-            <Link href="/services/school-management-software" style={{ padding: '8px 16px', borderRadius: '30px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#f8fafc', fontSize: '13px', fontWeight: '500', textDecoration: 'none' }}>
-              School Management Software
-            </Link>
-            <Link href="/services/report-card-software" style={{ padding: '8px 16px', borderRadius: '30px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#f8fafc', fontSize: '13px', fontWeight: '500', textDecoration: 'none' }}>
-              Report Card Software
-            </Link>
-            <Link href="/services/cloud-consulting" style={{ padding: '8px 16px', borderRadius: '30px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#f8fafc', fontSize: '13px', fontWeight: '500', textDecoration: 'none' }}>
-              Cloud Consulting &amp; Audits
-            </Link>
-            <Link href="/services/devops-automation" style={{ padding: '8px 16px', borderRadius: '30px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#f8fafc', fontSize: '13px', fontWeight: '500', textDecoration: 'none' }}>
-              DevOps Automation
-            </Link>
-            <Link href="/services/aws-cloud-migration" style={{ padding: '8px 16px', borderRadius: '30px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#f8fafc', fontSize: '13px', fontWeight: '500', textDecoration: 'none' }}>
-              AWS Cloud Migration
-            </Link>
-            <Link href="/services/apps-on-cloud" style={{ padding: '8px 16px', borderRadius: '30px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#f8fafc', fontSize: '13px', fontWeight: '500', textDecoration: 'none' }}>
-              Apps On Cloud &amp; Serverless
-            </Link>
-            <Link href="/services/medical-tally-software" style={{ padding: '8px 16px', borderRadius: '30px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#f8fafc', fontSize: '13px', fontWeight: '500', textDecoration: 'none' }}>
-              Medical Tally Software
-            </Link>
-          </div>
-        </div>
       </section>
 
       {/* Our Partners Section */}
