@@ -1,21 +1,14 @@
 import BlogClient from "./BlogClient";
 import { BLOG_POSTS } from "./posts.js";
+import { pageMetadata } from "@/lib/seo";
 
 export { BLOG_POSTS };
 
-export const metadata = {
-  title: "Technology Insights & Engineering Blog | TwinsCloud",
+export const metadata = pageMetadata({
+  title: "Technology Insights & Engineering Blog",
   description: "Explore technical guides, DevOps pipelines, cloud migration architecture, and MERN stack engineering tutorials written by TwinsCloud architects.",
-  alternates: {
-    canonical: "/blog",
-  },
-  openGraph: {
-    title: "Technology Insights & Engineering Blog | TwinsCloud",
-    description: "Explore technical guides, DevOps pipelines, cloud migration architecture, and MERN stack engineering tutorials written by TwinsCloud architects.",
-    url: "https://twinscloud.com/blog",
-    type: "website",
-  },
-};
+  path: "/blog",
+});
 
 async function getPosts() {
   const postsMap = new Map();

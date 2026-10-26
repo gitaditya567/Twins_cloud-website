@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SERVICES, getServiceBySlug } from "../data";
 import styles from "./service-detail.module.css";
+import { pageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return SERVICES.map((s) => ({ slug: s.slug }));
@@ -12,13 +13,11 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const service = getServiceBySlug(slug);
   if (!service) return {};
-  return {
+  return pageMetadata({
     title: service.title,
     description: service.shortDesc,
-    alternates: {
-      canonical: `/services/${service.slug}`
-    }
-  };
+    path: `/services/${service.slug}`,
+  });
 }
 
 export default async function ServiceDetailPage({ params }) {

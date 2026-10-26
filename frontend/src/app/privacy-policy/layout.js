@@ -1,10 +1,10 @@
-export const metadata = {
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata({
   title: "Privacy Policy",
   description: "Privacy Policy and data protection guidelines for TwinsCloud Private Limited.",
-  alternates: {
-    canonical: "/privacy-policy",
-  },
-};
+  path: "/privacy-policy",
+});
 
 export default function PrivacyLayout({ children }) {
   return <>{children}</>;

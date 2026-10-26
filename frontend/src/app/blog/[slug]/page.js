@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { BLOG_POSTS } from "../posts.js";
 import styles from "../blog.module.css";
+import { pageMetadata } from "@/lib/seo";
 
 async function getPost(slug) {
   try {
@@ -31,27 +32,19 @@ export async function generateMetadata({ params }) {
     };
   }
 
-  return {
-    title: `${post.title} | TwinsCloud Blog`,
+  const published = new Date(post.date);
+
+  return pageMetadata({
+    title: post.title,
     description: post.summary,
-    alternates: {
-      canonical: `/blog/${slug}`,
-    },
+    path: `/blog/${slug}`,
+    type: "article",
     openGraph: {
-      title: post.title,
-      description: post.summary,
-      url: `https://twinscloud.com/blog/${slug}`,
-      type: "article",
-      publishedTime: new Date(post.date).toISOString() || new Date().toISOString(),
+      ...(isNaN(published) ? {} : { publishedTime: published.toISOString() }),
       authors: [post.author || "TwinsCloud Architect"],
       tags: [post.category],
     },
-    twitter: {
-      card: "summary_large_image",
-      title: post.title,
-      description: post.summary,
-    }
-  };
+  });
 }
 
 export default async function BlogPostPage({ params }) {

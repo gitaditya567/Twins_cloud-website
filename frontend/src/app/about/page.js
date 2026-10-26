@@ -1,14 +1,13 @@
 import React from "react";
 import Image from "next/image";
 import styles from "./about.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "About Us",
   description: "Learn about TwinsCloud Private Limited, our mission, our values, and the expert team delivering enterprise cloud solutions, DevOps, and custom MERN development.",
-  alternates: {
-    canonical: "/about"
-  }
-};
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (

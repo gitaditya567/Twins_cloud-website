@@ -1,10 +1,10 @@
-export const metadata = {
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata({
   title: "Client Case Studies",
   description: "Read in-depth case studies showcasing how TwinsCloud solved cloud scaling, cost optimization, and enterprise software challenges.",
-  alternates: {
-    canonical: "/case-study"
-  }
-};
+  path: "/case-study",
+});
 
 export default function CaseStudyLayout({ children }) {
   return children;

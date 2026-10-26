@@ -3,14 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { LUCKNOW_MONEY_PAGES } from "../lucknow-pages-data";
 import styles from "./lucknow.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Lucknow Office | Software & Website Development Company",
   description: "Visit TwinsCloud's Lucknow office at Mubarakpur, Kamalabad Barhauli. Software development, website development, and school ERP systems built and supported locally in Lucknow, UP.",
-  alternates: {
-    canonical: "/lucknow"
-  }
-};
+  path: "/lucknow",
+});
 
 const NAP = {
   name: "TwinsCloud Private Limited",

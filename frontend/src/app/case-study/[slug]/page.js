@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CASE_STUDIES, getCaseStudyBySlug } from "../data";
 import styles from "./case-detail.module.css";
+import { pageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return CASE_STUDIES.map((c) => ({ slug: c.slug }));
@@ -13,13 +14,12 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const study = getCaseStudyBySlug(slug);
   if (!study) return {};
-  return {
+  return pageMetadata({
     title: study.title,
     description: study.summary,
-    alternates: {
-      canonical: `/case-study/${study.slug}`
-    }
-  };
+    path: `/case-study/${study.slug}`,
+    type: "article",
+  });
 }
 
 export default async function CaseStudyDetailPage({ params }) {
